@@ -1,19 +1,23 @@
-import { getPostById } from '@/lib/db';
+import { getPostBySlug, getPostById } from '@/lib/db';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 export const revalidate = 0; // Don't statically generate this page so it's always fresh
 
-export default async function PostPage({ params }: { params: { id: string } }) {
-  const id = parseInt(params.id, 10);
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+  // Await the params object in Next.js 15
+  const resolvedParams = await params;
+  const identifier = resolvedParams.slug;
   
-  if (isNaN(id)) {
-    notFound();
-  }
-
-  let post;
+  let post = null;
   try {
-    post = await getPostById(id);
+    // Try to load by slug first
+    post = await getPostBySlug(identifier);
+    
+    // Fallback for older posts that only have IDs
+    if (!post && !isNaN(parseInt(identifier, 10))) {
+      post = await getPostById(parseInt(identifier, 10));
+    }
   } catch (err) {
     console.error("Error loading post:", err);
   }

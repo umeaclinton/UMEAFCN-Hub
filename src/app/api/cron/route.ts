@@ -17,6 +17,13 @@ function computeHash(guid: string, title: string) {
   return crypto.createHash('sha256').update(data).digest('hex');
 }
 
+function generateSlug(title: string) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)+/g, '') + '-' + Math.random().toString(36).substring(2, 8);
+}
+
 // Allow Vercel to cache and revalidate or just mark as dynamic
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // Allow 5 minutes execution time for free tier
@@ -65,12 +72,16 @@ export async function GET(request: Request) {
         const newTitle = await paraphraseText(title);
         const newContent = await paraphraseHtml(rawContent);
         
+        // Generate slug
+        const slug = generateSlug(newTitle || title);
+        
         // Store
         await insertPost(
           newTitle || title, 
           newContent || rawContent, 
           entry.link || feedUrl, 
-          guidHash
+          guidHash,
+          slug
         );
         newPostsCount++;
         

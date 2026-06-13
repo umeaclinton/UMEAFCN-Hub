@@ -17,7 +17,7 @@ export default async function Home() {
         posts.map((post: any) => (
           <article key={post.id} className="post-card glass">
             <h2>
-              <Link href={`/post/${post.id}`}>{post.title}</Link>
+              <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
             </h2>
             <div className="post-meta">
               <time>{new Date(post.pub_date).toLocaleString()}</time>
@@ -26,7 +26,7 @@ export default async function Home() {
               {/* Extract a snippet from HTML content */}
               {post.content.replace(/<[^>]+>/g, '').substring(0, 150)}...
             </div>
-            <Link href={`/post/${post.id}`} className="read-more">
+            <Link href={`/post/${post.slug || post.id}`} className="read-more">
               Read More
             </Link>
           </article>

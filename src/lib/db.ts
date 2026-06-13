@@ -9,9 +9,18 @@ export async function initDb() {
         content TEXT NOT NULL,
         source_url VARCHAR(500) NOT NULL,
         guid_hash VARCHAR(64) UNIQUE NOT NULL,
+        slug VARCHAR(500) UNIQUE,
         pub_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
     `;
+    
+    // Add slug column to existing table if it doesn't exist
+    try {
+      await sql`ALTER TABLE posts ADD COLUMN slug VARCHAR(500) UNIQUE;`;
+    } catch (e) {
+      // Column might already exist, ignore
+    }
+    
     console.log('Database initialized successfully');
   } catch (error) {
     console.error('Error initializing database:', error);
@@ -19,12 +28,12 @@ export async function initDb() {
   }
 }
 
-export async function insertPost(title: string, content: string, sourceUrl: string, guidHash: string) {
+export async function insertPost(title: string, content: string, sourceUrl: string, guidHash: string, slug: string) {
   try {
     const result = await sql`
-      INSERT INTO posts (title, content, source_url, guid_hash)
-      VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash})
-      RETURNING id, title, pub_date;
+      INSERT INTO posts (title, content, source_url, guid_hash, slug)
+      VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug})
+      RETURNING id, title, slug, pub_date;
     `;
     return result.rows[0];
   } catch (error) {
@@ -48,7 +57,7 @@ export async function getPostByHash(guidHash: string) {
 export async function getRecentPosts(limit = 20) {
   try {
     const result = await sql`
-      SELECT id, title, content, source_url, pub_date 
+      SELECT id, title, content, source_url, slug, pub_date 
       FROM posts 
       ORDER BY pub_date DESC 
       LIMIT ${limit};
@@ -60,16 +69,16 @@ export async function getRecentPosts(limit = 20) {
   }
 }
 
-export async function getPostById(id: number) {
+export async function getPostBySlug(slug: string) {
   try {
     const result = await sql`
-      SELECT id, title, content, source_url, pub_date 
+      SELECT id, title, content, source_url, slug, pub_date 
       FROM posts 
-      WHERE id = ${id};
+      WHERE slug = ${slug};
     `;
     return result.rows.length > 0 ? result.rows[0] : null;
   } catch (error) {
-    console.error('Error fetching post by id:', error);
+    console.error('Error fetching post by slug:', error);
     throw error;
   }
 }
