@@ -4,6 +4,8 @@ import Parser from 'rss-parser';
 import { initDb, getPostByHash, insertPost } from '@/lib/db';
 import { paraphraseText, paraphraseHtml } from '@/lib/gemini';
 import { sendToTelegram } from '@/lib/telegram';
+import { Readability } from '@mozilla/readability';
+import { JSDOM } from 'jsdom';
 
 // Configure feeds here
 const FEEDS = [
@@ -66,8 +68,37 @@ export async function GET(request: Request) {
         
         console.log(`New post found: ${title}`);
         
-        const rawContent = entry.content || entry.contentSnippet || entry.summary || '';
+        let rawContent = entry.content || entry.contentSnippet || entry.summary || '';
         
+        // --- NEW SCRAPING LOGIC ---
+        // Fetch the full article HTML from the URL if it exists
+        if (entry.link) {
+          try {
+            console.log(`Fetching full article from: ${entry.link}`);
+            const response = await fetch(entry.link, {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+              },
+            });
+            const htmlString = await response.text();
+            
+            // Parse HTML with jsdom and extract main article with Readability
+            const dom = new JSDOM(htmlString, { url: entry.link });
+            const reader = new Readability(dom.window.document);
+            const article = reader.parse();
+            
+            if (article && article.content) {
+              console.log('Successfully extracted full article body!');
+              rawContent = article.content;
+            } else {
+              console.log('Could not parse full article body, falling back to RSS summary.');
+            }
+          } catch (fetchErr) {
+            console.error(`Failed to fetch full article from ${entry.link}:`, fetchErr);
+          }
+        }
+        // --------------------------
+
         // Paraphrase
         const newTitle = await paraphraseText(title);
         const newContent = await paraphraseHtml(rawContent);

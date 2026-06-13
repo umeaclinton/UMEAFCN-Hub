@@ -82,3 +82,43 @@ export async function getPostBySlug(slug: string) {
     throw error;
   }
 }
+
+export async function getPostById(id: number) {
+  try {
+    const result = await sql`
+      SELECT id, title, content, source_url, slug, pub_date 
+      FROM posts 
+      WHERE id = ${id};
+    `;
+    return result.rows.length > 0 ? result.rows[0] : null;
+  } catch (error) {
+    console.error('Error fetching post by id:', error);
+    throw error;
+  }
+}
+
+export async function getPostsWithShortContent(maxContentLength = 500) {
+  try {
+    const result = await sql`
+      SELECT id, title, content, source_url, slug, pub_date 
+      FROM posts 
+      WHERE LENGTH(content) < ${maxContentLength}
+      ORDER BY pub_date DESC;
+    `;
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching short-content posts:', error);
+    throw error;
+  }
+}
+
+export async function updatePostContent(id: number, content: string) {
+  try {
+    await sql`
+      UPDATE posts SET content = ${content} WHERE id = ${id};
+    `;
+  } catch (error) {
+    console.error('Error updating post content:', error);
+    throw error;
+  }
+}
