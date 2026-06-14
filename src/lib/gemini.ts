@@ -7,7 +7,7 @@ export async function paraphraseText(text: string): Promise<string> {
   if (!text || text.length < 10) return text;
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash',
       contents: `Paraphrase the following text. Do not add conversational filler. Keep the same tone and meaning:\n\n${text}`,
     });
     return response.text || text;
@@ -20,7 +20,7 @@ export async function paraphraseText(text: string): Promise<string> {
 export async function expandArticle(title: string, summary: string): Promise<string> {
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash',
       contents: `Write a detailed, comprehensive, and professional blog post expanding on the following job listing summary. 
 Format the output using clean HTML (e.g., <p>, <ul>, <li>, <h3>, <strong>). Do not include <html>, <head>, or <body> tags. 
 Keep a professional, encouraging tone suitable for a job board. Do not add fake links.
