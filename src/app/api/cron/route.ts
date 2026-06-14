@@ -87,8 +87,8 @@ export async function GET(request: Request) {
             // Remove unnecessary elements
             $('script, style, noscript, nav, header, footer, aside, .sidebar, #sidebar, .comments, #comments, svg').remove();
             
-            // Find the most likely main article container
-            let articleHtml = $('article').html() || $('main').html() || $('.post-content').html() || $('.entry-content').html();
+            // Find the most likely main article container (especially for Elementor sites)
+            let articleHtml = $('.elementor-widget-theme-post-content').html() || $('.entry-content').html() || $('.post-content').html() || $('article').html() || $('main').html();
             
             // Fallback to body if no semantic container is found
             if (!articleHtml) {

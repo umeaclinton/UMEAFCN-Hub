@@ -40,7 +40,7 @@ export async function GET() {
         const $ = cheerio.load(htmlString);
         $('script, style, noscript, nav, header, footer, aside, .sidebar, #sidebar, .comments, #comments, svg').remove();
         
-        let articleHtml = $('article').html() || $('main').html() || $('.post-content').html() || $('.entry-content').html();
+        let articleHtml = $('.elementor-widget-theme-post-content').html() || $('.entry-content').html() || $('.post-content').html() || $('article').html() || $('main').html();
         if (!articleHtml) {
           articleHtml = $('body').html();
         }
