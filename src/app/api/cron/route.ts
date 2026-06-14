@@ -4,8 +4,7 @@ import Parser from 'rss-parser';
 import { initDb, getPostByHash, insertPost } from '@/lib/db';
 import { paraphraseText, paraphraseHtml } from '@/lib/gemini';
 import { sendToTelegram } from '@/lib/telegram';
-import { Readability } from '@mozilla/readability';
-import { JSDOM } from 'jsdom';
+import * as cheerio from 'cheerio';
 
 // Configure feeds here
 const FEEDS = [
@@ -82,16 +81,25 @@ export async function GET(request: Request) {
             });
             const htmlString = await response.text();
             
-            // Parse HTML with jsdom and extract main article with Readability
-            const dom = new JSDOM(htmlString, { url: entry.link });
-            const reader = new Readability(dom.window.document);
-            const article = reader.parse();
+            // Parse HTML with cheerio to extract main content
+            const $ = cheerio.load(htmlString);
             
-            if (article && article.content) {
-              console.log('Successfully extracted full article body!');
-              rawContent = article.content;
+            // Remove unnecessary elements
+            $('script, style, noscript, nav, header, footer, aside, .sidebar, #sidebar, .comments, #comments, svg').remove();
+            
+            // Find the most likely main article container
+            let articleHtml = $('article').html() || $('main').html() || $('.post-content').html() || $('.entry-content').html();
+            
+            // Fallback to body if no semantic container is found
+            if (!articleHtml) {
+              articleHtml = $('body').html();
+            }
+            
+            if (articleHtml) {
+              console.log('Successfully extracted full article body using Cheerio!');
+              rawContent = articleHtml;
             } else {
-              console.log('Could not parse full article body, falling back to RSS summary.');
+              console.log('Could not extract article body, falling back to RSS summary.');
             }
           } catch (fetchErr) {
             console.error(`Failed to fetch full article from ${entry.link}:`, fetchErr);

@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import { initDb, getPostsWithShortContent, updatePostContent } from '@/lib/db';
 import { paraphraseHtml } from '@/lib/gemini';
-import { Readability } from '@mozilla/readability';
-import { JSDOM } from 'jsdom';
+import * as cheerio from 'cheerio';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // Allow 5 minutes
@@ -37,19 +36,23 @@ export async function GET() {
 
         const htmlString = await response.text();
 
-        // Extract the main article content using Readability
-        const dom = new JSDOM(htmlString, { url: post.source_url });
-        const reader = new Readability(dom.window.document);
-        const article = reader.parse();
+        // Extract the main article content using Cheerio
+        const $ = cheerio.load(htmlString);
+        $('script, style, noscript, nav, header, footer, aside, .sidebar, #sidebar, .comments, #comments, svg').remove();
+        
+        let articleHtml = $('article').html() || $('main').html() || $('.post-content').html() || $('.entry-content').html();
+        if (!articleHtml) {
+          articleHtml = $('body').html();
+        }
 
-        if (article && article.content && article.content.length > post.content.length) {
-          console.log(`Got full article (${article.content.length} chars vs ${post.content.length} chars). Paraphrasing...`);
+        if (articleHtml && articleHtml.length > post.content.length) {
+          console.log(`Got full article (${articleHtml.length} chars vs ${post.content.length} chars). Paraphrasing...`);
 
           // Paraphrase the full article content
-          const paraphrasedContent = await paraphraseHtml(article.content);
+          const paraphrasedContent = await paraphraseHtml(articleHtml);
 
           // Update the database
-          await updatePostContent(post.id, paraphrasedContent || article.content);
+          await updatePostContent(post.id, paraphrasedContent || articleHtml);
           updatedCount++;
 
           console.log(`Successfully backfilled post ID ${post.id}: "${post.title}"`);
