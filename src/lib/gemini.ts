@@ -17,6 +17,33 @@ export async function paraphraseText(text: string): Promise<string> {
   }
 }
 
+export async function expandArticle(title: string, summary: string): Promise<string> {
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-1.5-flash',
+      contents: `Write a detailed, comprehensive, and professional blog post expanding on the following job listing summary. 
+Format the output using clean HTML (e.g., <p>, <ul>, <li>, <h3>, <strong>). Do not include <html>, <head>, or <body> tags. 
+Keep a professional, encouraging tone suitable for a job board. Do not add fake links.
+
+Title: ${title}
+Summary: ${summary}`,
+    });
+    
+    // Clean up any markdown code blocks from the response
+    let text = response.text || summary;
+    if (text.startsWith('```html')) {
+      text = text.replace(/^```html\n/, '').replace(/\n```$/, '');
+    } else if (text.startsWith('```')) {
+      text = text.replace(/^```\n/, '').replace(/\n```$/, '');
+    }
+    
+    return text;
+  } catch (error) {
+    console.error('Error expanding article:', error);
+    return summary;
+  }
+}
+
 export async function paraphraseHtml(html: string): Promise<string> {
   if (!html) return '';
   try {

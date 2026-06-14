@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import Parser from 'rss-parser';
 import { initDb, getPostByHash, insertPost } from '@/lib/db';
-import { paraphraseText, paraphraseHtml } from '@/lib/gemini';
+import { paraphraseText, paraphraseHtml, expandArticle } from '@/lib/gemini';
 import { sendToTelegram } from '@/lib/telegram';
 import * as cheerio from 'cheerio';
 
@@ -69,52 +69,9 @@ export async function GET(request: Request) {
         
         let rawContent = entry.content || entry.contentSnippet || entry.summary || '';
         
-        // --- NEW SCRAPING LOGIC ---
-        // Fetch the full article HTML from the URL if it exists
-        if (entry.link) {
-          try {
-            console.log(`Fetching full article from: ${entry.link}`);
-            const response = await fetch(entry.link, {
-              headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.9',
-                'Cache-Control': 'no-cache',
-                'Pragma': 'no-cache',
-                'Upgrade-Insecure-Requests': '1',
-              },
-            });
-            const htmlString = await response.text();
-            
-            // Parse HTML with cheerio to extract main content
-            const $ = cheerio.load(htmlString);
-            
-            // Remove unnecessary elements
-            $('script, style, noscript, nav, header, footer, aside, .sidebar, #sidebar, .comments, #comments, svg').remove();
-            
-            // Find the most likely main article container (especially for Elementor sites)
-            let articleHtml = $('.elementor-widget-theme-post-content').html() || $('.entry-content').html() || $('.post-content').html() || $('article').html() || $('main').html();
-            
-            // Fallback to body if no semantic container is found
-            if (!articleHtml) {
-              articleHtml = $('body').html();
-            }
-            
-            if (articleHtml) {
-              console.log('Successfully extracted full article body using Cheerio!');
-              rawContent = articleHtml;
-            } else {
-              console.log('Could not extract article body, falling back to RSS summary.');
-            }
-          } catch (fetchErr) {
-            console.error(`Failed to fetch full article from ${entry.link}:`, fetchErr);
-          }
-        }
-        // --------------------------
-
-        // Paraphrase
+        // Expand the short RSS summary into a full article using Gemini
         const newTitle = await paraphraseText(title);
-        const newContent = await paraphraseHtml(rawContent);
+        const newContent = await expandArticle(title, rawContent);
         
         // Generate slug
         const slug = generateSlug(newTitle || title);
