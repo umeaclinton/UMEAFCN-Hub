@@ -17,7 +17,7 @@ export async function paraphraseText(text: string): Promise<string> {
   }
 }
 
-export async function expandArticle(title: string, summary: string): Promise<string> {
+export async function expandArticle(title: string, summary: string): Promise<{ category: string; content: string }> {
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
@@ -25,22 +25,41 @@ export async function expandArticle(title: string, summary: string): Promise<str
 Format the output using clean HTML (e.g., <p>, <ul>, <li>, <h3>, <strong>). Do not include <html>, <head>, or <body> tags. 
 Keep a professional, encouraging tone suitable for a job board. Do not add fake links.
 
+Additionally, analyze the job title and summary and assign a single 1-2 word category to it (e.g., "Tech", "Finance", "Healthcare", "NGO", "Engineering", "Marketing").
+
+You MUST return the output EXACTLY as a valid JSON object with two keys: "category" and "content". 
+Example format:
+{
+  "category": "Tech",
+  "content": "<p>This is the HTML content...</p>"
+}
+
 Title: ${title}
 Summary: ${summary}`,
     });
     
     // Clean up any markdown code blocks from the response
-    let text = response.text || summary;
-    if (text.startsWith('```html')) {
-      text = text.replace(/^```html\n/, '').replace(/\n```$/, '');
+    let text = response.text || '';
+    if (text.startsWith('```json')) {
+      text = text.replace(/^```json\n/, '').replace(/\n```$/, '');
     } else if (text.startsWith('```')) {
       text = text.replace(/^```\n/, '').replace(/\n```$/, '');
     }
     
-    return text;
+    try {
+      const parsed = JSON.parse(text);
+      return {
+        category: parsed.category || 'General',
+        content: parsed.content || summary
+      };
+    } catch (parseError) {
+      console.error('Error parsing JSON from Gemini:', parseError, text);
+      return { category: 'General', content: summary };
+    }
+    
   } catch (error) {
     console.error('Error expanding article:', error);
-    return summary;
+    return { category: 'General', content: summary };
   }
 }
 

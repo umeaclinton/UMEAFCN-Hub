@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="glass-header">
+        <header className="site-header">
           <div className="container">
             <h1><a href="/">Jobs With Clinton</a></h1>
           </div>

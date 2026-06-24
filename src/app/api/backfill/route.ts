@@ -21,13 +21,13 @@ export async function GET() {
 
       try {
         // Expand the short RSS summary into a full article using Gemini
-        const expandedContent = await expandArticle(post.title, post.content);
+        const expandedData = await expandArticle(post.title, post.content);
 
-        if (expandedContent && expandedContent.length > post.content.length) {
-          console.log(`Successfully expanded article! (${expandedContent.length} chars)`);
+        if (expandedData.content && expandedData.content.length > post.content.length) {
+          console.log(`Successfully expanded article! (${expandedData.content.length} chars)`);
 
           // Update the database
-          await updatePostContent(post.id, expandedContent);
+          await updatePostContent(post.id, expandedData.content, expandedData.category);
           updatedCount++;
 
           console.log(`Successfully backfilled post ID ${post.id}: "${post.title}"`);

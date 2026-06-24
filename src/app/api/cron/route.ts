@@ -71,7 +71,7 @@ export async function GET(request: Request) {
         
         // Expand the short RSS summary into a full article using Gemini
         const newTitle = await paraphraseText(title);
-        const newContent = await expandArticle(title, rawContent);
+        const expandedData = await expandArticle(title, rawContent);
         
         // Generate slug
         const slug = generateSlug(newTitle || title);
@@ -79,15 +79,16 @@ export async function GET(request: Request) {
         // Store
         await insertPost(
           newTitle || title, 
-          newContent || rawContent, 
+          expandedData.content, 
           entry.link || feedUrl, 
           guidHash,
-          slug
+          slug,
+          expandedData.category
         );
         newPostsCount++;
         
         // Telegram Notify
-        await sendToTelegram(newTitle || title, newContent || rawContent, entry.link || feedUrl);
+        await sendToTelegram(newTitle || title, expandedData.content, entry.link || feedUrl);
       }
     }
     
