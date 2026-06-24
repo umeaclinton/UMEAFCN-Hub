@@ -47,12 +47,18 @@ export async function GET(request: Request) {
     
     let processedCount = 0;
     let newPostsCount = 0;
+    const MAX_POSTS_PER_RUN = 3; // Gemini Free Tier limits to 15 Requests Per Minute
 
     for (const feedUrl of FEEDS) {
       console.log(`Fetching feed: ${feedUrl}`);
       const feed = await parser.parseURL(feedUrl);
       
       for (const entry of feed.items) {
+        if (newPostsCount >= MAX_POSTS_PER_RUN) {
+          console.log(`Reached max posts per run (${MAX_POSTS_PER_RUN}). Stopping to avoid API limits.`);
+          break;
+        }
+
         processedCount++;
         const guid = entry.guid || entry.id || entry.link || '';
         const title = entry.title || '';

@@ -9,10 +9,12 @@ export async function sendToTelegram(title: string, contentPreview: string, sour
 
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
   
-  // Clean preview text
-  const cleanPreview = contentPreview.replace(/<[^>]+>/g, '').substring(0, 500) + '...\n\nRead more on our website!';
+  // Escape HTML characters to prevent breaking Telegram's parser
+  const escapeHtml = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   
-  const message = `🌟 *${title}*\n\n${cleanPreview}\n\n🔗 Source: ${sourceUrl}`;
+  const cleanPreview = escapeHtml(contentPreview.replace(/<[^>]+>/g, '').substring(0, 500)) + '...\n\nRead more on our website!';
+  
+  const message = `🌟 <b>${escapeHtml(title)}</b>\n\n${cleanPreview}\n\n🔗 Source: ${sourceUrl}`;
 
   try {
     const response = await fetch(url, {
@@ -23,7 +25,7 @@ export async function sendToTelegram(title: string, contentPreview: string, sour
       body: JSON.stringify({
         chat_id: channelId,
         text: message,
-        parse_mode: 'Markdown',
+        parse_mode: 'HTML',
       }),
     });
 
