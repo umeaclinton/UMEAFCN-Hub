@@ -78,10 +78,19 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       />
       
       <div className="post-footer">
-        <a href={post.source_url} target="_blank" rel="noopener noreferrer" className="apply-btn">
-          Apply Now
-        </a>
-        <br/><br/>
+        {post.apply_type === 'email' && post.apply_link && (
+          <a href={`mailto:${post.apply_link}`} className="apply-btn">
+            Apply via Email
+          </a>
+        )}
+        {post.apply_type === 'url' && post.apply_link && (
+          <a href={post.apply_link} target="_blank" rel="noopener noreferrer" className="apply-btn">
+            Apply Now
+          </a>
+        )}
+        {(post.apply_type === 'email' || post.apply_type === 'url') && post.apply_link && (
+          <><br/><br/></>
+        )}
         <Link href="/" className="btn-back">
           &larr; Back to all posts
         </Link>

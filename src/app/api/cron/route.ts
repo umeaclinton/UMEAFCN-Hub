@@ -8,7 +8,7 @@ import * as cheerio from 'cheerio';
 
 // Configure feeds here
 const FEEDS = [
-  "https://jobs.smartyacad.com/feed/"
+  "https://www.myjobmag.com/jobsxml_by_categories.xml"
 ];
 
 const parser = new Parser();
@@ -83,7 +83,9 @@ export async function GET(request: Request) {
           entry.link || feedUrl, 
           guidHash,
           slug,
-          expandedData.category
+          expandedData.category,
+          expandedData.apply_type,
+          expandedData.apply_link
         );
         newPostsCount++;
         

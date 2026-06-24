@@ -11,7 +11,10 @@ export async function initDb() {
         guid_hash VARCHAR(64) UNIQUE NOT NULL,
         slug VARCHAR(500) UNIQUE,
         pub_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        category VARCHAR(100) DEFAULT 'General'
+        pub_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        category VARCHAR(100) DEFAULT 'General',
+        apply_type VARCHAR(20) DEFAULT 'none',
+        apply_link VARCHAR(500)
       );
     `;
     
@@ -28,6 +31,14 @@ export async function initDb() {
     } catch (e) {
       // Column might already exist, ignore
     }
+
+    // Add apply_type and apply_link columns to existing table if they don't exist
+    try {
+      await sql`ALTER TABLE posts ADD COLUMN apply_type VARCHAR(20) DEFAULT 'none';`;
+      await sql`ALTER TABLE posts ADD COLUMN apply_link VARCHAR(500);`;
+    } catch (e) {
+      // Columns might already exist, ignore
+    }
     
     console.log('Database initialized successfully');
   } catch (error) {
@@ -36,11 +47,11 @@ export async function initDb() {
   }
 }
 
-export async function insertPost(title: string, content: string, sourceUrl: string, guidHash: string, slug: string, category: string = 'General') {
+export async function insertPost(title: string, content: string, sourceUrl: string, guidHash: string, slug: string, category: string = 'General', applyType: string = 'none', applyLink: string | null = null) {
   try {
     const result = await sql`
-      INSERT INTO posts (title, content, source_url, guid_hash, slug, category)
-      VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, ${category})
+      INSERT INTO posts (title, content, source_url, guid_hash, slug, category, apply_type, apply_link)
+      VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, ${category}, ${applyType}, ${applyLink})
       RETURNING id, title, slug, pub_date;
     `;
     return result.rows[0];
@@ -68,7 +79,7 @@ export async function getRecentPosts(limit = 20, offset = 0, searchQuery = '') {
     if (searchQuery) {
       const query = `%${searchQuery}%`;
       result = await sql`
-        SELECT id, title, content, source_url, slug, pub_date, category 
+        SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
         FROM posts 
         WHERE title ILIKE ${query} OR content ILIKE ${query}
         ORDER BY pub_date DESC 
@@ -76,7 +87,7 @@ export async function getRecentPosts(limit = 20, offset = 0, searchQuery = '') {
       `;
     } else {
       result = await sql`
-        SELECT id, title, content, source_url, slug, pub_date, category 
+        SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
         FROM posts 
         ORDER BY pub_date DESC 
         LIMIT ${limit} OFFSET ${offset};
@@ -92,7 +103,7 @@ export async function getRecentPosts(limit = 20, offset = 0, searchQuery = '') {
 export async function getPostBySlug(slug: string) {
   try {
     const result = await sql`
-      SELECT id, title, content, source_url, slug, pub_date, category 
+      SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
       FROM posts 
       WHERE slug = ${slug};
     `;
@@ -106,7 +117,7 @@ export async function getPostBySlug(slug: string) {
 export async function getPostById(id: number) {
   try {
     const result = await sql`
-      SELECT id, title, content, source_url, slug, pub_date, category 
+      SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
       FROM posts 
       WHERE id = ${id};
     `;
@@ -148,13 +159,16 @@ export async function getTotalPostsCount(searchQuery = '') {
   }
 }
 
-export async function updatePostContent(id: number, content: string, category: string = 'General') {
+export async function updatePostContent(id: number, content: string, category: string, applyType: string = 'none', applyLink: string | null = null) {
   try {
     await sql`
-      UPDATE posts SET content = ${content}, category = ${category} WHERE id = ${id};
+      UPDATE posts 
+      SET content = ${content}, category = ${category}, apply_type = ${applyType}, apply_link = ${applyLink}
+      WHERE id = ${id};
     `;
+    return true;
   } catch (error) {
-    console.error('Error updating post content:', error);
-    throw error;
+    console.error('Database update error:', error);
+    return false;
   }
 }

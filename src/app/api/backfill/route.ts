@@ -27,7 +27,13 @@ export async function GET() {
           console.log(`Successfully expanded article! (${expandedData.content.length} chars)`);
 
           // Update the database
-          await updatePostContent(post.id, expandedData.content, expandedData.category);
+          await updatePostContent(
+            post.id, 
+            expandedData.content, 
+            expandedData.category,
+            expandedData.apply_type,
+            expandedData.apply_link
+          );
           updatedCount++;
 
           console.log(`Successfully backfilled post ID ${post.id}: "${post.title}"`);
