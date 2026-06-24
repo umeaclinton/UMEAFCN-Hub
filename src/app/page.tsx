@@ -3,9 +3,10 @@ import Link from 'next/link';
 
 export const revalidate = 0; // Don't cache this page statically
 
-export default async function Home({ searchParams }: { searchParams: { q?: string, page?: string } }) {
-  const query = searchParams?.q || '';
-  const currentPage = Number(searchParams?.page) || 1;
+export default async function Home({ searchParams }: { searchParams: Promise<{ q?: string, page?: string }> }) {
+  const resolvedSearchParams = await searchParams;
+  const query = resolvedSearchParams?.q || '';
+  const currentPage = Number(resolvedSearchParams?.page) || 1;
   const limit = 12; // Posts per page
   const offset = (currentPage - 1) * limit;
 
