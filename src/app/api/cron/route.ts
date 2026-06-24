@@ -47,7 +47,7 @@ export async function GET(request: Request) {
     
     let processedCount = 0;
     let newPostsCount = 0;
-    const MAX_POSTS_PER_RUN = 10; // Gemini Free Tier limits to 15 Requests Per Minute and 1,500 Per Day
+    const MAX_POSTS_PER_RUN = 4; // Gemini Free Tier strict limit is 5 Requests Per Minute!
 
     for (const feedUrl of FEEDS) {
       console.log(`Fetching feed: ${feedUrl}`);

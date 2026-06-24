@@ -51,6 +51,9 @@ Summary: ${summary}`,
     
     let text = response.text || '{}';
     
+    // Strip markdown code blocks if Gemini accidentally wraps the JSON
+    text = text.replace(/^```json\n?/i, '').replace(/\n?```$/i, '').trim();
+    
     try {
       const parsed = JSON.parse(text);
       return {
