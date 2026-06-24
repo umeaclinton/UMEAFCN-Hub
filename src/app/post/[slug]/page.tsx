@@ -69,9 +69,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         <div className="post-meta">
           <span className="category-badge">{post.category || 'General'}</span>
           <time>Published on: {new Date(post.pub_date).toLocaleString()}</time>
-          <a href={post.source_url} target="_blank" rel="noopener noreferrer" className="source-link">
-            Original Source
-          </a>
         </div>
       </header>
       
@@ -81,6 +78,10 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       />
       
       <div className="post-footer">
+        <a href={post.source_url} target="_blank" rel="noopener noreferrer" className="apply-btn">
+          Apply Now
+        </a>
+        <br/><br/>
         <Link href="/" className="btn-back">
           &larr; Back to all posts
         </Link>

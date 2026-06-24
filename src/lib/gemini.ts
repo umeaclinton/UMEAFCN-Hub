@@ -36,15 +36,12 @@ Example format:
 
 Title: ${title}
 Summary: ${summary}`,
+      config: {
+        responseMimeType: "application/json",
+      }
     });
     
-    // Clean up any markdown code blocks from the response
-    let text = response.text || '';
-    if (text.startsWith('```json')) {
-      text = text.replace(/^```json\n/, '').replace(/\n```$/, '');
-    } else if (text.startsWith('```')) {
-      text = text.replace(/^```\n/, '').replace(/\n```$/, '');
-    }
+    let text = response.text || '{}';
     
     try {
       const parsed = JSON.parse(text);

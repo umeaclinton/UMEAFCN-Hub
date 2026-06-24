@@ -156,13 +156,24 @@ main.container {
   line-height: 1.2;
 }
 
-.source-link {
+.apply-btn {
   display: inline-block;
-  margin-left: 15px;
-  padding: 4px 10px;
-  background: #222;
-  border-radius: 4px;
-  font-size: 0.85rem;
+  padding: 15px 30px;
+  background: var(--accent-color);
+  color: #000;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
+}
+
+.apply-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  color: #000;
 }
 
 .post-content {
