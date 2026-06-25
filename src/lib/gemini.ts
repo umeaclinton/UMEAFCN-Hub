@@ -42,6 +42,8 @@ export async function expandArticle(title: string, summary: string): Promise<{ c
 Format the output using clean HTML (e.g., <p>, <ul>, <li>, <h3>, <strong>). Do not include <html>, <head>, or <body> tags. 
 Keep a professional, encouraging tone suitable for a job board. Do not add fake links.
 
+IMPORTANT: Always explicitly include the "Method of Application" instructions (including the email or link) at the very end of your generated HTML content, exactly as stated in the source summary.
+
 Additionally, analyze the job title and summary and assign a single 1-2 word category to it (e.g., "Tech", "Finance", "Healthcare", "NGO", "Engineering", "Marketing").
 
 You MUST return the output EXACTLY as a valid JSON object with four keys: "category", "content", "apply_type", and "apply_link". 
