@@ -7,6 +7,11 @@ export async function sendToTelegram(title: string, contentPreview: string, sour
     return;
   }
 
+  let chatId = channelId.trim();
+  if (/^\d+$/.test(chatId)) {
+    chatId = `-100${chatId}`;
+  }
+
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
   
   // Escape HTML characters to prevent breaking Telegram's parser
@@ -23,7 +28,7 @@ export async function sendToTelegram(title: string, contentPreview: string, sour
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        chat_id: channelId,
+        chat_id: chatId,
         text: message,
         parse_mode: 'HTML',
       }),

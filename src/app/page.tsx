@@ -48,7 +48,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
               </div>
               <div className="post-excerpt">
                 {/* Extract a snippet from HTML content */}
-                {post.content.replace(/<[^>]+>/g, '').substring(0, 150)}...
+                {post.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().substring(0, 150)}...
               </div>
               <Link href={`/post/${post.slug || post.id}`} className="read-more">
                 Read More

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,21 +19,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="site-header">
-          <div className="container">
-            <h1><a href="/">Jobs With Clinton</a></h1>
-          </div>
-        </header>
+        <Header />
 
         <main className="container">
           {children}
         </main>
 
-        <footer>
-          <div className="container">
-            <p>&copy; {new Date().getFullYear()} Jobs With Clinton</p>
-          </div>
-        </footer>
+        <Footer />
       </body>
     </html>
   );
