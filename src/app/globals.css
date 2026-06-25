@@ -1,16 +1,4 @@
 :root {
-  --bg-color: #000000;
-  --surface-color: #0d0d0d;
-  --surface-hover: #161616;
-  --text-color: #f8fafc;
-  --text-muted: #94a3b8;
-  --accent-color: #d4af37;
-  --accent-hover: #f3cd57;
-  --border-color: #222222;
-  --transition: all 0.2s ease;
-}
-
-[data-theme='light'] {
   --bg-color: #ffffff;
   --surface-color: #ffffff;
   --surface-hover: #f5f5f7;
@@ -19,6 +7,18 @@
   --accent-color: #b8962e;
   --accent-hover: #9c7c22;
   --border-color: #e5e5e5;
+  --transition: all 0.2s ease;
+}
+
+[data-theme='dark'] {
+  --bg-color: #000000;
+  --surface-color: #0d0d0d;
+  --surface-hover: #161616;
+  --text-color: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent-color: #d4af37;
+  --accent-hover: #f3cd57;
+  --border-color: #222222;
 }
 
 * {
@@ -612,30 +612,30 @@ main.container {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--surface-hover);
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  color: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 999;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: var(--transition);
 }
 
 .theme-toggle-btn:hover {
   transform: scale(1.05);
-  background: var(--border-color);
-}
-
-[data-theme='light'] .theme-toggle-btn {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background: #ffffff;
-  border-color: #dddddd;
-  color: #000000;
-}
-
-[data-theme='light'] .theme-toggle-btn:hover {
   background: #f5f5f7;
+}
+
+[data-theme='dark'] .theme-toggle-btn {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  background: var(--surface-hover);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+[data-theme='dark'] .theme-toggle-btn:hover {
+  background: var(--border-color);
 }
