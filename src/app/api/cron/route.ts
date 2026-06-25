@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import Parser from 'rss-parser';
+import axios from 'axios';
 import { initDb, getPostByHash, insertPost } from '@/lib/db';
 import { paraphraseText, paraphraseHtml, expandArticle } from '@/lib/gemini';
 import { sendToTelegram } from '@/lib/telegram';
 import * as cheerio from 'cheerio';
+import { scrapeMyJobMagApplicationMethod } from '@/lib/scraper';
 
 // Configure feeds here
 const FEEDS = [
@@ -12,6 +14,34 @@ const FEEDS = [
 ];
 
 const parser = new Parser();
+
+async function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function fetchFeedXmlWithRetry(url: string, retries = 3, delayMs = 2000): Promise<string> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      console.log(`[Feed Fetch] Attempt ${i + 1} of ${retries} to fetch RSS...`);
+      const res = await axios.get(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'application/xml, text/xml, */*',
+          'Accept-Language': 'en-US,en;q=0.5',
+        },
+        timeout: 15000
+      });
+      return res.data;
+    } catch (err: any) {
+      console.warn(`[Feed Fetch] Attempt ${i + 1} failed: ${err.message}`);
+      if (i === retries - 1) {
+        throw err;
+      }
+      await delay(delayMs * (i + 1));
+    }
+  }
+  throw new Error("Failed to fetch feed XML after all retries");
+}
 
 function computeHash(guid: string, title: string) {
   const data = `${guid}_${title}`;
@@ -47,15 +77,25 @@ export async function GET(request: Request) {
     
     let processedCount = 0;
     let newPostsCount = 0;
+    let apiCallsCount = 0;
     const MAX_POSTS_PER_RUN = 4; // Gemini Free Tier strict limit is 5 Requests Per Minute!
 
     for (const feedUrl of FEEDS) {
       console.log(`Fetching feed: ${feedUrl}`);
-      const feed = await parser.parseURL(feedUrl);
+      let feedXml: string;
+      try {
+        feedXml = await fetchFeedXmlWithRetry(feedUrl);
+      } catch (err: any) {
+        console.error(`Failed to retrieve feed XML for ${feedUrl}:`, err.message);
+        continue;
+      }
+
+      console.log(`Parsing feed XML for: ${feedUrl}`);
+      const feed = await parser.parseString(feedXml);
       
       for (const entry of feed.items) {
-        if (newPostsCount >= MAX_POSTS_PER_RUN) {
-          console.log(`Reached max posts per run (${MAX_POSTS_PER_RUN}). Stopping to avoid API limits.`);
+        if (newPostsCount >= MAX_POSTS_PER_RUN || apiCallsCount >= 5) {
+          console.log(`Reached max posts per run (${MAX_POSTS_PER_RUN}) or API calls (${apiCallsCount}). Stopping to avoid API limits.`);
           break;
         }
 
@@ -75,8 +115,24 @@ export async function GET(request: Request) {
         
         let rawContent = entry.content || entry.contentSnippet || entry.summary || '';
         
+        // Scrape application method if available
+        if (entry.link) {
+          try {
+            const scrapedMethod = await scrapeMyJobMagApplicationMethod(entry.link);
+            if (scrapedMethod) {
+              console.log(`Successfully scraped application method for: ${title}`);
+              rawContent += `\n\nMethod of Application:\n${scrapedMethod}`;
+            } else {
+              console.log(`No application method scraped for: ${title}`);
+            }
+          } catch (scrapeErr: any) {
+            console.error(`Failed to scrape application method for ${title}:`, scrapeErr.message || scrapeErr);
+          }
+        }
+
         // Expand the short RSS summary into a full article using Gemini
         const expandedData = await expandArticle(title, rawContent);
+        apiCallsCount++;
         
         // Generate slug
         const slug = generateSlug(title);
@@ -92,10 +148,15 @@ export async function GET(request: Request) {
           expandedData.apply_type,
           expandedData.apply_link
         );
-        newPostsCount++;
         
-        // Telegram Notify
-        await sendToTelegram(title, expandedData.content, entry.link || feedUrl);
+        // Only notify and count as "new post" if there is a valid application method (email or URL)
+        if (expandedData.apply_type !== 'none' && expandedData.apply_link) {
+          newPostsCount++;
+          // Telegram Notify
+          await sendToTelegram(title, expandedData.content, entry.link || feedUrl);
+        } else {
+          console.log(`Skipped publishing/Telegram notification for post "${title}" because apply_type is 'none'.`);
+        }
         
         // Add a 2-second delay to prevent hitting Gemini's burst rate limits
         await new Promise(resolve => setTimeout(resolve, 2000));

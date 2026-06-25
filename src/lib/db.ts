@@ -81,7 +81,7 @@ export async function getRecentPosts(limit = 20, offset = 0, searchQuery = '') {
       result = await sql`
         SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
         FROM posts 
-        WHERE title ILIKE ${query} OR content ILIKE ${query}
+        WHERE (title ILIKE ${query} OR content ILIKE ${query}) AND apply_type != 'none'
         ORDER BY pub_date DESC 
         LIMIT ${limit} OFFSET ${offset};
       `;
@@ -89,6 +89,7 @@ export async function getRecentPosts(limit = 20, offset = 0, searchQuery = '') {
       result = await sql`
         SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
         FROM posts 
+        WHERE apply_type != 'none'
         ORDER BY pub_date DESC 
         LIMIT ${limit} OFFSET ${offset};
       `;
@@ -105,7 +106,7 @@ export async function getPostBySlug(slug: string) {
     const result = await sql`
       SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
       FROM posts 
-      WHERE slug = ${slug};
+      WHERE slug = ${slug} AND apply_type != 'none';
     `;
     return result.rows.length > 0 ? result.rows[0] : null;
   } catch (error) {
@@ -119,7 +120,7 @@ export async function getPostById(id: number) {
     const result = await sql`
       SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
       FROM posts 
-      WHERE id = ${id};
+      WHERE id = ${id} AND apply_type != 'none';
     `;
     return result.rows.length > 0 ? result.rows[0] : null;
   } catch (error) {
@@ -148,9 +149,15 @@ export async function getTotalPostsCount(searchQuery = '') {
     let result;
     if (searchQuery) {
       const query = `%${searchQuery}%`;
-      result = await sql`SELECT COUNT(*) FROM posts WHERE title ILIKE ${query} OR content ILIKE ${query};`;
+      result = await sql`
+        SELECT COUNT(*) FROM posts 
+        WHERE (title ILIKE ${query} OR content ILIKE ${query}) AND apply_type != 'none';
+      `;
     } else {
-      result = await sql`SELECT COUNT(*) FROM posts;`;
+      result = await sql`
+        SELECT COUNT(*) FROM posts 
+        WHERE apply_type != 'none';
+      `;
     }
     return parseInt(result.rows[0].count, 10);
   } catch (error) {

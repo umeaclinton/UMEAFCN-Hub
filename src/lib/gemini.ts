@@ -1,7 +1,13 @@
 import { GoogleGenAI } from '@google/genai';
 import * as cheerio from 'cheerio';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let aiInstance: GoogleGenAI | null = null;
+function getAiClient() {
+  if (!aiInstance) {
+    aiInstance = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  }
+  return aiInstance;
+}
 
 const FALLBACK_MODELS = [
   'gemini-3.5-flash',
@@ -16,6 +22,7 @@ const FALLBACK_MODELS = [
 export async function paraphraseText(text: string): Promise<string> {
   if (!text || text.length < 10) return text;
   
+  const ai = getAiClient();
   for (const modelName of FALLBACK_MODELS) {
     try {
       const response = await ai.models.generateContent({
@@ -37,6 +44,7 @@ export async function paraphraseText(text: string): Promise<string> {
 }
 
 export async function expandArticle(title: string, summary: string): Promise<{ category: string; content: string; apply_type: string; apply_link: string | null }> {
+  const ai = getAiClient();
   for (const modelName of FALLBACK_MODELS) {
     try {
       const response = await ai.models.generateContent({

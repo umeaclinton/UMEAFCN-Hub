@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { initDb, getPostsWithShortContent, updatePostContent } from '@/lib/db';
 import { paraphraseHtml, expandArticle } from '@/lib/gemini';
+import { scrapeMyJobMagApplicationMethod } from '@/lib/scraper';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // Allow 5 minutes
@@ -20,8 +21,19 @@ export async function GET() {
       if (!post.source_url) continue;
 
       try {
+        let contentToExpand = post.content;
+        try {
+          const scrapedMethod = await scrapeMyJobMagApplicationMethod(post.source_url);
+          if (scrapedMethod) {
+            console.log(`Successfully scraped application method for backfill post ${post.id}`);
+            contentToExpand += `\n\nMethod of Application:\n${scrapedMethod}`;
+          }
+        } catch (scrapeErr: any) {
+          console.error(`Failed to scrape application method for backfill post ${post.id}:`, scrapeErr.message || scrapeErr);
+        }
+
         // Expand the short RSS summary into a full article using Gemini
-        const expandedData = await expandArticle(post.title, post.content);
+        const expandedData = await expandArticle(post.title, contentToExpand);
 
         if (expandedData.content && expandedData.content.length > post.content.length) {
           console.log(`Successfully expanded article! (${expandedData.content.length} chars)`);
