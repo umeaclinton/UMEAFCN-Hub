@@ -187,10 +187,10 @@ main.container {
 
 /* Post Cards */
 .post-card {
-  background: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 28px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 16px 0;
   transition: var(--transition);
   display: flex;
   flex-direction: column;
@@ -198,8 +198,8 @@ main.container {
 
 .post-card:hover {
   transform: translateY(-2px);
-  background: var(--surface-hover);
-  border-color: #374151;
+  background: transparent;
+  border-color: transparent;
 }
 
 .post-card h2 {
@@ -262,10 +262,10 @@ main.container {
 
 /* Single Post View */
 .single-post {
-  background: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 48px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 24px 0;
 }
 
 .post-header {
@@ -369,7 +369,7 @@ main.container {
 .btn-back:hover {
   background: var(--surface-hover);
   color: var(--text-color);
-  border-color: #374151;
+  border-color: var(--accent-color);
 }
 
 /* Search Bar & Pagination */
@@ -382,7 +382,7 @@ main.container {
 .search-input {
   flex: 1;
   padding: 14px 18px;
-  background: var(--surface-color);
+  background: transparent;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   color: var(--text-color);
@@ -426,7 +426,7 @@ main.container {
 
 .page-btn {
   padding: 10px 18px;
-  background: var(--surface-color);
+  background: transparent;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   color: var(--text-muted);
@@ -437,7 +437,7 @@ main.container {
 .page-btn:hover:not(.disabled) {
   background: var(--surface-hover);
   color: var(--text-color);
-  border-color: #374151;
+  border-color: var(--accent-color);
 }
 
 .page-btn.disabled {
@@ -453,7 +453,7 @@ main.container {
 
 /* Footer Section */
 .site-footer {
-  background: var(--surface-color);
+  background: var(--bg-color);
   border-top: 1px solid var(--border-color);
   padding: 64px 0 32px 0;
   margin-top: auto;
@@ -515,13 +515,13 @@ main.container {
 }
 
 .no-posts {
-  padding: 48px;
+  padding: 48px 0;
   text-align: center;
   grid-column: 1 / -1;
   color: var(--text-muted);
-  background: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
 }
 
 /* Responsive Viewports */
@@ -546,8 +546,8 @@ main.container {
 
   /* Typography adjustments for mobile cards to look less bulky */
   .post-card {
-    padding: 20px;
-    border-radius: 8px;
+    padding: 12px 0;
+    border-radius: 0;
   }
 
   .post-card h2 {
@@ -567,8 +567,8 @@ main.container {
   }
 
   .single-post {
-    padding: 24px;
-    border-radius: 8px;
+    padding: 16px 0;
+    border-radius: 0;
   }
   
   .post-header h1 {
