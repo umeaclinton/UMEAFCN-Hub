@@ -28,6 +28,8 @@ export default function Header() {
           <Link href="/?q=finance">Finance</Link>
           <Link href="/?q=engineering">Engineering</Link>
           <Link href="/?q=marketing">Marketing</Link>
+          <Link href="/terms">Terms</Link>
+          <Link href="/privacy">Privacy</Link>
         </nav>
 
         {/* Hamburger Menu Button */}
@@ -49,6 +51,8 @@ export default function Header() {
           <Link href="/?q=finance" onClick={closeMenu}>Finance Jobs</Link>
           <Link href="/?q=engineering" onClick={closeMenu}>Engineering Jobs</Link>
           <Link href="/?q=marketing" onClick={closeMenu}>Marketing Jobs</Link>
+          <Link href="/terms" onClick={closeMenu}>Terms & Conditions</Link>
+          <Link href="/privacy" onClick={closeMenu}>Privacy Policy</Link>
         </nav>
 
         {/* Backdrop for mobile menu */}

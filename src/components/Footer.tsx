@@ -20,6 +20,8 @@ export default function Footer() {
               <li><Link href="/">Home</Link></li>
               <li><Link href="/?q=intern">Internships</Link></li>
               <li><Link href="/?q=manager">Managerial Roles</Link></li>
+              <li><Link href="/privacy">Privacy Policy</Link></li>
+              <li><Link href="/terms">Terms & Conditions</Link></li>
             </ul>
           </div>
 
