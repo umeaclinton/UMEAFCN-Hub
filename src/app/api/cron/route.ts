@@ -2,12 +2,12 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import Parser from 'rss-parser';
 import axios from 'axios';
-import { initDb, getPostByHash, insertPost, insertBlogPost } from '@/lib/db';
+import { initDb, getPostByHash, insertPost, insertBlogPost, sql } from '@/lib/db';
 import { expandArticle } from '@/lib/gemini';
 import { sendToTelegram } from '@/lib/telegram';
 import { scrapeMyJobMagApplicationMethod } from '@/lib/scraper';
 import { GoogleGenAI } from '@google/genai';
-import { sql } from '@vercel/postgres';
+// Removed @vercel/postgres, now imported from @/lib/db directly if needed
 
 // Configure feeds here
 const FEEDS = [

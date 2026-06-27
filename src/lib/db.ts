@@ -1,4 +1,12 @@
-import { sql } from '@vercel/postgres';
+import { neon } from '@neondatabase/serverless';
+
+const neonSql = neon(process.env.DATABASE_URL!);
+
+// Custom wrapper to mimic @vercel/postgres API shape
+export const sql = async (strings: TemplateStringsArray, ...values: any[]) => {
+  const result = await neonSql(strings, ...values);
+  return { rows: result, rowCount: result.length };
+};
 
 export async function initDb() {
   try {
