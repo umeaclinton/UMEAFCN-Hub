@@ -30,7 +30,7 @@ export default async function BlogIndex() {
           articles.map((art) => (
             <article key={art.id} className="post-card">
               <div className="post-card-image">
-                <img src={getCategoryImage('blog', art.title)} alt={art.title} loading="lazy" />
+                <img src={getCategoryImage('blog', art.title, art.id)} alt={art.title} loading="lazy" />
               </div>
               <h2>
                 <Link href={`/blog/${art.slug}`}>{art.title}</Link>

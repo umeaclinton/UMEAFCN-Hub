@@ -46,7 +46,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <article className="single-post">
       <div className="post-featured-banner">
-        <img src={getCategoryImage('blog', post.title)} alt={post.title} />
+        <img src={getCategoryImage('blog', post.title, post.id)} alt={post.title} />
       </div>
       <header className="post-header">
         <h1>{post.title}</h1>

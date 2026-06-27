@@ -46,7 +46,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             posts.map((post: any) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage(post.category, post.title)} alt={post.title} loading="lazy" />
+                  <img src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" />
                 </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
@@ -155,7 +155,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             {gradPrograms.map((post) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage(post.category, post.title)} alt={post.title} loading="lazy" />
+                  <img src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" />
                 </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
@@ -187,7 +187,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             {internships.map((post) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage(post.category, post.title)} alt={post.title} loading="lazy" />
+                  <img src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" />
                 </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
@@ -233,7 +233,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             {scholarships.map((post) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage(post.category, post.title)} alt={post.title} loading="lazy" />
+                  <img src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" />
                 </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
@@ -265,7 +265,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             {recentJobs.map((post) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage(post.category, post.title)} alt={post.title} loading="lazy" />
+                  <img src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" />
                 </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
