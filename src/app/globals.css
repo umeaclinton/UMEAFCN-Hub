@@ -197,7 +197,7 @@ main.container {
   gap: 20px;
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 769px) {
   .posts-grid {
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;

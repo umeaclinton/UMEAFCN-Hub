@@ -107,7 +107,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
     gradPrograms = await getLatestPostsByCategory('Graduate Programs', 4);
     scholarships = await getLatestPostsByCategory('Scholarships', 4);
     recentJobs = await getLatestPostsByCategory('jobs', 8);
-    blogPosts = await getBlogPosts(4, 0);
+    blogPosts = await getBlogPosts(8, 0); // Query 8 posts to display in 2 rows of 4 columns
   } catch (err) {
     console.error("Error loading showcase items:", err);
   }
@@ -146,7 +146,39 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
         </a>
       </div>
 
-      {/* 1. Graduate Programs Section */}
+      {/* 1. Career Blog Advice Section (Prioritized at the absolute top) */}
+      {blogPosts.length > 0 && (
+        <section className="showcase-section">
+          <div className="section-header">
+            <h2>Career Advice & Guides</h2>
+            <Link href="/blog" className="see-all-link">Read All Articles &rarr;</Link>
+          </div>
+          <div className="posts-grid">
+            {blogPosts.map((art) => (
+              <article key={art.id} className="post-card">
+                <div className="post-card-image">
+                  <img src={getCategoryImage('blog', art.title, art.id)} alt={art.title} loading="lazy" />
+                </div>
+                <h2>
+                  <Link href={`/blog/${art.slug}`}>{art.title}</Link>
+                </h2>
+                <div className="post-meta">
+                  <span className="category-badge">Career Guide</span>
+                  <time>{new Date(art.pub_date).toLocaleDateString()}</time>
+                </div>
+                <div className="post-excerpt">
+                  {art.excerpt}
+                </div>
+                <Link href={`/blog/${art.slug}`} className="read-more">
+                  Read Article
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 2. Graduate Programs Section */}
       {gradPrograms.length > 0 && (
         <section className="showcase-section">
           <div className="section-header">
@@ -178,7 +210,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
         </section>
       )}
 
-      {/* 2. Internships Section */}
+      {/* 3. Internships Section */}
       {internships.length > 0 && (
         <section className="showcase-section">
           <div className="section-header">
@@ -224,7 +256,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
         </div>
       </div>
 
-      {/* 3. Scholarships Section */}
+      {/* 4. Scholarships Section */}
       {scholarships.length > 0 && (
         <section className="showcase-section">
           <div className="section-header">
@@ -256,7 +288,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
         </section>
       )}
 
-      {/* 4. Latest Job Openings Section */}
+      {/* 5. Latest Job Openings Section */}
       {recentJobs.length > 0 && (
         <section className="showcase-section">
           <div className="section-header">
@@ -281,38 +313,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
                 </div>
                 <Link href={`/post/${post.slug || post.id}`} className="read-more">
                   Read Details
-                </Link>
-              </article>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* 5. Career Blog Advice Section */}
-      {blogPosts.length > 0 && (
-        <section className="showcase-section">
-          <div className="section-header">
-            <h2>Career Advice & Guides</h2>
-            <Link href="/blog" className="see-all-link">Read All Articles &rarr;</Link>
-          </div>
-          <div className="posts-grid">
-            {blogPosts.map((art) => (
-              <article key={art.id} className="post-card">
-                <div className="post-card-image">
-                  <img src={getCategoryImage('blog', art.title, art.id)} alt={art.title} loading="lazy" />
-                </div>
-                <h2>
-                  <Link href={`/blog/${art.slug}`}>{art.title}</Link>
-                </h2>
-                <div className="post-meta">
-                  <span className="category-badge">Career Guide</span>
-                  <time>{new Date(art.pub_date).toLocaleDateString()}</time>
-                </div>
-                <div className="post-excerpt">
-                  {art.excerpt}
-                </div>
-                <Link href={`/blog/${art.slug}`} className="read-more">
-                  Read Article
                 </Link>
               </article>
             ))}
