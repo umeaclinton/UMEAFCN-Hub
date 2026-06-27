@@ -55,7 +55,7 @@ Keep a professional, encouraging tone suitable for a job board. Do not add fake 
 
 IMPORTANT: Always explicitly include the "Method of Application" instructions (including the email or link) at the very end of your generated HTML content, exactly as stated in the source summary.
 
-Additionally, analyze the job title and summary and assign a single 1-2 word category to it (e.g., "Tech", "Finance", "Healthcare", "NGO", "Engineering", "Marketing").
+Additionally, analyze the job title and summary and assign a single category to it. Choose from: 'Internships', 'Graduate Programs', 'Scholarships', 'Bootcamps', 'Grants', or standard job functions (e.g. 'Tech', 'Finance', 'Engineering', 'Marketing', 'Administrative', 'Healthcare').
 
 You MUST return the output EXACTLY as a valid JSON object with four keys: "category", "content", "apply_type", and "apply_link". 
 

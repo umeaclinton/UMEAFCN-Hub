@@ -24,10 +24,9 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="desktop-nav">
           <Link href="/">Home</Link>
-          <Link href="/?q=tech">Tech</Link>
-          <Link href="/?q=finance">Finance</Link>
-          <Link href="/?q=engineering">Engineering</Link>
-          <Link href="/?q=marketing">Marketing</Link>
+          <Link href="/blog">Blog</Link>
+          <Link href="/about">About Us</Link>
+          <Link href="/contact">Contact Us</Link>
           <Link href="/terms">Terms</Link>
           <Link href="/privacy">Privacy</Link>
         </nav>
@@ -47,10 +46,9 @@ export default function Header() {
         {/* Mobile Navigation Dropdown */}
         <nav className={`mobile-nav ${isMenuOpen ? 'active' : ''}`}>
           <Link href="/" onClick={closeMenu}>Home</Link>
-          <Link href="/?q=tech" onClick={closeMenu}>Tech Jobs</Link>
-          <Link href="/?q=finance" onClick={closeMenu}>Finance Jobs</Link>
-          <Link href="/?q=engineering" onClick={closeMenu}>Engineering Jobs</Link>
-          <Link href="/?q=marketing" onClick={closeMenu}>Marketing Jobs</Link>
+          <Link href="/blog" onClick={closeMenu}>Blog</Link>
+          <Link href="/about" onClick={closeMenu}>About Us</Link>
+          <Link href="/contact" onClick={closeMenu}>Contact Us</Link>
           <Link href="/terms" onClick={closeMenu}>Terms & Conditions</Link>
           <Link href="/privacy" onClick={closeMenu}>Privacy Policy</Link>
         </nav>

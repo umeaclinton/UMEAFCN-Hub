@@ -18,21 +18,21 @@ export default function Footer() {
             <h4>Quick Links</h4>
             <ul>
               <li><Link href="/">Home</Link></li>
-              <li><Link href="/?q=intern">Internships</Link></li>
-              <li><Link href="/?q=manager">Managerial Roles</Link></li>
+              <li><Link href="/blog">Career Blog</Link></li>
+              <li><Link href="/about">About Us</Link></li>
+              <li><Link href="/contact">Contact Us</Link></li>
               <li><Link href="/privacy">Privacy Policy</Link></li>
               <li><Link href="/terms">Terms & Conditions</Link></li>
             </ul>
           </div>
 
-          {/* Categories */}
+          {/* Social Communities */}
           <div className="footer-section categories">
-            <h4>Job Categories</h4>
+            <h4>Join Our Community</h4>
             <ul>
-              <li><Link href="/?q=tech">Technology</Link></li>
-              <li><Link href="/?q=finance">Finance</Link></li>
-              <li><Link href="/?q=engineering">Engineering & Operations</Link></li>
-              <li><Link href="/?q=marketing">Marketing & Sales</Link></li>
+              <li><a href="https://whatsapp.com/channel/0029Va9uQXIAYlUP7x3kDQ2T" target="_blank" rel="noopener noreferrer">WhatsApp Channel</a></li>
+              <li><a href="https://t.me/jobswithclinton" target="_blank" rel="noopener noreferrer">Telegram Channel</a></li>
+              <li><a href="https://x.com/jobswithclinton" target="_blank" rel="noopener noreferrer">Twitter (X)</a></li>
             </ul>
           </div>
         </div>
