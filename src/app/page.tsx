@@ -1,4 +1,4 @@
-import { getRecentPosts, getTotalPostsCount, getLatestPostsByCategory } from '@/lib/db';
+import { getRecentPosts, getTotalPostsCount, getLatestPostsByCategory, getBlogPosts } from '@/lib/db';
 import { getCategoryImage } from '@/lib/images';
 import Link from 'next/link';
 
@@ -100,12 +100,14 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
   let gradPrograms: any[] = [];
   let scholarships: any[] = [];
   let recentJobs: any[] = [];
+  let blogPosts: any[] = [];
 
   try {
     internships = await getLatestPostsByCategory('Internships', 4);
     gradPrograms = await getLatestPostsByCategory('Graduate Programs', 4);
     scholarships = await getLatestPostsByCategory('Scholarships', 4);
     recentJobs = await getLatestPostsByCategory('jobs', 8);
+    blogPosts = await getBlogPosts(4, 0);
   } catch (err) {
     console.error("Error loading showcase items:", err);
   }
@@ -279,6 +281,38 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
                 </div>
                 <Link href={`/post/${post.slug || post.id}`} className="read-more">
                   Read Details
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 5. Career Blog Advice Section */}
+      {blogPosts.length > 0 && (
+        <section className="showcase-section">
+          <div className="section-header">
+            <h2>Career Advice & Guides</h2>
+            <Link href="/blog" className="see-all-link">Read All Articles &rarr;</Link>
+          </div>
+          <div className="posts-grid">
+            {blogPosts.map((art) => (
+              <article key={art.id} className="post-card">
+                <div className="post-card-image">
+                  <img src={getCategoryImage('blog', art.title, art.id)} alt={art.title} loading="lazy" />
+                </div>
+                <h2>
+                  <Link href={`/blog/${art.slug}`}>{art.title}</Link>
+                </h2>
+                <div className="post-meta">
+                  <span className="category-badge">Career Guide</span>
+                  <time>{new Date(art.pub_date).toLocaleDateString()}</time>
+                </div>
+                <div className="post-excerpt">
+                  {art.excerpt}
+                </div>
+                <Link href={`/blog/${art.slug}`} className="read-more">
+                  Read Article
                 </Link>
               </article>
             ))}
