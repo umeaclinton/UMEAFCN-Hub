@@ -1,4 +1,5 @@
 import { getRecentPosts, getTotalPostsCount, getLatestPostsByCategory } from '@/lib/db';
+import { getCategoryImage } from '@/lib/images';
 import Link from 'next/link';
 
 export const revalidate = 0; // Don't cache this page statically
@@ -44,6 +45,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
           {posts.length > 0 ? (
             posts.map((post: any) => (
               <article key={post.id} className="post-card">
+                <div className="post-card-image">
+                  <img src={getCategoryImage(post.category, post.title)} alt={post.title} loading="lazy" />
+                </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>
@@ -150,6 +154,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
           <div className="posts-grid">
             {gradPrograms.map((post) => (
               <article key={post.id} className="post-card">
+                <div className="post-card-image">
+                  <img src={getCategoryImage(post.category, post.title)} alt={post.title} loading="lazy" />
+                </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>
@@ -179,6 +186,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
           <div className="posts-grid">
             {internships.map((post) => (
               <article key={post.id} className="post-card">
+                <div className="post-card-image">
+                  <img src={getCategoryImage(post.category, post.title)} alt={post.title} loading="lazy" />
+                </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>
@@ -222,6 +232,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
           <div className="posts-grid">
             {scholarships.map((post) => (
               <article key={post.id} className="post-card">
+                <div className="post-card-image">
+                  <img src={getCategoryImage(post.category, post.title)} alt={post.title} loading="lazy" />
+                </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>
@@ -251,6 +264,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
           <div className="posts-grid">
             {recentJobs.map((post) => (
               <article key={post.id} className="post-card">
+                <div className="post-card-image">
+                  <img src={getCategoryImage(post.category, post.title)} alt={post.title} loading="lazy" />
+                </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>

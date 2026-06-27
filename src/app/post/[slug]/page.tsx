@@ -1,4 +1,5 @@
 import { getPostBySlug, getPostById } from '@/lib/db';
+import { getCategoryImage } from '@/lib/images';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -64,6 +65,9 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   return (
     <article className="single-post">
+      <div className="post-featured-banner">
+        <img src={getCategoryImage(post.category, post.title)} alt={post.title} />
+      </div>
       <header className="post-header">
         <h1>{post.title}</h1>
         <div className="post-meta">
