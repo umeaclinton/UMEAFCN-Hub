@@ -144,7 +144,10 @@ async function handleAutomatedBlogGeneration() {
 
   await insertBlogPost(blogData.title, slug, blogData.content, blogData.excerpt, 'Clinton');
   console.log(`[Blog Generator] Successfully published automated blog post: "${blogData.title}"`);
-}
+  
+  // Post to Telegram
+  const sourceUrl = `https://jobswithclinton.com/blog/${slug}`;
+  await sendToTelegram(blogData.title, blogData.excerpt, sourceUrl);
 
 // Allow Vercel to cache and revalidate or just mark as dynamic
 export const dynamic = 'force-dynamic';
