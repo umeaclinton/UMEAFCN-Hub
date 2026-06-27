@@ -1,5 +1,6 @@
-import { getBlogPostBySlug } from '@/lib/db';
+import { getBlogPosts, getBlogPostBySlug } from '@/lib/db';
 import { getCategoryImage } from '@/lib/images';
+import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -46,7 +47,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <article className="single-post">
       <div className="post-featured-banner">
-        <img src={getCategoryImage('blog', post.title, post.id)} alt={post.title} />
+        <SafeImage src={getCategoryImage('blog', post.title, post.id)} alt={post.title} fallbackSeed={post.id} />
       </div>
       <header className="post-header">
         <h1>{post.title}</h1>

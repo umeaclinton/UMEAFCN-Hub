@@ -1,5 +1,6 @@
 import { getRecentPosts, getTotalPostsCount, getLatestPostsByCategory, getBlogPosts } from '@/lib/db';
 import { getCategoryImage } from '@/lib/images';
+import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 
 export const revalidate = 0; // Don't cache this page statically
@@ -46,7 +47,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             posts.map((post: any) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" />
+                  <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
@@ -157,7 +158,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             {blogPosts.map((art) => (
               <article key={art.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage('blog', art.title, art.id)} alt={art.title} loading="lazy" />
+                  <SafeImage src={getCategoryImage('blog', art.title, art.id)} alt={art.title} loading="lazy" fallbackSeed={art.id} />
                 </div>
                 <h2>
                   <Link href={`/blog/${art.slug}`}>{art.title}</Link>
@@ -189,7 +190,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             {gradPrograms.map((post) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" />
+                  <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
@@ -221,7 +222,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             {internships.map((post) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" />
+                  <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
@@ -267,7 +268,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             {scholarships.map((post) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" />
+                  <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
@@ -299,7 +300,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             {recentJobs.map((post) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
-                  <img src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" />
+                  <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
                   <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>

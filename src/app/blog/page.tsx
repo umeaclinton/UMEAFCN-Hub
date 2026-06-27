@@ -1,5 +1,6 @@
 import { getBlogPosts } from '@/lib/db';
 import { getCategoryImage } from '@/lib/images';
+import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -30,7 +31,7 @@ export default async function BlogIndex() {
           articles.map((art) => (
             <article key={art.id} className="post-card">
               <div className="post-card-image">
-                <img src={getCategoryImage('blog', art.title, art.id)} alt={art.title} loading="lazy" />
+                <SafeImage src={getCategoryImage('blog', art.title, art.id)} alt={art.title} loading="lazy" fallbackSeed={art.id} />
               </div>
               <h2>
                 <Link href={`/blog/${art.slug}`}>{art.title}</Link>
