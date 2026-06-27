@@ -134,15 +134,15 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
       <div className="community-promo-banner">
         <div className="promo-text">
           <span className="new-tag">Join Community</span>
-          <p>Get real-time alerts on your phone. Join our active WhatsApp channel.</p>
+          <p>Get real-time alerts on your phone. Join our active Telegram channel.</p>
         </div>
         <a 
-          href="https://whatsapp.com/channel/0029Va9uQXIAYlUP7x3kDQ2T" 
+          href="https://t.me/jobswithclinton" 
           target="_blank" 
           rel="noopener noreferrer" 
           className="promo-btn"
         >
-          Join WhatsApp
+          Join Telegram
         </a>
       </div>
 
@@ -247,8 +247,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
         <h2>Accelerate Your Career Today</h2>
         <p>Get notified about bootcamps, fully-funded international scholarships, and early graduate opportunities direct from verified sources.</p>
         <div className="cta-actions">
-          <a href="https://whatsapp.com/channel/0029Va9uQXIAYlUP7x3kDQ2T" target="_blank" rel="noopener noreferrer" className="cta-btn primary">
-            Join WhatsApp Channel
+          <a href="https://t.me/jobswithclinton" target="_blank" rel="noopener noreferrer" className="cta-btn primary">
+            Join Telegram Channel
           </a>
           <Link href="/blog" className="cta-btn secondary">
             Read Career Advice

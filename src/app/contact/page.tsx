@@ -50,7 +50,7 @@ export default function ContactPage() {
           Stay updated on the go and connect with us in our communities:
         </p>
         <ul>
-          <li><strong>WhatsApp Channel:</strong> <a href="https://whatsapp.com/channel/0029Va9uQXIAYlUP7x3kDQ2T" target="_blank" rel="noopener noreferrer">Join Channel</a></li>
+          <li><strong>Telegram Channel:</strong> <a href="https://t.me/jobswithclinton" target="_blank" rel="noopener noreferrer">Join Channel</a></li>
           <li><strong>Twitter (X):</strong> <a href="https://x.com/jobswithclinton" target="_blank" rel="noopener noreferrer">@jobswithclinton</a></li>
         </ul>
       </div>

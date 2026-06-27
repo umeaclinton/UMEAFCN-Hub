@@ -65,9 +65,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {/* Community Promotion Inside Article */}
       <div className="middle-cta-card" style={{ marginTop: '48px', marginBottom: '48px' }}>
         <h3>Get Instant Alerts</h3>
-        <p>Subscribe to our official WhatsApp channel to get notifications about new internships, graduate traineeships, and scholarships immediately.</p>
-        <a href="https://whatsapp.com/channel/0029Va9uQXIAYlUP7x3kDQ2T" target="_blank" rel="noopener noreferrer" className="cta-btn primary">
-          Join WhatsApp Channel
+        <p>Subscribe to our official Telegram channel to get notifications about new internships, graduate traineeships, and scholarships immediately.</p>
+        <a href="https://t.me/jobswithclinton" target="_blank" rel="noopener noreferrer" className="cta-btn primary">
+          Join Telegram Channel
         </a>
       </div>
 

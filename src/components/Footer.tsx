@@ -30,7 +30,6 @@ export default function Footer() {
           <div className="footer-section categories">
             <h4>Join Our Community</h4>
             <ul>
-              <li><a href="https://whatsapp.com/channel/0029Va9uQXIAYlUP7x3kDQ2T" target="_blank" rel="noopener noreferrer">WhatsApp Channel</a></li>
               <li><a href="https://t.me/jobswithclinton" target="_blank" rel="noopener noreferrer">Telegram Channel</a></li>
               <li><a href="https://x.com/jobswithclinton" target="_blank" rel="noopener noreferrer">Twitter (X)</a></li>
             </ul>
