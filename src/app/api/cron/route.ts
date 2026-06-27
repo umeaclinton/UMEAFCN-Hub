@@ -255,7 +255,7 @@ export async function GET(request: Request) {
         if (expandedData.apply_type !== 'none' && expandedData.apply_link) {
           newPostsCount++;
           // Telegram Notify
-          const sourceUrl = \`https://jobswithclinton.com/post/\${slug}\`;
+          const sourceUrl = `https://jobswithclinton.com/post/${slug}`;
           await sendToTelegram(title, expandedData.content, sourceUrl);
         } else {
           console.log(`Skipped publishing/Telegram notification for post "${title}" because apply_type is 'none'.`);
