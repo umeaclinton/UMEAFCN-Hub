@@ -21,6 +21,24 @@
   --border-color: #222222;
 }
 
+.logo-light {
+  display: block;
+  max-height: 50px;
+  width: auto;
+}
+.logo-dark {
+  display: none;
+  max-height: 50px;
+  width: auto;
+}
+
+[data-theme='dark'] .logo-light {
+  display: none;
+}
+[data-theme='dark'] .logo-dark {
+  display: block;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

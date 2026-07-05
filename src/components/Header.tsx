@@ -18,7 +18,10 @@ export default function Header() {
     <header className="site-header">
       <div className="header-container container">
         <div className="logo">
-          <Link href="/">UMEAFCN Hub</Link>
+          <Link href="/">
+            <img src="/logo-light.jpg" alt="UMEAFCN Hub" className="logo-light" />
+            <img src="/logo-dark.png" alt="UMEAFCN Hub" className="logo-dark" />
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
