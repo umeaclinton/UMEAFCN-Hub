@@ -8,8 +8,8 @@ export default function Footer() {
           {/* About Section */}
           <div className="footer-section about">
             <h3>
-              <img src="/logo-light.jpg" alt="UMEAFCN Hub" className="logo-light" style={{ maxHeight: '40px' }} />
-              <img src="/logo-dark.png" alt="UMEAFCN Hub" className="logo-dark" style={{ maxHeight: '40px' }} />
+              <img src="/logo-light.jpg" alt="UMEAFCN Hub" className="logo-light" style={{ maxHeight: '80px' }} />
+              <img src="/logo-dark.png" alt="UMEAFCN Hub" className="logo-dark" style={{ maxHeight: '80px' }} />
             </h3>
             <p>
               Your premium, automated portal for discovering real-time job listings, parsed and expanded with state-of-the-art AI technology.
