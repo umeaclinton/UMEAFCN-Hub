@@ -20,7 +20,7 @@ export default function Header() {
         <div className="logo">
           <Link href="/">
             <img src="/logo-light.jpg" alt="UMEAFCN Hub" className="logo-light" />
-            <img src="/logo-dark.png" alt="UMEAFCN Hub" className="logo-dark" />
+            <img src="/logo-dark.jpg" alt="UMEAFCN Hub" className="logo-dark" />
           </Link>
         </div>
 
