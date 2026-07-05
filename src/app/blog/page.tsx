@@ -7,7 +7,7 @@ import type { Metadata } from 'next';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Career Advice Blog | Jobs With Clinton',
+  title: 'Career Advice Blog | UMEAFCN Hub',
   description: 'Read the latest professional career guides, CV optimization tips, graduate trainee hacks, and fully-funded scholarship search strategies.',
 };
 

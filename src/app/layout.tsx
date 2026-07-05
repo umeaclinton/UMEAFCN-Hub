@@ -8,7 +8,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Jobs With Clinton",
+  title: "UMEAFCN Hub",
   description: "Automated job listings and news",
 };
 

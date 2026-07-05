@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About Us | Jobs With Clinton',
-  description: 'Learn about Jobs With Clinton, our automated job aggregation platform, verification process, and career resources.',
+  title: 'About Us | UMEAFCN Hub',
+  description: 'Learn about UMEAFCN Hub, our automated job aggregation platform, verification process, and career resources.',
 };
 
 export default function AboutPage() {
@@ -19,7 +19,7 @@ export default function AboutPage() {
 
       <div className="post-content">
         <p>
-          Welcome to <strong>Jobs With Clinton</strong>, your premier online destination for discovering verified, high-quality career opportunities. We compile internships, graduate trainee programs, scholarships, bootcamps, and full-time job roles into a single, clean, accessible platform.
+          Welcome to <strong>UMEAFCN Hub</strong>, your premier online destination for discovering verified, high-quality career opportunities. We compile internships, graduate trainee programs, scholarships, bootcamps, and full-time job roles into a single, clean, accessible platform.
         </p>
 
         <h2>Our Mission</h2>
@@ -44,7 +44,7 @@ export default function AboutPage() {
 
         <h2>Verified Integrity</h2>
         <p>
-          Jobs With Clinton is an independent aggregator. While we run checks to ensure that the listings, emails, and links we publish are active and authentic, we recommend that all candidates research hiring companies independently before submitting sensitive personal information. We never charge users for job listings or access.
+          UMEAFCN Hub is an independent aggregator. While we run checks to ensure that the listings, emails, and links we publish are active and authentic, we recommend that all candidates research hiring companies independently before submitting sensitive personal information. We never charge users for job listings or access.
         </p>
       </div>
 

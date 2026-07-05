@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Terms & Conditions | Jobs With Clinton',
-  description: 'Terms and Conditions of service for Jobs With Clinton.',
+  title: 'Terms & Conditions | UMEAFCN Hub',
+  description: 'Terms and Conditions of service for UMEAFCN Hub.',
 };
 
 export default function TermsPage() {
@@ -18,12 +18,12 @@ export default function TermsPage() {
       </header>
 
       <div className="post-content">
-        <p>Welcome to Jobs With Clinton!</p>
+        <p>Welcome to UMEAFCN Hub!</p>
         <p>
-          These terms and conditions outline the rules and regulations for the use of Jobs With Clinton's Website, located at www.umeafcnhub.online.
+          These terms and conditions outline the rules and regulations for the use of UMEAFCN Hub's Website, located at www.umeafcnhub.online.
         </p>
         <p>
-          By accessing this website we assume you accept these terms and conditions. Do not continue to use Jobs With Clinton if you do not agree to take all of the terms and conditions stated on this page.
+          By accessing this website we assume you accept these terms and conditions. Do not continue to use UMEAFCN Hub if you do not agree to take all of the terms and conditions stated on this page.
         </p>
 
         <h2>Terminology</h2>
@@ -33,7 +33,7 @@ export default function TermsPage() {
 
         <h2>Cookies</h2>
         <p>
-          We employ the use of cookies. By accessing Jobs With Clinton, you agreed to use cookies in agreement with the Jobs With Clinton's Privacy Policy.
+          We employ the use of cookies. By accessing UMEAFCN Hub, you agreed to use cookies in agreement with the UMEAFCN Hub's Privacy Policy.
         </p>
         <p>
           Most interactive websites use cookies to let us retrieve the user's details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
@@ -41,19 +41,19 @@ export default function TermsPage() {
 
         <h2>License</h2>
         <p>
-          Unless otherwise stated, Jobs With Clinton and/or its licensors own the intellectual property rights for all material on Jobs With Clinton. All intellectual property rights are reserved. You may access this from Jobs With Clinton for your own personal use subjected to restrictions set in these terms and conditions.
+          Unless otherwise stated, UMEAFCN Hub and/or its licensors own the intellectual property rights for all material on UMEAFCN Hub. All intellectual property rights are reserved. You may access this from UMEAFCN Hub for your own personal use subjected to restrictions set in these terms and conditions.
         </p>
         <p>You must not:</p>
         <ul>
-          <li>Republish material from Jobs With Clinton</li>
-          <li>Sell, rent or sub-license material from Jobs With Clinton</li>
-          <li>Reproduce, duplicate or copy material from Jobs With Clinton</li>
-          <li>Redistribute content from Jobs With Clinton</li>
+          <li>Republish material from UMEAFCN Hub</li>
+          <li>Sell, rent or sub-license material from UMEAFCN Hub</li>
+          <li>Reproduce, duplicate or copy material from UMEAFCN Hub</li>
+          <li>Redistribute content from UMEAFCN Hub</li>
         </ul>
 
         <h2>Content Liability & Disclaimers</h2>
         <p>
-          Jobs With Clinton is an aggregator that lists job postings, descriptions, and recruitment information compiled using AI technology and public sources. 
+          UMEAFCN Hub is an aggregator that lists job postings, descriptions, and recruitment information compiled using AI technology and public sources. 
         </p>
         <ul>
           <li><strong>Accuracy:</strong> While we strive to ensure the accuracy of the job listings, we do not warrant their completeness, correctness, or availability. The responsibility for verifying application methods, contact emails, and job authenticity lies solely with the user/applicant.</li>

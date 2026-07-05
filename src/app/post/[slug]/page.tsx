@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const plainTextContent = post.content.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
 
   return {
-    title: `${post.title} | Jobs With Clinton`,
+    title: `${post.title} | UMEAFCN Hub`,
     description: plainTextContent,
     openGraph: {
       title: post.title,

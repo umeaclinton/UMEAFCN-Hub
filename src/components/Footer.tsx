@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="footer-grid">
           {/* About Section */}
           <div className="footer-section about">
-            <h3>Jobs With Clinton</h3>
+            <h3>UMEAFCN Hub</h3>
             <p>
               Your premium, automated portal for discovering real-time job listings, parsed and expanded with state-of-the-art AI technology.
             </p>
@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Jobs With Clinton. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} UMEAFCN Hub. All rights reserved.</p>
         </div>
       </div>
     </footer>
