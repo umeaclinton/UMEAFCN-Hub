@@ -67,7 +67,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <div className="middle-cta-card" style={{ marginTop: '48px', marginBottom: '48px' }}>
         <h3>Get Instant Alerts</h3>
         <p>Subscribe to our official Telegram channel to get notifications about new internships, graduate traineeships, and scholarships immediately.</p>
-        <a href="https://t.me/jobswithclinton" target="_blank" rel="noopener noreferrer" className="cta-btn primary">
+        <a href="https://t.me/umeafcnhub" target="_blank" rel="noopener noreferrer" className="cta-btn primary">
           Join Telegram Channel
         </a>
       </div>

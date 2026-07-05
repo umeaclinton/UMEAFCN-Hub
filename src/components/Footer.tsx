@@ -33,7 +33,7 @@ export default function Footer() {
           <div className="footer-section categories">
             <h4>Join Our Community</h4>
             <ul>
-              <li><a href="https://t.me/jobswithclinton" target="_blank" rel="noopener noreferrer">Telegram Channel</a></li>
+              <li><a href="https://t.me/umeafcnhub" target="_blank" rel="noopener noreferrer">Telegram Channel</a></li>
               <li><a href="https://x.com/jobswithclinton" target="_blank" rel="noopener noreferrer">Twitter (X)</a></li>
             </ul>
           </div>

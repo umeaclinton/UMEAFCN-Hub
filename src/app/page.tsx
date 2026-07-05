@@ -138,7 +138,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
           <p>Get real-time alerts on your phone. Join our active Telegram channel.</p>
         </div>
         <a 
-          href="https://t.me/jobswithclinton" 
+          href="https://t.me/umeafcnhub" 
           target="_blank" 
           rel="noopener noreferrer" 
           className="promo-btn"
@@ -248,7 +248,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
         <h2>Accelerate Your Career Today</h2>
         <p>Get notified about bootcamps, fully-funded international scholarships, and early graduate opportunities direct from verified sources.</p>
         <div className="cta-actions">
-          <a href="https://t.me/jobswithclinton" target="_blank" rel="noopener noreferrer" className="cta-btn primary">
+          <a href="https://t.me/umeafcnhub" target="_blank" rel="noopener noreferrer" className="cta-btn primary">
             Join Telegram Channel
           </a>
           <Link href="/blog" className="cta-btn secondary">
