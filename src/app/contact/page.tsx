@@ -26,21 +26,21 @@ export default function ContactPage() {
         <p>
           For general questions, user support, or suggestions, send an email to:
           <br />
-          <strong>Email:</strong> <a href="mailto:info@jobswithclinton.com">info@jobswithclinton.com</a>
+          <strong>Email:</strong> <a href="mailto:info@umeafcnhub.online">info@umeafcnhub.online</a>
         </p>
 
         <h2>For Employers & Recruiters</h2>
         <p>
           If you are an employer, recruiting team, or HR manager and would like to list open roles, scholarships, or internship opportunities on our board, please contact our listings team:
           <br />
-          <strong>Recruitment Inquiries:</strong> <a href="mailto:partners@jobswithclinton.com">partners@jobswithclinton.com</a>
+          <strong>Recruitment Inquiries:</strong> <a href="mailto:partners@umeafcnhub.online">partners@umeafcnhub.online</a>
         </p>
 
         <h2>Report a Job Listing</h2>
         <p>
           We strive to maintain high-integrity listings. If you discover a listing containing outdated info, misleading links, or suspect a scam, please report it immediately:
           <br />
-          <strong>Email:</strong> <a href="mailto:reports@jobswithclinton.com">reports@jobswithclinton.com</a>
+          <strong>Email:</strong> <a href="mailto:reports@umeafcnhub.online">reports@umeafcnhub.online</a>
           <br />
           <em>Please include the post title and the URL slug in your report so we can investigate and remove it quickly.</em>
         </p>

@@ -22,7 +22,7 @@ export default function PrivacyPage() {
           At Jobs With Clinton, accessible from our website, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Jobs With Clinton and how we use it.
         </p>
         <p>
-          If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us at <strong>info@jobswithclinton.com</strong>.
+          If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us at <strong>info@umeafcnhub.online</strong>.
         </p>
 
         <h2>Consent</h2>
@@ -57,7 +57,7 @@ export default function PrivacyPage() {
 
         <h2>Google DoubleClick DART Cookie</h2>
         <p>
-          Google is one of the third-party vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to www.jobswithclinton.com and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL – <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">https://policies.google.com/technologies/ads</a>.
+          Google is one of the third-party vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to www.umeafcnhub.online and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL – <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">https://policies.google.com/technologies/ads</a>.
         </p>
 
         <h2>Our Advertising Partners</h2>

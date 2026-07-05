@@ -20,7 +20,7 @@ export default function TermsPage() {
       <div className="post-content">
         <p>Welcome to Jobs With Clinton!</p>
         <p>
-          These terms and conditions outline the rules and regulations for the use of Jobs With Clinton's Website, located at www.jobswithclinton.com.
+          These terms and conditions outline the rules and regulations for the use of Jobs With Clinton's Website, located at www.umeafcnhub.online.
         </p>
         <p>
           By accessing this website we assume you accept these terms and conditions. Do not continue to use Jobs With Clinton if you do not agree to take all of the terms and conditions stated on this page.

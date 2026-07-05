@@ -146,7 +146,7 @@ async function handleAutomatedBlogGeneration() {
   console.log(`[Blog Generator] Successfully published automated blog post: "${blogData.title}"`);
   
   // Post to Telegram
-  const sourceUrl = `https://jobswithclinton.vercel.app/blog/${slug}`;
+  const sourceUrl = `https://www.umeafcnhub.online/blog/${slug}`;
   await sendToTelegram(blogData.title, blogData.excerpt, sourceUrl);
 }
 
@@ -255,7 +255,7 @@ export async function GET(request: Request) {
         if (expandedData.apply_type !== 'none' && expandedData.apply_link) {
           newPostsCount++;
           // Telegram Notify
-          const sourceUrl = `https://jobswithclinton.vercel.app/post/${slug}`;
+          const sourceUrl = `https://www.umeafcnhub.online/post/${slug}`;
           await sendToTelegram(title, expandedData.content, sourceUrl);
         } else {
           console.log(`Skipped publishing/Telegram notification for post "${title}" because apply_type is 'none'.`);
