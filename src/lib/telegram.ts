@@ -19,7 +19,7 @@ export async function sendToTelegram(title: string, contentPreview: string, sour
   
   const cleanPreview = escapeHtml(contentPreview.replace(/<[^>]+>/g, '').substring(0, 500)) + '...\n\nRead more on our website!';
   
-  const message = `🌟 <b>${escapeHtml(title)}</b>\n\n${cleanPreview}\n\n🔗 Source: ${sourceUrl}`;
+  const message = `<b>${escapeHtml(title)}</b>\n\n${cleanPreview}\n\n🔗 Source: ${sourceUrl}`;
 
   try {
     const response = await fetch(url, {
