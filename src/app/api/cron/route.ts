@@ -5,6 +5,7 @@ import axios from 'axios';
 import { initDb, getPostByHash, insertPost, insertBlogPost, sql } from '@/lib/db';
 import { expandArticle } from '@/lib/gemini';
 import { sendToTelegram } from '@/lib/telegram';
+import { sendToTwitter } from '@/lib/twitter';
 import { scrapeMyJobMagApplicationMethod } from '@/lib/scraper';
 import { GoogleGenAI } from '@google/genai';
 // Removed @vercel/postgres, now imported from @/lib/db directly if needed
@@ -145,9 +146,10 @@ async function handleAutomatedBlogGeneration() {
   await insertBlogPost(blogData.title, slug, blogData.content, blogData.excerpt, 'Clinton');
   console.log(`[Blog Generator] Successfully published automated blog post: "${blogData.title}"`);
   
-  // Post to Telegram
+  // Post to Telegram and Twitter
   const sourceUrl = `https://www.umeafcnhub.online/blog/${slug}`;
   await sendToTelegram(blogData.title, blogData.excerpt, sourceUrl);
+  await sendToTwitter(blogData.title, blogData.excerpt, sourceUrl);
 }
 
 // Allow Vercel to cache and revalidate or just mark as dynamic
@@ -254,9 +256,10 @@ export async function GET(request: Request) {
         // Only notify and count as "new post" if there is a valid application method (email or URL)
         if (expandedData.apply_type !== 'none' && expandedData.apply_link) {
           newPostsCount++;
-          // Telegram Notify
+          // Telegram and Twitter Notify
           const sourceUrl = `https://www.umeafcnhub.online/post/${slug}`;
           await sendToTelegram(title, expandedData.content, sourceUrl);
+          await sendToTwitter(title, expandedData.content, sourceUrl);
         } else {
           console.log(`Skipped publishing/Telegram notification for post "${title}" because apply_type is 'none'.`);
         }
