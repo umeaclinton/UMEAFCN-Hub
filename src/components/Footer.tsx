@@ -12,7 +12,7 @@ export default function Footer() {
               <img src="/logo-dark.jpg" alt="UMEAFCN Hub" className="logo-dark" style={{ maxHeight: '40px' }} />
             </h3>
             <p>
-              Your premium, automated portal for discovering real-time job listings, parsed and expanded with state-of-the-art AI technology.
+              Your premium career platform for discovering expertly curated job listings, exclusive opportunities, and professional career advice.
             </p>
           </div>
 

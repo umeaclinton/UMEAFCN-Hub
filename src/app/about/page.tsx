@@ -27,14 +27,14 @@ export default function AboutPage() {
           Our mission is simple: to make opportunity discoverable. We know that finding career listings can be tedious and stressful, with openings scattered across dozens of individual job boards and corporate websites. We solve this by consolidating and cleaning data, offering job-seekers a single source of truth for their application journey.
         </p>
 
-        <h2>How It Works</h2>
+        <h2>Our Curation Process</h2>
         <p>
-          We use state-of-the-art parsing technologies to scan public RSS feeds, reputable job directories, and recruitment portals. Our system:
+          We believe job-seekers deserve high-quality, easy-to-read, and accessible career information. Our dedicated platform focuses on bringing you the best opportunities through a strict curation process:
         </p>
         <ul>
-          <li><strong>Cleans & Paraphrases Listings:</strong> Removes conversational filler and formatting junk to give you a clean, highly readable summary of the role.</li>
-          <li><strong>Extracts Verified Applications:</strong> Discovers direct corporate career portal links or official hiring emails, bypassing confusing redirect links.</li>
-          <li><strong>Filters Portal Logins:</strong> Automatically hides or flags posts that require registration/accounts on external third-party listing boards. We focus on direct applications.</li>
+          <li><strong>Expert Summaries:</strong> We review and summarize lengthy job descriptions, removing confusing corporate jargon to give you a clean, highly readable overview of the role.</li>
+          <li><strong>Verified Direct Links:</strong> We do the heavy lifting to find the direct corporate career portal links or official hiring emails, ensuring you never get stuck in confusing redirect loops.</li>
+          <li><strong>Quality Control:</strong> We prioritize posts that offer direct application routes, actively avoiding third-party boards that require unnecessary registrations or hidden fees.</li>
         </ul>
 
         <h2>Google AdSense & Transparency</h2>

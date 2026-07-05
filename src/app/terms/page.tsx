@@ -53,7 +53,7 @@ export default function TermsPage() {
 
         <h2>Content Liability & Disclaimers</h2>
         <p>
-          UMEAFCN Hub is an aggregator that lists job postings, descriptions, and recruitment information compiled using AI technology and public sources. 
+          UMEAFCN Hub is a career platform that lists curated job postings, descriptions, and recruitment information compiled from verified public sources. 
         </p>
         <ul>
           <li><strong>Accuracy:</strong> While we strive to ensure the accuracy of the job listings, we do not warrant their completeness, correctness, or availability. The responsibility for verifying application methods, contact emails, and job authenticity lies solely with the user/applicant.</li>
