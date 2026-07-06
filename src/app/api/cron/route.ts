@@ -6,6 +6,7 @@ import { initDb, getPostByHash, insertPost, insertBlogPost, sql } from '@/lib/db
 import { expandArticle } from '@/lib/gemini';
 import { sendToTelegram } from '@/lib/telegram';
 import { sendToTwitter } from '@/lib/twitter';
+import { sendToTikTok } from '@/lib/tiktok';
 import { scrapeMyJobMagApplicationMethod } from '@/lib/scraper';
 import { GoogleGenAI } from '@google/genai';
 // Removed @vercel/postgres, now imported from @/lib/db directly if needed
@@ -256,10 +257,16 @@ export async function GET(request: Request) {
         // Only notify and count as "new post" if there is a valid application method (email or URL)
         if (expandedData.apply_type !== 'none' && expandedData.apply_link) {
           newPostsCount++;
-          // Telegram and Twitter Notify
+          // Telegram, Twitter, and TikTok Notify
           const sourceUrl = `https://www.umeafcnhub.online/post/${slug}`;
           await sendToTelegram(title, expandedData.content, sourceUrl);
           await sendToTwitter(title, expandedData.content, sourceUrl);
+          
+          // Send to TikTok Photo Mode
+          // We extract a pseudo 'company' from the title if possible, or default to generic
+          const companyMatch = title.match(/at ([A-Za-z0-9\s]+)/i);
+          const company = companyMatch ? companyMatch[1].trim() : 'Verified Employer';
+          await sendToTikTok(title, company, expandedData.category, expandedData.content);
         } else {
           console.log(`Skipped publishing/Telegram notification for post "${title}" because apply_type is 'none'.`);
         }

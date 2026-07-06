@@ -26,6 +26,13 @@ export async function initDb() {
     `;
 
     await sql`
+      CREATE TABLE IF NOT EXISTS settings (
+        key VARCHAR(255) PRIMARY KEY,
+        value TEXT NOT NULL
+      );
+    `;
+
+    await sql`
       CREATE TABLE IF NOT EXISTS blog_posts (
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
@@ -536,5 +543,29 @@ export async function getLatestPostsByCategory(category: string, limit = 4) {
   } catch (error) {
     console.error(`Error fetching posts for category ${category}:`, error);
     throw error;
+  }
+}
+
+export async function getSetting(key: string) {
+  try {
+    const result = await sql`SELECT value FROM settings WHERE key = ${key} LIMIT 1;`;
+    return result.rows.length > 0 ? result.rows[0].value : null;
+  } catch (error) {
+    console.error(`Error fetching setting ${key}:`, error);
+    return null;
+  }
+}
+
+export async function setSetting(key: string, value: string) {
+  try {
+    await sql`
+      INSERT INTO settings (key, value) 
+      VALUES (${key}, ${value}) 
+      ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
+    `;
+    return true;
+  } catch (error) {
+    console.error(`Error setting ${key}:`, error);
+    return false;
   }
 }
