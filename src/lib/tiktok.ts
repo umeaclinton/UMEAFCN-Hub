@@ -49,15 +49,14 @@ export async function sendToTikTok(title: string, company: string, category: str
 
     const requestBody = {
       post_info: {
-        title: caption,
+        title: "New Job Opening",
+        description: caption,
         privacy_level: "SELF_ONLY", // Set to Private initially for testing/audit compliance
-        disable_comment: false,
-        disable_duet: false,
-        disable_stitch: false
+        disable_comment: false
       },
       source_info: {
         source: "PULL_FROM_URL",
-        photo_cover_index: 1,
+        photo_cover_index: 0,
         photo_images: [
           detailsImageUrl,
           ctaImageUrl
