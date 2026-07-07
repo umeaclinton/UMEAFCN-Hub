@@ -45,7 +45,7 @@ export async function sendToTikTok(title: string, company: string, category: str
     const ctaImageUrl = `${baseUrl}?${params.toString()}&type=cta`;
 
     // Construct the caption
-    const caption = `${title}\n\n${description.substring(0, 1800)}\n\nApply via the link in our bio! 🔗\n#Hiring #Jobs #${category.replace(/[^a-zA-Z0-9]/g, '')}`;
+    const caption = `${title.substring(0, 50)}...\n\nApply via the link in our bio! 🔗\n#Hiring #Jobs #${category.replace(/[^a-zA-Z0-9]/g, '')}`.substring(0, 145);
 
     const requestBody = {
       post_info: {

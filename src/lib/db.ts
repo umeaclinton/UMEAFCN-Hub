@@ -345,6 +345,7 @@ export async function insertPost(title: string, content: string, sourceUrl: stri
     const result = await sql`
       INSERT INTO posts (title, content, source_url, guid_hash, slug, category, apply_type, apply_link)
       VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, ${category}, ${applyType}, ${applyLink})
+      ON CONFLICT (guid_hash) DO NOTHING
       RETURNING id, title, slug, pub_date;
     `;
     return result.rows[0];
