@@ -75,14 +75,15 @@ export async function sendToTikTok(title: string, company: string, category: str
 
     if (response.data.error && response.data.error.code !== 'ok') {
       console.error('TikTok Direct Post Error:', response.data);
-      return false;
+      return { success: false, error: response.data.error };
     }
 
     console.log(`Successfully posted to TikTok Photo Mode: ${title}`);
-    return true;
+    return { success: true, data: response.data };
 
   } catch (error: any) {
-    console.error('Error posting to TikTok:', error.response?.data || error.message);
-    return false;
+    const errorDetail = error.response?.data || error.message;
+    console.error('Error posting to TikTok:', errorDetail);
+    return { success: false, error: errorDetail };
   }
 }
