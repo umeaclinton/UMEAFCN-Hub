@@ -45,6 +45,8 @@ export async function GET(request: NextRequest) {
                 padding: '20px 60px',
                 borderRadius: '40px',
                 border: '4px solid #60a5fa',
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
               🔗 Link in Bio
@@ -117,6 +119,8 @@ export async function GET(request: NextRequest) {
                   fontSize: 40,
                   fontWeight: 600,
                   color: '#475569',
+                  display: 'flex',
+                  alignItems: 'center',
                 }}
               >
                 🏢 {company}
