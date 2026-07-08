@@ -55,8 +55,8 @@ export async function sendToTikTok(title: string, company: string, category: str
     const safeCompany = encodeURIComponent(company.substring(0, 50));
     const safeCategory = encodeURIComponent(category.substring(0, 30));
     
-    const detailsImageUrl = `https://www.umeafcnhub.online/api/og/dynamic/details/${safeCategory}/${safeCompany}/${safeTitle}.jpg`;
-    const ctaImageUrl = `https://www.umeafcnhub.online/api/og/dynamic/cta/${safeCategory}/${safeCompany}/${safeTitle}.jpg`;
+    const detailsImageUrl = `https://www.umeafcnhub.online/api/og/dynamic/details/${safeCategory}/${safeCompany}/${safeTitle}.webp`;
+    const ctaImageUrl = `https://www.umeafcnhub.online/api/og/dynamic/cta/${safeCategory}/${safeCompany}/${safeTitle}.webp`;
 
     // Construct the caption
     const caption = `${title.substring(0, 50)}...\n\nApply via the link in our bio! 🔗\n#Hiring #Jobs #${category.replace(/[^a-zA-Z0-9]/g, '')}`.substring(0, 145);

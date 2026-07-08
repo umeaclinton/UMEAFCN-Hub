@@ -11,8 +11,8 @@ export async function GET(
     const type = decodeURIComponent(resolvedParams.type);
     const category = decodeURIComponent(resolvedParams.category);
     const company = decodeURIComponent(resolvedParams.company);
-    // The title parameter will contain '.jpg', so we remove it
-    const title = decodeURIComponent(resolvedParams.title).replace(/\.jpg$/, '');
+    // The title parameter will contain '.webp', so we remove it
+    const title = decodeURIComponent(resolvedParams.title).replace(/\.webp$/, '');
     
     // Construct internal URL to fetch from our existing /api/og route
     const internalOgUrl = new URL(request.url);
@@ -32,18 +32,18 @@ export async function GET(
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     
-    // Convert PNG to JPEG
-    const jpegBuffer = await sharp(buffer).jpeg({ quality: 90 }).toBuffer();
+    // Convert PNG to WebP to preserve alpha channels and avoid JPEG color space issues
+    const webpBuffer = await sharp(buffer).webp({ quality: 90, lossless: false }).toBuffer();
     
-    return new NextResponse(jpegBuffer, {
+    return new NextResponse(webpBuffer, {
       headers: {
-        'Content-Type': 'image/jpeg',
-        'Content-Length': jpegBuffer.length.toString(),
+        'Content-Type': 'image/webp',
+        'Content-Length': webpBuffer.length.toString(),
         'Cache-Control': 'public, max-age=31536000, immutable',
       },
     });
   } catch (error) {
-    console.error('Error converting dynamic OG to JPEG:', error);
+    console.error('Error converting dynamic OG to WebP:', error);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }
