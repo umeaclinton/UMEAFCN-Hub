@@ -3,15 +3,16 @@ import sharp from 'sharp';
 
 export async function GET(
   request: NextRequest, 
-  { params }: { params: { type: string, category: string, company: string, title: string } }
+  { params }: { params: Promise<{ type: string, category: string, company: string, title: string }> }
 ) {
   try {
+    const resolvedParams = await params;
     // URL decode the path parameters
-    const type = decodeURIComponent(params.type);
-    const category = decodeURIComponent(params.category);
-    const company = decodeURIComponent(params.company);
+    const type = decodeURIComponent(resolvedParams.type);
+    const category = decodeURIComponent(resolvedParams.category);
+    const company = decodeURIComponent(resolvedParams.company);
     // The title parameter will contain '.jpg', so we remove it
-    const title = decodeURIComponent(params.title).replace(/\.jpg$/, '');
+    const title = decodeURIComponent(resolvedParams.title).replace(/\.jpg$/, '');
     
     // Construct internal URL to fetch from our existing /api/og route
     const internalOgUrl = new URL(request.url);
