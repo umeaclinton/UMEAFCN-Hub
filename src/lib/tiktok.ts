@@ -4,7 +4,7 @@ import { getSetting } from './db';
 const CLIENT_KEY = process.env.TIKTOK_CLIENT_KEY;
 const CLIENT_SECRET = process.env.TIKTOK_CLIENT_SECRET;
 
-async function getAccessToken() {
+export async function getAccessToken() {
   const refreshToken = await getSetting('tiktok_refresh_token');
   if (!refreshToken) {
     throw new Error('No TikTok refresh token found in settings');
@@ -27,6 +27,23 @@ async function getAccessToken() {
   }
 
   return response.data.access_token;
+}
+
+export async function checkTikTokStatus(publishId: string) {
+  try {
+    const accessToken = await getAccessToken();
+    const response = await axios.post('https://open.tiktokapis.com/v2/post/publish/status/fetch/', {
+      publish_id: publishId
+    }, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json; charset=UTF-8',
+      }
+    });
+    return response.data;
+  } catch (error: any) {
+    return { error: error.response?.data || error.message };
+  }
 }
 
 export async function sendToTikTok(title: string, company: string, category: string, description: string) {
