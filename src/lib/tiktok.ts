@@ -51,7 +51,7 @@ export async function sendToTikTok(title: string, company: string, category: str
     const accessToken = await getAccessToken();
 
     // Construct image URLs that TikTok will pull
-    const baseUrl = 'https://www.umeafcnhub.online/api/og/jpeg';
+    const baseUrl = 'https://www.umeafcnhub.online/api/og/image.jpg';
     const params = new URLSearchParams({
       title: title.substring(0, 100),
       company: company.substring(0, 50),

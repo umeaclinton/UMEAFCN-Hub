@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
     // Forward all query parameters to the original OG route
-    const ogUrl = new URL(url.toString().replace('/api/og/jpeg', '/api/og'));
+    const ogUrl = new URL(url.toString().replace('/api/og/image.jpg', '/api/og'));
     
     const response = await fetch(ogUrl.toString());
     
