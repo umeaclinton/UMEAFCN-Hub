@@ -38,6 +38,7 @@ export async function GET(
     return new NextResponse(jpegBuffer, {
       headers: {
         'Content-Type': 'image/jpeg',
+        'Content-Length': jpegBuffer.length.toString(),
         'Cache-Control': 'public, max-age=31536000, immutable',
       },
     });
