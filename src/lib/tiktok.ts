@@ -50,16 +50,13 @@ export async function sendToTikTok(title: string, company: string, category: str
   try {
     const accessToken = await getAccessToken();
 
-    // Construct image URLs that TikTok will pull
-    const baseUrl = 'https://www.umeafcnhub.online/api/og/image.jpg';
-    const params = new URLSearchParams({
-      title: title.substring(0, 100),
-      company: company.substring(0, 50),
-      category: category.substring(0, 30)
-    });
+    // Construct completely clean image URLs that end purely in .jpg with no query parameters
+    const safeTitle = encodeURIComponent(title.substring(0, 100));
+    const safeCompany = encodeURIComponent(company.substring(0, 50));
+    const safeCategory = encodeURIComponent(category.substring(0, 30));
     
-    const detailsImageUrl = `${baseUrl}?${params.toString()}&type=details`;
-    const ctaImageUrl = `${baseUrl}?${params.toString()}&type=cta`;
+    const detailsImageUrl = `https://www.umeafcnhub.online/api/og/dynamic/details/${safeCategory}/${safeCompany}/${safeTitle}.jpg`;
+    const ctaImageUrl = `https://www.umeafcnhub.online/api/og/dynamic/cta/${safeCategory}/${safeCompany}/${safeTitle}.jpg`;
 
     // Construct the caption
     const caption = `${title.substring(0, 50)}...\n\nApply via the link in our bio! 🔗\n#Hiring #Jobs #${category.replace(/[^a-zA-Z0-9]/g, '')}`.substring(0, 145);
