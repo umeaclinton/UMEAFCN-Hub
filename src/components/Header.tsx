@@ -37,8 +37,8 @@ export default function Header() {
           <div className="nav-dropdown">
             <span className="nav-dropdown-toggle">Categories ▾</span>
             <div className="nav-dropdown-menu">
-              <Link href="/?q=Scholarships">Scholarships</Link>
-              <Link href="/?q=Internships">Internships</Link>
+              <Link href="/?q=Scholarship">Scholarships</Link>
+              <Link href="/?q=Internship">Internships</Link>
               <Link href="/?q=Graduate">Graduate Trainee</Link>
               <Link href="/blog">Career Advice</Link>
             </div>
@@ -70,8 +70,8 @@ export default function Header() {
               Categories {isCategoriesOpen ? '▴' : '▾'}
             </button>
             <div className={`mobile-dropdown-menu ${isCategoriesOpen ? 'open' : ''}`}>
-              <Link href="/?q=Scholarships" onClick={closeMenu}>Scholarships</Link>
-              <Link href="/?q=Internships" onClick={closeMenu}>Internships</Link>
+              <Link href="/?q=Scholarship" onClick={closeMenu}>Scholarships</Link>
+              <Link href="/?q=Internship" onClick={closeMenu}>Internships</Link>
               <Link href="/?q=Graduate" onClick={closeMenu}>Graduate Trainee</Link>
               <Link href="/blog" onClick={closeMenu}>Career Advice</Link>
             </div>
