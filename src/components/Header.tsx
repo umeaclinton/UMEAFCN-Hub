@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -12,6 +13,12 @@ export default function Header() {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+    setIsCategoriesOpen(false);
+  };
+
+  const toggleCategories = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsCategoriesOpen(!isCategoriesOpen);
   };
 
   return (
@@ -27,6 +34,14 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="desktop-nav">
           <Link href="/">Home</Link>
+          <div className="nav-dropdown">
+            <span className="nav-dropdown-toggle">Categories ▾</span>
+            <div className="nav-dropdown-menu">
+              <Link href="/category/scholarships">Scholarships</Link>
+              <Link href="/category/internships">Internships</Link>
+              <Link href="/category/graduate-trainee">Graduate Trainee</Link>
+            </div>
+          </div>
           <Link href="/blog">Blog</Link>
           <Link href="/about">About Us</Link>
           <Link href="/contact">Contact Us</Link>
@@ -49,6 +64,16 @@ export default function Header() {
         {/* Mobile Navigation Dropdown */}
         <nav className={`mobile-nav ${isMenuOpen ? 'active' : ''}`}>
           <Link href="/" onClick={closeMenu}>Home</Link>
+          <div className="mobile-dropdown">
+            <button className="mobile-dropdown-toggle" onClick={toggleCategories}>
+              Categories {isCategoriesOpen ? '▴' : '▾'}
+            </button>
+            <div className={`mobile-dropdown-menu ${isCategoriesOpen ? 'open' : ''}`}>
+              <Link href="/category/scholarships" onClick={closeMenu}>Scholarships</Link>
+              <Link href="/category/internships" onClick={closeMenu}>Internships</Link>
+              <Link href="/category/graduate-trainee" onClick={closeMenu}>Graduate Trainee</Link>
+            </div>
+          </div>
           <Link href="/blog" onClick={closeMenu}>Blog</Link>
           <Link href="/about" onClick={closeMenu}>About Us</Link>
           <Link href="/contact" onClick={closeMenu}>Contact Us</Link>

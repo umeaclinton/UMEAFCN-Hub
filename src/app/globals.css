@@ -118,6 +118,65 @@ a:hover {
   color: var(--text-color);
 }
 
+/* Desktop Dropdown */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-dropdown-toggle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: var(--transition);
+}
+
+.nav-dropdown:hover .nav-dropdown-toggle {
+  color: var(--text-color);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: -20px;
+  background-color: var(--surface-color);
+  min-width: 200px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.2s ease;
+  z-index: 1000;
+  padding: 8px 0;
+}
+
+[data-theme='dark'] .nav-dropdown-menu {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown-menu a {
+  padding: 10px 20px;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.nav-dropdown-menu a:hover {
+  background-color: var(--surface-hover);
+  color: var(--accent-color);
+}
+
 /* Burger Button */
 .burger-btn {
   display: none;
@@ -188,6 +247,52 @@ a:hover {
 
 .mobile-nav a:last-child {
   border-bottom: none;
+}
+
+/* Mobile Nav Dropdown */
+.mobile-dropdown {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-dropdown-toggle {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: inherit;
+}
+
+.mobile-dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding-left: 16px;
+}
+
+.mobile-dropdown-menu.open {
+  max-height: 200px;
+}
+
+.mobile-dropdown-menu a {
+  padding: 10px 0;
+  font-size: 1rem;
+  border-bottom: none;
+  color: var(--text-muted);
+}
+
+.mobile-dropdown-menu a:hover {
+  color: var(--accent-color);
 }
 
 /* Menu Backdrop Overlay */
