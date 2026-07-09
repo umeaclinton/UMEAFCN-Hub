@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'About Us | UMEAFCN Hub',
-  description: 'Learn about UMEAFCN Hub, our automated job aggregation platform, verification process, and career resources.',
+  description: 'Learn about UMEAFCN Hub, our job aggregation platform, verification process, and career resources.',
 };
 
 export default function AboutPage() {
