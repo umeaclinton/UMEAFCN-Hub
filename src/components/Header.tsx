@@ -37,9 +37,10 @@ export default function Header() {
           <div className="nav-dropdown">
             <span className="nav-dropdown-toggle">Categories ▾</span>
             <div className="nav-dropdown-menu">
-              <Link href="/category/scholarships">Scholarships</Link>
-              <Link href="/category/internships">Internships</Link>
-              <Link href="/category/graduate-trainee">Graduate Trainee</Link>
+              <Link href="/?q=Scholarships">Scholarships</Link>
+              <Link href="/?q=Internships">Internships</Link>
+              <Link href="/?q=Graduate">Graduate Trainee</Link>
+              <Link href="/blog">Career Advice</Link>
             </div>
           </div>
           <Link href="/blog">Blog</Link>
@@ -69,9 +70,10 @@ export default function Header() {
               Categories {isCategoriesOpen ? '▴' : '▾'}
             </button>
             <div className={`mobile-dropdown-menu ${isCategoriesOpen ? 'open' : ''}`}>
-              <Link href="/category/scholarships" onClick={closeMenu}>Scholarships</Link>
-              <Link href="/category/internships" onClick={closeMenu}>Internships</Link>
-              <Link href="/category/graduate-trainee" onClick={closeMenu}>Graduate Trainee</Link>
+              <Link href="/?q=Scholarships" onClick={closeMenu}>Scholarships</Link>
+              <Link href="/?q=Internships" onClick={closeMenu}>Internships</Link>
+              <Link href="/?q=Graduate" onClick={closeMenu}>Graduate Trainee</Link>
+              <Link href="/blog" onClick={closeMenu}>Career Advice</Link>
             </div>
           </div>
           <Link href="/blog" onClick={closeMenu}>Blog</Link>
