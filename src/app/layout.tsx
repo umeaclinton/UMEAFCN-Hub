@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "UMEAFCN Hub",
-  description: "Job Listings, Internships, Scholarships, Grad Trainee Program and career Updates",
+  description: "Job Listings, Internships, Scholarships, Graduate Trainee Programs and career Updates",
 };
 
 export default function RootLayout({
