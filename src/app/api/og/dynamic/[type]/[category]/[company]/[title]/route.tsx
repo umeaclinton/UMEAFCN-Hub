@@ -17,7 +17,7 @@ export async function GET(
     const title = decodeURIComponent(resolvedParams.title).replace(/\.webp$/, '');
 
     // Generate the image JSX directly here - no internal HTTP fetch needed
-    let imageElement: JSX.Element;
+    let imageElement: any;
 
     if (type === 'cta') {
       imageElement = (

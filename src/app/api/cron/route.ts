@@ -7,13 +7,16 @@ import { expandArticle } from '@/lib/gemini';
 import { sendToTelegram } from '@/lib/telegram';
 import { sendToTwitter } from '@/lib/twitter';
 import { sendToTikTok } from '@/lib/tiktok';
-import { scrapeMyJobMagApplicationMethod } from '@/lib/scraper';
+import { scrapeMyJobMagApplicationMethod, scrapeAfterSchoolAfricaMethod } from '@/lib/scraper';
 import { GoogleGenAI } from '@google/genai';
 // Removed @vercel/postgres, now imported from @/lib/db directly if needed
 
 // Configure feeds here
 const FEEDS = [
-  "https://www.myjobmag.com/jobsxml_by_categories.xml"
+  "https://www.myjobmag.com/jobsxml_by_categories.xml",
+  "https://www.afterschoolafrica.com/category/scholarships/feed/",
+  "https://www.afterschoolafrica.com/category/graduate-trainee/feed/",
+  "https://www.afterschoolafrica.com/category/internships/feed/"
 ];
 
 const parser = new Parser();
@@ -183,9 +186,9 @@ export async function GET(request: Request) {
     let processedCount = 0;
     let newPostsCount = 0;
     let apiCallsCount = 0;
-    const MAX_POSTS_PER_RUN = 4; // Gemini Free Tier strict limit is 5 Requests Per Minute!
+    const MAX_POSTS_PER_RUN = 4; // Gemini Free Tier strict limit is 15 Requests Per Minute! We cap at 4 per run across all feeds.
 
-    for (const feedUrl of FEEDS) {
+    feedLoop: for (const feedUrl of FEEDS) {
       console.log(`Fetching feed: ${feedUrl}`);
       let feedXml: string;
       try {
@@ -200,8 +203,8 @@ export async function GET(request: Request) {
       
       for (const entry of feed.items) {
         if (newPostsCount >= MAX_POSTS_PER_RUN || apiCallsCount >= 5) {
-          console.log(`Reached max posts per run (${MAX_POSTS_PER_RUN}) or API calls (${apiCallsCount}). Stopping to avoid API limits.`);
-          break;
+          console.log(`Reached global max posts per run (${MAX_POSTS_PER_RUN}) or API calls (${apiCallsCount}). Stopping entirely to avoid API limits.`);
+          break feedLoop; // Break out of all feeds
         }
 
         processedCount++;
@@ -223,7 +226,13 @@ export async function GET(request: Request) {
         // Scrape application method if available
         if (entry.link) {
           try {
-            const scrapedMethod = await scrapeMyJobMagApplicationMethod(entry.link);
+            let scrapedMethod: string | null = null;
+            if (entry.link.includes('myjobmag.com')) {
+              scrapedMethod = await scrapeMyJobMagApplicationMethod(entry.link);
+            } else if (entry.link.includes('afterschoolafrica.com')) {
+              scrapedMethod = await scrapeAfterSchoolAfricaMethod(entry.link);
+            }
+            
             if (scrapedMethod) {
               console.log(`Successfully scraped application method for: ${title}`);
               rawContent += `\n\nMethod of Application:\n${scrapedMethod}`;

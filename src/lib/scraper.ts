@@ -71,3 +71,60 @@ export async function scrapeMyJobMagApplicationMethod(url: string, retries = 3, 
   }
   return null;
 }
+
+/**
+ * Scrapes the application link from an AfterSchool Africa listing URL.
+ * Falls back to null if not an AfterSchool Africa link or if no apply link is found.
+ */
+export async function scrapeAfterSchoolAfricaMethod(url: string, retries = 3, delayMs = 2000): Promise<string | null> {
+  if (!url || !url.includes('afterschoolafrica.com')) {
+    return null;
+  }
+
+  for (let i = 0; i < retries; i++) {
+    try {
+      console.log(`[Scraper ASA] Attempt ${i + 1} of ${retries} for URL: ${url}`);
+      const res = await axios.get(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+        },
+        timeout: 12000
+      });
+      
+      const html = res.data;
+      const $ = cheerio.load(html);
+      let applyLink: string | null = null;
+      let applyText: string | null = null;
+      
+      $('a').each((_, el) => {
+        const text = $(el).text().trim();
+        const textLower = text.toLowerCase();
+        if (textLower.includes('apply') || textLower.includes('here') || textLower.includes('click')) {
+          const href = $(el).attr('href');
+          if (href && !href.includes('afterschoolafrica.com') && href.startsWith('http')) {
+            applyLink = href;
+            applyText = text;
+          }
+        }
+      });
+      
+      if (applyLink) {
+        const result = `Method of Application:\n${applyText}\nLink: ${applyLink}`;
+        console.log(`[Scraper ASA] Successfully scraped application method (${result.length} chars)`);
+        return result;
+      }
+      
+      console.log("[Scraper ASA] No valid apply link found on page.");
+      return null;
+    } catch (err: any) {
+      console.warn(`[Scraper ASA] Attempt ${i + 1} failed: ${err.message}`);
+      if (i === retries - 1) {
+        return null;
+      }
+      await delay(delayMs * (i + 1));
+    }
+  }
+  return null;
+}
