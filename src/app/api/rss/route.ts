@@ -12,7 +12,7 @@ function buildOgImageUrl(post: any): string {
   const category = encodeURIComponent(post.category || 'General');
   const company = encodeURIComponent('UMEAFCN Hub');
   const title = encodeURIComponent(post.title?.substring(0, 60) || 'Opportunity');
-  return `${SITE_URL}/api/og/dynamic/${type}/${category}/${company}/${title}`;
+  return `${SITE_URL}/api/og/dynamic/${type}/${category}/${company}/${title}?.png`;
 }
 
 function escapeXml(str: string): string {
@@ -46,6 +46,7 @@ export async function GET() {
       <pubDate>${new Date(post.pub_date).toUTCString()}</pubDate>
       <category>${escapeXml(post.category || 'General')}</category>
       <description>${escapeXml(excerpt)}...</description>
+      <imageurl>${imageUrl}</imageurl>
       <enclosure url="${imageUrl}" type="image/png" length="0"/>
       <media:content url="${imageUrl}" medium="image" type="image/png"/>
       <media:thumbnail url="${imageUrl}"/>
