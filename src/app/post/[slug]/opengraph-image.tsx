@@ -35,6 +35,9 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const title = post.title?.substring(0, 100) || 'Opportunity';
   const company = 'UMEAFCN Hub';
 
+  const bgUrl = new URL('/tiktok-bg.jpg', 'https://www.umeafcnhub.online').toString();
+  const fullTitle = post.company_name ? `${title} at ${post.company_name}` : title;
+
   return new ImageResponse(
     (
       <div
@@ -43,74 +46,49 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          backgroundColor: '#000000',
-          padding: '80px',
+          alignItems: 'center',
+          position: 'relative',
           fontFamily: 'sans-serif',
+          overflow: 'hidden'
         }}
       >
+        <img src={bgUrl} style={{ position: 'absolute', top: '-600px', left: 0, width: '1200px', height: '2133px', objectFit: 'cover' }} />
+        
         <div
           style={{
+            position: 'absolute',
+            top: '50px',
+            left: '200px',
+            right: '200px',
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: 'white',
-            borderRadius: '30px',
-            padding: '60px',
-            boxShadow: '0 20px 40px rgba(255,255,255,0.1)',
-            height: '100%',
-            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '30px' }}>
-            <div
-              style={{
-                backgroundColor: '#e0f2fe',
-                color: '#0284c7',
-                padding: '15px 30px',
-                borderRadius: '30px',
-                fontSize: 36,
-                fontWeight: 'bold',
-                textTransform: 'uppercase',
-              }}
-            >
-              {category}
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', fontSize: 45, fontWeight: 'bold', color: '#111827', marginBottom: '40px' }}>
+            Hiring ‼️
           </div>
 
           <div
             style={{
-              fontSize: 50,
-              fontWeight: 900,
-              color: '#0f172a',
-              lineHeight: 1.2,
-              marginBottom: '40px',
+              fontSize: 45,
+              fontWeight: 800,
+              color: '#111827',
+              lineHeight: 1.3,
+              marginBottom: '50px',
+              textAlign: 'center',
             }}
           >
-            {title}
+            {fullTitle}
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', marginTop: 'auto' }}>
-            <div
-              style={{
-                fontSize: 35,
-                fontWeight: 600,
-                color: '#475569',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              🏢 {company}
-            </div>
-            <div
-              style={{
-                marginLeft: 'auto',
-                fontSize: 35,
-                fontWeight: 'bold',
-                color: '#3b82f6',
-              }}
-            >
-              @umeafcnhub
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', fontSize: 40, fontWeight: 'bold', color: '#111827', marginBottom: '40px' }}>
+            Apply now 🔗 Link in bio
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', fontSize: 40, fontWeight: 'bold', color: '#111827' }}>
+            @umeafcnhub.online
           </div>
         </div>
       </div>
