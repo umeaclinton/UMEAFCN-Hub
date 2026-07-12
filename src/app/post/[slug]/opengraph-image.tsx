@@ -6,8 +6,9 @@ export const contentType = 'image/png';
 export const size = { width: 1200, height: 630 };
 export const alt = 'Job Opportunity';
 
-export default async function Image({ params }: { params: { slug: string } }) {
-  const identifier = params.slug;
+export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const identifier = resolvedParams.slug;
   let post = null;
 
   try {
@@ -15,7 +16,9 @@ export default async function Image({ params }: { params: { slug: string } }) {
     if (!post && !isNaN(parseInt(identifier, 10))) {
       post = await getPostById(parseInt(identifier, 10));
     }
-  } catch (err) {}
+  } catch (err) {
+    console.error("Error generating opengraph image for", identifier, err);
+  }
 
   if (!post) {
     return new ImageResponse(
