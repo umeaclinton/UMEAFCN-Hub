@@ -12,8 +12,8 @@ function buildOgImageUrl(post: any): string {
   const category = encodeURIComponent(post.category || 'General');
   const company = encodeURIComponent(post.company_name || 'UMEAFCN Hub');
   const title = encodeURIComponent(post.title?.substring(0, 60) || 'Opportunity');
-  // Added v=2 to bust Vercel's heavy image cache so dlvr.it sees the new TikTok background
-  return `${SITE_URL}/api/og/dynamic/${type}/${category}/${company}/${title}?ext=.png&v=2`;
+  // Changed path to /api/og/tiktok/ to permanently bust old caches (since dlvr.it ignores query parameters)
+  return `${SITE_URL}/api/og/tiktok/${type}/${category}/${company}/${title}?.png`;
 }
 
 function escapeXml(str: string): string {
