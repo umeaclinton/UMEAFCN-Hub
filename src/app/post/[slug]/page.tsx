@@ -30,13 +30,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   // Generate a short description from the HTML content for SEO
   const plainTextContent = post.content.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
 
-  // Build the dynamic OG image URL
-  const type = encodeURIComponent(post.apply_type || 'job');
-  const category = encodeURIComponent(post.category || 'General');
-  const company = encodeURIComponent('UMEAFCN Hub');
-  const title = encodeURIComponent(post.title?.substring(0, 60) || 'Opportunity');
-  const ogImageUrl = `https://umeafcnhub.online/api/og/dynamic/${type}/${category}/${company}/${title}?.png`;
-
   return {
     title: `${post.title} | UMEAFCN Hub`,
     description: plainTextContent,
@@ -45,20 +38,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: plainTextContent,
       type: 'article',
       publishedTime: new Date(post.pub_date).toISOString(),
-      images: [
-        {
-          url: ogImageUrl,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: plainTextContent,
-      images: [ogImageUrl],
     },
   };
 }
