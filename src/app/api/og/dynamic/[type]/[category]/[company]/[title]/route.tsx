@@ -29,7 +29,7 @@ export async function GET(
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#0f172a',
+            backgroundColor: '#000000',
             color: 'white',
             fontFamily: 'sans-serif',
             textAlign: 'center',
@@ -69,7 +69,7 @@ export async function GET(
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            backgroundColor: '#0f172a',
+            backgroundColor: '#000000',
             padding: '80px',
             fontFamily: 'sans-serif',
           }}
@@ -81,7 +81,7 @@ export async function GET(
               backgroundColor: 'white',
               borderRadius: '30px',
               padding: '60px',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+              boxShadow: '0 20px 40px rgba(255,255,255,0.1)',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '30px' }}>
@@ -102,7 +102,7 @@ export async function GET(
 
             <div
               style={{
-                fontSize: 70,
+                fontSize: 50,
                 fontWeight: 900,
                 color: '#0f172a',
                 lineHeight: 1.2,
@@ -115,7 +115,7 @@ export async function GET(
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div
                 style={{
-                  fontSize: 40,
+                  fontSize: 35,
                   fontWeight: 600,
                   color: '#475569',
                   display: 'flex',

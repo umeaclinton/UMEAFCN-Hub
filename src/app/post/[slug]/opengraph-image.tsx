@@ -44,7 +44,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          backgroundColor: '#0f172a',
+          backgroundColor: '#000000',
           padding: '80px',
           fontFamily: 'sans-serif',
         }}
@@ -56,7 +56,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
             backgroundColor: 'white',
             borderRadius: '30px',
             padding: '60px',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+            boxShadow: '0 20px 40px rgba(255,255,255,0.1)',
             height: '100%',
             justifyContent: 'center',
           }}
@@ -79,7 +79,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
 
           <div
             style={{
-              fontSize: 70,
+              fontSize: 50,
               fontWeight: 900,
               color: '#0f172a',
               lineHeight: 1.2,
@@ -92,7 +92,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           <div style={{ display: 'flex', alignItems: 'center', marginTop: 'auto' }}>
             <div
               style={{
-                fontSize: 40,
+                fontSize: 35,
                 fontWeight: 600,
                 color: '#475569',
                 display: 'flex',
@@ -104,7 +104,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
             <div
               style={{
                 marginLeft: 'auto',
-                fontSize: 40,
+                fontSize: 35,
                 fontWeight: 'bold',
                 color: '#3b82f6',
               }}
