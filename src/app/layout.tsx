@@ -9,8 +9,30 @@ import ThemeToggle from "@/components/ThemeToggle";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.umeafcnhub.online'),
   title: "UMEAFCN Hub",
   description: "Job Listings, Internships, Scholarships, Graduate Trainee Programs and career Updates",
+  openGraph: {
+    title: "UMEAFCN Hub",
+    description: "Job Listings, Internships, Scholarships, Graduate Trainee Programs and career Updates",
+    url: 'https://www.umeafcnhub.online',
+    siteName: 'UMEAFCN Hub',
+    images: [
+      {
+        url: '/logo-light.jpg',
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "UMEAFCN Hub",
+    description: "Job Listings, Internships, Scholarships, Graduate Trainee Programs and career Updates",
+    images: ['/logo-light.jpg'],
+  },
 };
 
 export default function RootLayout({
