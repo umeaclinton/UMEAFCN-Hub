@@ -10,9 +10,10 @@ const SITE_DESCRIPTION = 'Curated internships, scholarships, and graduate traine
 function buildOgImageUrl(post: any): string {
   const type = encodeURIComponent(post.apply_type || 'job');
   const category = encodeURIComponent(post.category || 'General');
-  const company = encodeURIComponent('UMEAFCN Hub');
+  const company = encodeURIComponent(post.company_name || 'UMEAFCN Hub');
   const title = encodeURIComponent(post.title?.substring(0, 60) || 'Opportunity');
-  return `${SITE_URL}/api/og/dynamic/${type}/${category}/${company}/${title}?.png`;
+  // Added v=2 to bust Vercel's heavy image cache so dlvr.it sees the new TikTok background
+  return `${SITE_URL}/api/og/dynamic/${type}/${category}/${company}/${title}?ext=.png&v=2`;
 }
 
 function escapeXml(str: string): string {
