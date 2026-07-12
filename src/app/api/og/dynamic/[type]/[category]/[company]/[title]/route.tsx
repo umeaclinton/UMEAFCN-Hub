@@ -19,6 +19,8 @@ export async function GET(
     // Generate the image JSX directly here - no internal HTTP fetch needed
     let imageElement: any;
 
+    const bgUrl = new URL('/tiktok-bg.jpg', request.url).toString();
+
     if (type === 'cta') {
       imageElement = (
         <div
@@ -28,39 +30,37 @@ export async function GET(
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#000000',
-            color: 'white',
+            position: 'relative',
             fontFamily: 'sans-serif',
-            textAlign: 'center',
-            padding: '40px',
           }}
         >
-          <div style={{ fontSize: 80, fontWeight: 'bold', color: '#38bdf8', marginBottom: 20 }}>
-            Apply Immediately!
-          </div>
-          <div style={{ fontSize: 40, color: '#e2e8f0', marginBottom: 40 }}>
-            This role could close at any time.
-          </div>
+          <img src={bgUrl} style={{ position: 'absolute', top: 0, left: 0, width: 1080, height: 1920, objectFit: 'cover' }} />
+          
           <div
             style={{
-              fontSize: 50,
-              fontWeight: 'bold',
-              backgroundColor: '#3b82f6',
-              color: 'white',
-              padding: '20px 60px',
-              borderRadius: '40px',
-              border: '4px solid #60a5fa',
+              position: 'absolute',
+              top: '500px',
+              left: '180px',
+              right: '180px',
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
+              textAlign: 'center',
             }}
           >
-            🔗 Link in Bio
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: 80, fontWeight: 'bold', color: '#000', marginBottom: '60px' }}>
+              Apply Immediately!
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: 50, fontWeight: 'bold', color: '#000' }}>
+              🔗 Link in bio
+            </div>
           </div>
         </div>
       );
     } else {
       // Default: Job Details Slide
+      const fullTitle = company ? `${title} at ${company}` : title;
       imageElement = (
         <div
           style={{
@@ -68,76 +68,49 @@ export async function GET(
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
-            backgroundColor: '#000000',
-            padding: '80px',
+            alignItems: 'center',
+            position: 'relative',
             fontFamily: 'sans-serif',
           }}
         >
+          <img src={bgUrl} style={{ position: 'absolute', top: 0, left: 0, width: 1080, height: 1920, objectFit: 'cover' }} />
+          
           <div
             style={{
+              position: 'absolute',
+              top: '400px',
+              left: '160px',
+              right: '160px',
               display: 'flex',
               flexDirection: 'column',
-              backgroundColor: 'white',
-              borderRadius: '30px',
-              padding: '60px',
-              boxShadow: '0 20px 40px rgba(255,255,255,0.1)',
+              alignItems: 'center',
+              textAlign: 'center',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '30px' }}>
-              <div
-                style={{
-                  backgroundColor: '#e0f2fe',
-                  color: '#0284c7',
-                  padding: '10px 20px',
-                  borderRadius: '20px',
-                  fontSize: 30,
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase',
-                }}
-              >
-                {category}
-              </div>
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: 60, fontWeight: 'bold', color: '#111827', marginBottom: '50px' }}>
+              Hiring ‼️
             </div>
 
             <div
               style={{
-                fontSize: 50,
-                fontWeight: 900,
-                color: '#0f172a',
-                lineHeight: 1.2,
-                marginBottom: '40px',
+                fontSize: 55,
+                fontWeight: 800,
+                color: '#111827',
+                lineHeight: 1.3,
+                marginBottom: '70px',
+                textAlign: 'center',
               }}
             >
-              {title}
+              {fullTitle}
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div
-                style={{
-                  fontSize: 35,
-                  fontWeight: 600,
-                  color: '#475569',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                🏢 {company}
-              </div>
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: 55, fontWeight: 'bold', color: '#111827', marginBottom: '60px' }}>
+              Apply now 🔗 Link in bio
             </div>
-          </div>
 
-          <div
-            style={{
-              marginTop: 'auto',
-              display: 'flex',
-              justifyContent: 'center',
-              fontSize: 40,
-              fontWeight: 'bold',
-              color: '#94a3b8',
-            }}
-          >
-            UMEAFCN Hub | @umeafcnhub
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: 55, fontWeight: 'bold', color: '#111827' }}>
+              @umeafcnhub.online
+            </div>
           </div>
         </div>
       );
