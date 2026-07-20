@@ -47,6 +47,43 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+function generateJobSchema(post: any) {
+  // Try to extract company from "Title at Company"
+  let companyName = "Partner Company";
+  const atMatch = post.title.match(/(?:\s+at\s+|\s+@\s+)(.+)$/i);
+  if (atMatch && atMatch[1]) {
+    companyName = atMatch[1].trim();
+  }
+
+  // Map Category to EmploymentType
+  let employmentType = "FULL_TIME";
+  const cat = (post.category || "").toLowerCase();
+  if (cat.includes("intern")) employmentType = "INTERN";
+  else if (cat.includes("contract")) employmentType = "CONTRACTOR";
+  else if (cat.includes("part time") || cat.includes("part-time")) employmentType = "PART_TIME";
+
+  return {
+    "@context": "https://schema.org/",
+    "@type": "JobPosting",
+    "title": post.title,
+    "description": post.content || "No description provided.",
+    "datePosted": new Date(post.pub_date).toISOString(),
+    "employmentType": employmentType,
+    "hiringOrganization": {
+      "@type": "Organization",
+      "name": companyName,
+      "sameAs": "https://umeafcnhub.com"
+    },
+    "jobLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "NG"
+      }
+    }
+  };
+}
+
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   // Await the params object in Next.js 15
   const resolvedParams = await params;
@@ -69,8 +106,14 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     notFound();
   }
 
+  const jsonLd = generateJobSchema(post);
+
   return (
     <article className="single-post">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="post-featured-banner">
         <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} fallbackSeed={post.id} />
       </div>
