@@ -100,6 +100,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
   let internships: any[] = [];
   let gradPrograms: any[] = [];
   let scholarships: any[] = [];
+  let remoteJobs: any[] = [];
   let recentJobs: any[] = [];
   let blogPosts: any[] = [];
 
@@ -107,6 +108,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
     internships = await getLatestPostsByCategory('Internships', 4);
     gradPrograms = await getLatestPostsByCategory('Graduate Programs', 4);
     scholarships = await getLatestPostsByCategory('Scholarships', 4);
+    remoteJobs = await getLatestPostsByCategory('Remote', 4);
     recentJobs = await getLatestPostsByCategory('jobs', 8);
     blogPosts = await getBlogPosts(8, 0); // Query 8 posts to display in 2 rows of 4 columns
   } catch (err) {
@@ -280,6 +282,38 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
           </div>
           <div className="posts-grid">
             {scholarships.map((post) => (
+              <article key={post.id} className="post-card">
+                <div className="post-card-image">
+                  <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
+                </div>
+                <h2>
+                  <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
+                </h2>
+                <div className="post-meta">
+                  <span className="category-badge">{post.category}</span>
+                  <time>{new Date(post.pub_date).toLocaleDateString()}</time>
+                </div>
+                <div className="post-excerpt">
+                  {post.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().substring(0, 110)}...
+                </div>
+                <Link href={`/post/${post.slug || post.id}`} className="read-more">
+                  Read Details
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 4.5. Remote Jobs Section */}
+      {remoteJobs.length > 0 && (
+        <section className="showcase-section">
+          <div className="section-header">
+            <h2>Remote Jobs</h2>
+            <Link href="/?q=Remote" className="see-all-link">See All Remote Jobs &rarr;</Link>
+          </div>
+          <div className="posts-grid">
+            {remoteJobs.map((post) => (
               <article key={post.id} className="post-card">
                 <div className="post-card-image">
                   <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
