@@ -1048,19 +1048,14 @@ main.container {
 
 /* Founder Banner Styles */
 .founder-welcome-banner {
-  background: #f8fafc;
-  padding: 1.5rem;
-  border-radius: 12px;
   margin: 0;
-  border: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
 [data-theme='dark'] .founder-welcome-banner {
-  background: var(--surface-hover);
-  border-color: var(--border-color);
+  /* No background or border in dark mode either */
 }
 
 .founder-note {

@@ -23,7 +23,7 @@ export default function ContactPage() {
         </p>
 
         <h2>Meet the Founder</h2>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', padding: '1.5rem', background: 'var(--surface-hover)', borderRadius: '12px', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
           <img
             src="/ceo&founderimgage.jpg"
             alt="Michael Udochukwu Odoemenam"
