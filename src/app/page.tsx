@@ -131,26 +131,26 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
         </form>
       </div>
 
-      {/* Top Banner Community CTA -> Replaced with Founder's Note & Newsletter */}
-      <div className="founder-welcome-banner" style={{ background: '#f8fafc', padding: '2rem', borderRadius: '12px', margin: '2rem 0', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div className="founder-note" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#2563eb', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.2rem' }}>
-            C
+      {/* Founder's Note & Newsletter */}
+      <div className="founder-welcome-banner">
+        <div className="founder-note">
+          <div className="founder-image-wrapper">
+            <img src="/ceo&founderimgage.jpg" alt="Michael Udochukwu Odoemenam" className="founder-image" />
           </div>
-          <div>
-            <h3 style={{ margin: 0, color: '#1e293b' }}>Welcome to UMEAFCN Hub!</h3>
-            <p style={{ margin: '4px 0 0', color: '#475569', fontSize: '0.9rem' }}>I built this platform to curate the best remote jobs, internships, and scholarships in one place. No spam, just real opportunities hand-picked for our community. <br/>— <strong>Clinton</strong>, Founder</p>
+          <div className="founder-text">
+            <h3>Welcome to UMEAFCN Hub!</h3>
+            <p>I built this platform to curate the best remote jobs, internships, and scholarships in one place. No spam, just real opportunities hand-picked for our community. <br/>— <strong>Michael Udochukwu Odoemenam</strong>, Founder & CEO</p>
           </div>
         </div>
         
-        <div className="newsletter-capture" style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-          <h4 style={{ margin: '0 0 0.5rem', color: '#0f172a' }}>Join 10,000+ professionals getting our weekly opportunity digest.</h4>
-          <form style={{ display: 'flex', gap: '0.5rem' }} action="/contact">
-            <input type="email" placeholder="Enter your email address" required style={{ flex: 1, padding: '0.5rem 1rem', borderRadius: '6px', border: '1px solid #cbd5e1' }} />
-            <button type="submit" style={{ padding: '0.5rem 1.5rem', backgroundColor: '#0f172a', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}>Subscribe</button>
+        <div className="newsletter-capture">
+          <h4>Join 10,000+ professionals getting our weekly opportunity digest.</h4>
+          <form className="newsletter-form" action="/contact">
+            <input type="email" placeholder="Enter your email address" required className="newsletter-input" />
+            <button type="submit" className="newsletter-btn">Subscribe</button>
           </form>
-          <div style={{ marginTop: '0.75rem', fontSize: '0.85rem' }}>
-            <Link href="/contact" style={{ color: '#2563eb', textDecoration: 'none', fontWeight: '500' }}>Or click here to Post a Job to our board &rarr;</Link>
+          <div className="newsletter-footer">
+            <Link href="/contact">Or click here to Post a Job to our board &rarr;</Link>
           </div>
         </div>
       </div>
