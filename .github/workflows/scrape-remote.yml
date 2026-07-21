@@ -1,17 +1,17 @@
-name: Run Cron Job (RSS Feeds + Blog)
+name: Run Remote Jobs Scraper
 
 on:
-  # Even WAT hours every day (WAT = UTC+1)
-  # 12am WAT=23 UTC, 2am=1, 4am=3, 6am=5, 8am=7, 10am=9, 12pm=11, 2pm=13, 4pm=15, 6pm=17, 8pm=19, 10pm=21
+  # Odd WAT hours every day (WAT = UTC+1)
+  # 1am WAT=0 UTC, 3am=2, 5am=4, 7am=6, 9am=8, 11am=10, 1pm=12, 3pm=14, 5pm=16, 7pm=18, 9pm=20, 11pm=22
   schedule:
-    - cron: '0 23,1,3,5,7,9,11,13,15,17,19,21 * * *'
+    - cron: '0 0,2,4,6,8,10,12,14,16,18,20,22 * * *'
 
   # Allow manual trigger anytime from the GitHub Actions tab
   workflow_dispatch:
 
 jobs:
-  run-cron:
-    name: Fetch Feeds & Publish Posts
+  run-scraper:
+    name: Scrape & Publish Remote Jobs
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run cron script
+      - name: Run remote scraper script
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
@@ -41,4 +41,4 @@ jobs:
           TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
           TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
           TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
-        run: npx tsx scripts/run-cron.ts
+        run: npx tsx scripts/scrape-remote.ts
