@@ -140,9 +140,11 @@ Title: "${job.title}"
 ${context}
 
 Instructions:
-- Write a compelling intro paragraph about the role
-- Include: Overview, Key Responsibilities, Requirements, What You'll Gain
-- Mention it is a fully remote, worldwide opportunity
+- Write a compelling intro paragraph about the role in a highly conversational, 100% human-written tone.
+- Vary your sentence structures and lengths to ensure the text passes AI detection tools as human.
+- CRITICAL: Do NOT use long dashes (— or -) for emphasis. Do NOT use typical AI clichés (e.g., "Moreover", "Furthermore", "In conclusion", "Here is a breakdown", "Nestled in"). Avoid using colons right before lists where possible; weave them in naturally.
+- Include: Overview, Key Responsibilities, Requirements, What You'll Gain.
+- Mention it is a fully remote, worldwide opportunity.
 - Format using clean HTML (<h3>, <p>, <ul>, <li>, <strong>). NO <html>/<head>/<body> tags.
 - End with: <h3>How to Apply</h3><p>Click the apply button below to view the full job details and submit your application directly through the employer's official page.</p>
 
