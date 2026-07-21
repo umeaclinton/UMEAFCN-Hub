@@ -145,7 +145,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
         
         <div className="newsletter-capture" style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
           <h4 style={{ margin: '0 0 0.5rem', color: '#0f172a' }}>Join 10,000+ professionals getting our weekly opportunity digest.</h4>
-          <form style={{ display: 'flex', gap: '0.5rem' }} onSubmit={(e) => { e.preventDefault(); alert('Subscribed successfully!'); }}>
+          <form style={{ display: 'flex', gap: '0.5rem' }} action="/contact">
             <input type="email" placeholder="Enter your email address" required style={{ flex: 1, padding: '0.5rem 1rem', borderRadius: '6px', border: '1px solid #cbd5e1' }} />
             <button type="submit" style={{ padding: '0.5rem 1.5rem', backgroundColor: '#0f172a', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}>Subscribe</button>
           </form>
