@@ -25,7 +25,7 @@ export default function Header() {
     <header className="site-header">
       <div className="header-container container">
         <div className="logo">
-          <Link href="/" draggable={false} style={{ userSelect: 'none', WebkitUserDrag: 'none' }}>
+          <Link href="/" draggable={false} style={{ userSelect: 'none' }}>
             <img src="/logo-light.jpg" alt="UMEAFCN Hub" className="logo-light" draggable={false} />
             <img src="/logo-dark.jpg" alt="UMEAFCN Hub" className="logo-dark" draggable={false} />
           </Link>
