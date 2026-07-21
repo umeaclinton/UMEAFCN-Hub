@@ -1,9 +1,14 @@
 /**
  * Standalone Remote Jobs Scraper for GitHub Actions
- * 
- * Scrapes remote jobs from jobfound.org/remote and saves them
- * directly to the Neon database under the "Remote" category.
- * 
+ *
+ * Pulls remote jobs from two FREE, no-key public APIs:
+ *   1. Himalayas  — https://himalayas.app/jobs/api  (high quality, structured)
+ *   2. Jobicy     — https://jobicy.com/api/v2/remote-jobs (high volume)
+ *
+ * Deduplicates across both sources, expands each new job into a full
+ * article via Gemini AI, then saves to Neon DB under the "Remote" category
+ * and posts to Telegram.
+ *
  * Run manually:   npx tsx scripts/scrape-remote.ts
  * Triggered by:   .github/workflows/scrape-remote.yml
  */
@@ -15,7 +20,6 @@ config({ path: resolve(process.cwd(), '.env.local') });
 
 import crypto from 'crypto';
 import axios from 'axios';
-import * as cheerio from 'cheerio';
 import { neon } from '@neondatabase/serverless';
 import { GoogleGenAI } from '@google/genai';
 import { TwitterApi } from 'twitter-api-v2';
@@ -27,9 +31,18 @@ const sql = async (strings: TemplateStringsArray, ...values: any[]) => {
   return { rows: result, rowCount: result.length };
 };
 
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface RawJob {
+  title: string;
+  applyUrl: string;
+  company: string;
+  description?: string; // Optional pre-existing description from API
+  source: string;
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-function computeHash(guid: string, title: string) {
-  return crypto.createHash('sha256').update(`${guid}_${title}`).digest('hex');
+function computeHash(url: string, title: string) {
+  return crypto.createHash('sha256').update(`${url}_${title}`).digest('hex');
 }
 
 function generateSlug(title: string) {
@@ -46,51 +59,124 @@ async function getPostByHash(guidHash: string) {
 
 async function insertPost(
   title: string, content: string, sourceUrl: string,
-  guidHash: string, slug: string, category: string,
+  guidHash: string, slug: string,
   applyType: string, applyLink: string | null
 ) {
   const result = await sql`
     INSERT INTO posts (title, content, source_url, guid_hash, slug, category, apply_type, apply_link)
-    VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, ${category}, ${applyType}, ${applyLink})
+    VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, 'Remote', ${applyType}, ${applyLink})
     ON CONFLICT (guid_hash) DO NOTHING
     RETURNING id, title, slug;
   `;
   return result.rows[0];
 }
 
+// ─── Source 1: Himalayas API ──────────────────────────────────────────────────
+async function fetchHimalayas(limit = 20): Promise<RawJob[]> {
+  try {
+    console.log('[Himalayas] Fetching jobs...');
+    const res = await axios.get('https://himalayas.app/jobs/api', {
+      params: { limit },
+      timeout: 15000,
+      headers: { 'Accept': 'application/json', 'User-Agent': 'UMEAFCN-Hub-Scraper/1.0' }
+    });
+
+    const jobs = res.data?.jobs || [];
+    console.log(`[Himalayas] Got ${jobs.length} jobs`);
+
+    return jobs.map((j: any) => ({
+      title: j.title || '',
+      applyUrl: j.applicationLink || j.url || '',
+      company: j.companyName || 'Unknown Company',
+      description: j.description || '',
+      source: 'Himalayas'
+    })).filter((j: RawJob) => j.title && j.applyUrl);
+  } catch (err: any) {
+    console.error('[Himalayas] Failed:', err.message);
+    return [];
+  }
+}
+
+// ─── Source 2: Jobicy API ─────────────────────────────────────────────────────
+async function fetchJobicy(count = 30): Promise<RawJob[]> {
+  try {
+    console.log('[Jobicy] Fetching jobs...');
+    const res = await axios.get('https://jobicy.com/api/v2/remote-jobs', {
+      params: { count },
+      timeout: 15000,
+      headers: { 'Accept': 'application/json', 'User-Agent': 'UMEAFCN-Hub-Scraper/1.0' }
+    });
+
+    const jobs = res.data?.jobs || [];
+    console.log(`[Jobicy] Got ${jobs.length} jobs`);
+
+    return jobs.map((j: any) => ({
+      title: j.jobTitle || '',
+      applyUrl: j.url || '',
+      company: j.companyName || 'Unknown Company',
+      description: j.jobDescription || '',
+      source: 'Jobicy'
+    })).filter((j: RawJob) => j.title && j.applyUrl);
+  } catch (err: any) {
+    console.error('[Jobicy] Failed:', err.message);
+    return [];
+  }
+}
+
 // ─── Gemini AI (expand scraped job into a full article) ───────────────────────
 const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-lite-latest'];
 
-async function expandRemoteJob(title: string, applyUrl: string) {
+async function expandRemoteJob(job: RawJob): Promise<string> {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+  // If API already gave us a description, use it to write a richer article
+  const context = job.description
+    ? `Company: ${job.company}\n\nOriginal Job Description:\n${job.description.replace(/<[^>]+>/g, ' ').substring(0, 1200)}`
+    : `Company: ${job.company}`;
+
+  const prompt = `Write a detailed, professional, and engaging job post for the following remote job listing.
+
+Title: "${job.title}"
+${context}
+
+Instructions:
+- Write a compelling intro paragraph about the role
+- Include: Overview, Key Responsibilities, Requirements, What You'll Gain
+- Mention it is a fully remote, worldwide opportunity
+- Format using clean HTML (<h3>, <p>, <ul>, <li>, <strong>). NO <html>/<head>/<body> tags.
+- End with: <h3>How to Apply</h3><p>Click the apply button below to view the full job details and submit your application directly through the employer's official page.</p>
+
+Return ONLY valid JSON with one key: "content" (the full HTML string).`;
+
   for (const modelName of FALLBACK_MODELS) {
     try {
       const response = await ai.models.generateContent({
         model: modelName,
-        contents: `Write a detailed, professional job post for a remote job listing with this title: "${title}".
-Include typical responsibilities, requirements, and benefits for this type of role.
-Format using clean HTML (<h3>, <p>, <ul>, <li>, <strong>). No <html>/<head>/<body> tags.
-At the end, include: <h3>How to Apply</h3><p>Click the apply button below to view the full job details and submit your application directly on the employer's website.</p>
-
-Return as JSON with keys: "content" (HTML string) only.`,
-        config: { responseMimeType: "application/json" }
+        contents: prompt,
+        config: { responseMimeType: 'application/json' }
       });
 
       let text = (response.text || '{}').replace(/^```json\n?/i, '').replace(/\n?```$/i, '').trim();
       const parsed = JSON.parse(text);
-      return parsed.content || `<p>Remote opportunity: <strong>${title}</strong></p><p>Click Apply to view full details.</p>`;
+      if (parsed.content) return parsed.content;
     } catch (error: any) {
-      if (error.status === 429) { console.warn(`Rate limit on ${modelName}, trying next...`); continue; }
-      console.error(`Gemini error with ${modelName}:`, error.message);
+      if (error.status === 429) {
+        console.warn(`[Gemini] Rate limit on ${modelName}, trying next model...`);
+        await new Promise(r => setTimeout(r, 5000));
+        continue;
+      }
+      console.error(`[Gemini] Error with ${modelName}:`, error.message);
     }
   }
-  return `<p>Remote opportunity: <strong>${title}</strong></p><p>Click the apply link below to view full details and apply.</p>`;
+
+  // Fallback: build a basic post from what we know
+  return `<h3>About This Role</h3><p>Remote opportunity at <strong>${job.company}</strong>: <strong>${job.title}</strong></p><p>This is a fully remote position open to candidates worldwide.</p><h3>How to Apply</h3><p>Click the apply button below to view the full job details and submit your application directly through the employer's official page.</p>`;
 }
 
 // ─── Social Posting ───────────────────────────────────────────────────────────
-async function sendToTelegram(title: string, url: string) {
+async function sendToTelegram(title: string, company: string, url: string) {
   try {
-    const message = `🌍 *Remote Job Alert: ${title}*\n\nThis is a fully remote opportunity open to candidates worldwide.\n\n🔗 [View & Apply Here](${url})\n\n📣 More remote jobs: @umeafcnhub`;
+    const message = `🌍 *Remote Job: ${title}*\n🏢 ${company}\n\nOpen to candidates worldwide — work from anywhere!\n\n🔗 [View & Apply Here](${url})\n\n📣 More opportunities: @umeafcnhub`;
     await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
       chat_id: process.env.TELEGRAM_CHANNEL_ID,
       text: message,
@@ -103,7 +189,7 @@ async function sendToTelegram(title: string, url: string) {
   }
 }
 
-async function sendToTwitter(title: string, url: string) {
+async function sendToTwitter(title: string, company: string, url: string) {
   try {
     const client = new TwitterApi({
       appKey: process.env.TWITTER_API_KEY!,
@@ -111,8 +197,8 @@ async function sendToTwitter(title: string, url: string) {
       accessToken: process.env.TWITTER_ACCESS_TOKEN!,
       accessSecret: process.env.TWITTER_ACCESS_SECRET!,
     });
-    const shortened = title.length > 100 ? title.substring(0, 100) + '...' : title;
-    const tweet = `🌍 Remote Job: ${shortened}\n\n✅ Work from anywhere\n🔗 Apply: ${url}\n\n#RemoteWork #RemoteJobs #WorkFromHome #Jobs`;
+    const shortened = title.length > 80 ? title.substring(0, 80) + '...' : title;
+    const tweet = `🌍 Remote Job: ${shortened} @ ${company}\n\n✅ Work from anywhere\n🔗 Apply: ${url}\n\n#RemoteWork #RemoteJobs #WorkFromHome #Jobs #Africa`;
     await client.v2.tweet(tweet);
     console.log(`[Twitter] Sent: ${title}`);
   } catch (err: any) {
@@ -120,104 +206,81 @@ async function sendToTwitter(title: string, url: string) {
   }
 }
 
-// ─── Main Scraper ─────────────────────────────────────────────────────────────
+// ─── Main ─────────────────────────────────────────────────────────────────────
 async function main() {
-  console.log('=== Remote Jobs Scraper Starting ===');
+  console.log('=== Remote Jobs Scraper Starting (Himalayas + Jobicy) ===');
   console.log(`Time: ${new Date().toISOString()}`);
 
   const SITE_URL = 'https://umeafcnhub.online';
-  const MAX_JOBS = 5; // Limit per run to stay within Gemini free tier
+  const MAX_JOBS = 6; // 3 from each source per run — stays well within Gemini free tier
   let jobsAdded = 0;
 
-  // Fetch jobfound.org/remote
-  let html: string;
-  try {
-    const res = await axios.get('https://jobfound.org/remote', {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.5',
-      },
-      timeout: 15000
-    });
-    html = res.data;
-    console.log(`[Scraper] Page fetched (${html.length} bytes)`);
-  } catch (err: any) {
-    console.error('[Scraper] Failed to fetch jobfound.org:', err.message);
-    process.exit(1);
+  // ── Fetch from both sources
+  const [himalayas, jobicy] = await Promise.all([
+    fetchHimalayas(25),
+    fetchJobicy(40)
+  ]);
+
+  // ── Merge & deduplicate by title (case-insensitive)
+  const seen = new Set<string>();
+  const allJobs: RawJob[] = [];
+
+  // Interleave: take alternately from each source for variety
+  const maxLen = Math.max(himalayas.length, jobicy.length);
+  for (let i = 0; i < maxLen; i++) {
+    if (i < himalayas.length) allJobs.push(himalayas[i]);
+    if (i < jobicy.length) allJobs.push(jobicy[i]);
   }
 
-  const $ = cheerio.load(html);
-
-  // Extract job links — jobfound.org uses Next.js so jobs are in <a> tags
-  // We look for links that appear to be individual job listings
-  const jobLinks: { title: string; href: string }[] = [];
-
-  $('a').each((_, el) => {
-    const href = $(el).attr('href') || '';
-    const text = $(el).text().trim();
-
-    // Filter: must be a job link (has /jobs/ or /remote/ in path), with a reasonable title
-    const isJobLink = (href.includes('/jobs/') || href.includes('/job/') || href.match(/\/[a-z0-9-]{10,}\/?$/))
-      && !href.includes('login')
-      && !href.includes('signup')
-      && !href.includes('post-a-job')
-      && !href.includes('#')
-      && text.length > 8
-      && text.length < 200;
-
-    if (isJobLink && text) {
-      const fullHref = href.startsWith('http') ? href : `https://jobfound.org${href}`;
-      // Deduplicate by href
-      if (!jobLinks.find(j => j.href === fullHref)) {
-        jobLinks.push({ title: text, href: fullHref });
-      }
-    }
+  const uniqueJobs = allJobs.filter(j => {
+    const key = j.title.toLowerCase().trim();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
   });
 
-  console.log(`[Scraper] Found ${jobLinks.length} potential job links`);
+  console.log(`\n[Scraper] Total unique jobs to check: ${uniqueJobs.length}`);
 
-  for (const job of jobLinks) {
+  // ── Process each job
+  for (const job of uniqueJobs) {
     if (jobsAdded >= MAX_JOBS) {
       console.log(`[Scraper] Reached limit of ${MAX_JOBS} new jobs per run.`);
       break;
     }
 
-    const guidHash = computeHash(job.href, job.title);
+    const guidHash = computeHash(job.applyUrl, job.title);
     const existing = await getPostByHash(guidHash);
     if (existing) {
       console.log(`[Scraper] Already exists, skipping: ${job.title}`);
       continue;
     }
 
-    console.log(`[Scraper] New remote job: ${job.title}`);
+    console.log(`\n[Scraper] NEW job from ${job.source}: ${job.title} @ ${job.company}`);
 
-    // Expand the job title into a full article using Gemini
-    const content = await expandRemoteJob(job.title, job.href);
+    // Expand into a full article using Gemini
+    const content = await expandRemoteJob(job);
     const slug = generateSlug(job.title);
     const postUrl = `${SITE_URL}/post/${slug}`;
 
-    await insertPost(
+    const saved = await insertPost(
       job.title,
       content,
-      job.href,
+      job.applyUrl,
       guidHash,
       slug,
-      'Remote',
       'url',
-      job.href
+      job.applyUrl
     );
 
-    console.log(`[Scraper] Saved to DB: ${job.title}`);
+    if (saved) {
+      console.log(`[Scraper] ✅ Saved to DB: ${job.title}`);
+      await sendToTelegram(job.title, job.company, postUrl);
+      await sendToTwitter(job.title, job.company, postUrl);
+      jobsAdded++;
+    }
 
-    // Post to Telegram and Twitter
-    await sendToTelegram(job.title, postUrl);
-    await sendToTwitter(job.title, postUrl);
-
-    jobsAdded++;
-
-    // Small delay to avoid hammering Gemini
-    await new Promise(r => setTimeout(r, 3000));
+    // Delay between Gemini calls to stay within free tier
+    await new Promise(r => setTimeout(r, 4000));
   }
 
   console.log(`\n=== Remote Scraper Complete: ${jobsAdded} new remote jobs added ===`);
