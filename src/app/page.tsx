@@ -139,7 +139,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
           </div>
           <div className="founder-text">
             <h3>Welcome to UMEAFCN Hub!</h3>
-            <p>I built this platform to curate the best remote jobs, internships, and scholarships in one place. No spam, just real opportunities hand-picked for our community. <br/>— <strong>Michael Udochukwu Odoemenam</strong>, Founder & CEO</p>
+            <p>I built this platform to curate the best remote jobs, internships, and scholarships in one place. No spam, just real opportunities hand-picked for our community. <br/><strong>Michael Udochukwu Odoemenam</strong>, Founder & CEO</p>
           </div>
         </div>
         

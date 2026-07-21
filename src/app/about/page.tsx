@@ -22,6 +22,22 @@ export default function AboutPage() {
           Welcome to <strong>UMEAFCN Hub</strong>, your premier online destination for discovering verified, high-quality career opportunities. We compile internships, graduate trainee programs, scholarships, bootcamps, and full-time job roles into a single, clean, accessible platform.
         </p>
 
+        <h2>Meet the Founder</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', padding: '1.5rem', background: 'var(--surface-hover)', borderRadius: '12px', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+          <img
+            src="/ceo&founderimgage.jpg"
+            alt="Michael Udochukwu Odoemenam"
+            style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #b8962e', flexShrink: 0 }}
+          />
+          <div>
+            <strong style={{ fontSize: '1.2rem', display: 'block', marginBottom: '0.25rem' }}>Michael Udochukwu Odoemenam</strong>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.95rem', display: 'block', marginBottom: '0.5rem' }}>Founder & CEO, UMEAFCN Hub</span>
+            <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-muted)' }}>
+              Michael built UMEAFCN Hub out of a passion for making career opportunities more accessible to young Africans. His vision is a single, trusted platform where every serious job seeker can find their next big break without the noise.
+            </p>
+          </div>
+        </div>
+
         <h2>Our Mission</h2>
         <p>
           Our mission is simple: to make opportunity discoverable. We know that finding career listings can be tedious and stressful, with openings scattered across dozens of individual job boards and corporate websites. We solve this by consolidating and cleaning data, offering job-seekers a single source of truth for their application journey.
@@ -37,7 +53,7 @@ export default function AboutPage() {
           <li><strong>Quality Control:</strong> We prioritize posts that offer direct application routes, actively avoiding third-party boards that require unnecessary registrations or hidden fees.</li>
         </ul>
 
-        <h2>Google AdSense & Transparency</h2>
+        <h2>Google AdSense &amp; Transparency</h2>
         <p>
           We believe in transparency. In order to keep our resources free to job-seekers worldwide, we partner with advertisers like Google AdSense to serve targeted, contextual advertisements. We also host a <strong>Career Blog</strong> packed with original, expert career guidance, CV writing advice, and interview checklists to support your path to success.
         </p>

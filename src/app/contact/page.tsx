@@ -22,14 +22,28 @@ export default function ContactPage() {
           We would love to hear from you! Whether you have feedback on the portal, inquiries regarding business advertising opportunities, or want to report a listing, please reach out to us using the details below.
         </p>
 
-        <h2>Support & General Inquiries</h2>
+        <h2>Meet the Founder</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', padding: '1.5rem', background: 'var(--surface-hover)', borderRadius: '12px', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+          <img
+            src="/ceo&founderimgage.jpg"
+            alt="Michael Udochukwu Odoemenam"
+            style={{ width: '90px', height: '90px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #b8962e', flexShrink: 0 }}
+          />
+          <div>
+            <strong style={{ fontSize: '1.1rem', display: 'block', marginBottom: '0.25rem' }}>Michael Udochukwu Odoemenam</strong>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', display: 'block', marginBottom: '0.4rem' }}>Founder & CEO, UMEAFCN Hub</span>
+            <a href="mailto:info@umeafcnhub.online" style={{ fontSize: '0.9rem' }}>info@umeafcnhub.online</a>
+          </div>
+        </div>
+
+        <h2>Support &amp; General Inquiries</h2>
         <p>
           For general questions, user support, or suggestions, send an email to:
           <br />
           <strong>Email:</strong> <a href="mailto:info@umeafcnhub.online">info@umeafcnhub.online</a>
         </p>
 
-        <h2>For Employers & Recruiters</h2>
+        <h2>For Employers &amp; Recruiters</h2>
         <p>
           If you are an employer, recruiting team, or HR manager and would like to list open roles, scholarships, or internship opportunities on our board, please contact our listings team:
           <br />
