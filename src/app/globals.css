@@ -45,6 +45,16 @@
   padding: 0;
 }
 
+img, svg {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none; /* Prevents long-press save menu on iOS */
+  user-select: none; /* Prevents highlighting */
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
