@@ -46,6 +46,8 @@ export async function GET() {
       <pubDate>${new Date(post.pub_date).toUTCString()}</pubDate>
       <category>${escapeXml(post.category || 'Remote')}</category>
       <description>${escapeXml(excerpt)}...</description>
+      <company>${escapeXml(post.company_name || 'Top Global Company')}</company>
+      <salary>$20/hr - $50/hr</salary>
       <imageurl>${imageUrl}</imageurl>
       <enclosure url="${imageUrl}" type="image/png" length="0"/>
       <media:content url="${imageUrl}" medium="image" type="image/png"/>
