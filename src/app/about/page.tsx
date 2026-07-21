@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'About Us | UMEAFCN Hub',
-  description: 'Learn about UMEAFCN Hub, our job aggregation platform, verification process, and career resources.',
+  description: 'Learn about UMEAFCN Hub, our curated job platform, verification process, and career resources.',
 };
 
 export default function AboutPage() {
@@ -19,7 +19,7 @@ export default function AboutPage() {
 
       <div className="post-content">
         <p>
-          Welcome to <strong>UMEAFCN Hub</strong>, your premier online destination for discovering verified, high-quality career opportunities. We compile internships, graduate trainee programs, scholarships, bootcamps, and full-time job roles into a single, clean, accessible platform.
+          Welcome to <strong>UMEAFCN Hub</strong>, your premier online destination for discovering verified, high-quality career opportunities. We provide internships, graduate trainee programs, scholarships, bootcamps, and full-time job roles on a single, clean, accessible platform.
         </p>
 
         <h2>Meet the Founder</h2>
@@ -56,7 +56,7 @@ export default function AboutPage() {
         <ul>
           <li><strong>Expert Summaries:</strong> We review and summarize lengthy job descriptions, removing confusing corporate jargon to give you a clean, highly readable overview of the role.</li>
           <li><strong>Verified Direct Links:</strong> We do the heavy lifting to find the direct corporate career portal links or official hiring emails, ensuring you never get stuck in confusing redirect loops.</li>
-          <li><strong>Quality Control:</strong> We prioritize posts that offer direct application routes, actively avoiding third-party boards that require unnecessary registrations or hidden fees.</li>
+          <li><strong>Quality Control:</strong> We prioritize posts that offer direct application routes, actively avoiding middlemen boards that require unnecessary registrations or hidden fees.</li>
         </ul>
 
         <h2>Google AdSense &amp; Transparency</h2>
@@ -66,7 +66,7 @@ export default function AboutPage() {
 
         <h2>Verified Integrity</h2>
         <p>
-          UMEAFCN Hub is an independent aggregator. While we run checks to ensure that the listings, emails, and links we publish are active and authentic, we recommend that all candidates research hiring companies independently before submitting sensitive personal information. We never charge users for job listings or access.
+          UMEAFCN Hub is an independent career platform. While we run checks to ensure that the listings, emails, and links we publish are active and authentic, we recommend that all candidates research hiring companies independently before submitting sensitive personal information. We never charge users for job listings or access.
         </p>
       </div>
 

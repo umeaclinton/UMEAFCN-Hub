@@ -1103,15 +1103,10 @@ main.container {
 
 .newsletter-capture {
   margin-top: 1rem;
-  padding: 1.5rem;
-  background-color: #fff;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
 }
 
 [data-theme='dark'] .newsletter-capture {
-  background-color: var(--surface-color);
-  border-color: var(--border-color);
+  /* No background or border in dark mode either */
 }
 
 .newsletter-capture h4 {
