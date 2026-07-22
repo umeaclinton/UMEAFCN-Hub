@@ -117,49 +117,52 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
 
   return (
     <div className="home-showcase">
-      {/* Top Welcome & Search */}
+      {/* Jobfound-style Hero Section */}
       <div className="welcome-section">
-        <h1>Find Your Next Opportunity</h1>
-        <p>Browse thousands of curated jobs, internships, scholarships, and graduate programs.</p>
-        
+        {/* Live badge */}
+        <div className="hero-live-badge">
+          <span className="hero-live-dot"></span>
+          New opportunities added daily
+        </div>
+
+        <h1>Find Your Next Career Opportunity</h1>
+        <p>Browse curated remote jobs, internships, scholarships, and graduate programs — all in one place.</p>
+
+        {/* Social proof */}
+        <div className="hero-social-proof">
+          <div className="hero-avatars">
+            <img src="https://i.pravatar.cc/40?img=1" alt="user" className="hero-avatar" />
+            <img src="https://i.pravatar.cc/40?img=5" alt="user" className="hero-avatar" />
+            <img src="https://i.pravatar.cc/40?img=9" alt="user" className="hero-avatar" />
+            <img src="https://i.pravatar.cc/40?img=12" alt="user" className="hero-avatar" />
+            <img src="https://i.pravatar.cc/40?img=17" alt="user" className="hero-avatar" />
+          </div>
+          <div className="hero-proof-text">
+            <div className="hero-stars">★★★★★</div>
+            <p>Trusted by <strong>10,000+</strong> professionals across Africa</p>
+          </div>
+        </div>
+
         <form action="/" method="GET" className="search-form">
-          <input 
-            type="text" 
-            name="q" 
-            placeholder="Search jobs, internships, scholarships..." 
+          <input
+            type="text"
+            name="q"
+            placeholder="Search jobs, internships, scholarships..."
             className="search-input"
           />
           <button type="submit" className="search-button">Search</button>
         </form>
       </div>
 
-      {/* Founder's Note & Newsletter */}
-      <div className="founder-welcome-banner">
-        <div className="founder-note">
-          <div className="founder-image-wrapper">
-            <img src="/ceo&founderimgage.jpg" alt="Michael Udochukwu Odoemenam" className="founder-image" />
-          </div>
-          <div className="founder-text">
-            <h3>Welcome to UMEAFCN Hub!</h3>
-            <p>I built this platform to curate the best remote jobs, internships, and scholarships in one place. No spam, just real opportunities hand-picked for our community. <br/><strong>Michael Udochukwu Odoemenam</strong>, Founder & CEO</p>
-            <div style={{ marginTop: '0.5rem' }}>
-              <a href="https://www.linkedin.com/in/umeaclinton/" target="_blank" rel="noopener noreferrer" style={{ color: '#0a66c2', fontWeight: '600', fontSize: '0.9rem', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                Connect with me on LinkedIn
-              </a>
-            </div>
-          </div>
-        </div>
-        
-        <div className="newsletter-capture">
-          <h4>Join 10,000+ professionals getting our weekly opportunity digest.</h4>
-          <form className="newsletter-form" action="/contact">
-            <input type="email" placeholder="Enter your email address" required className="newsletter-input" />
-            <button type="submit" className="newsletter-btn">Subscribe</button>
-          </form>
-          <div className="newsletter-footer">
-            <Link href="/contact">Or click here to Post a Job to our board &rarr;</Link>
-          </div>
+      {/* Newsletter — kept, but no founder note */}
+      <div className="newsletter-capture">
+        <h4>Join 10,000+ professionals getting our weekly opportunity digest.</h4>
+        <form className="newsletter-form" action="/contact">
+          <input type="email" placeholder="Enter your email address" required className="newsletter-input" />
+          <button type="submit" className="newsletter-btn">Subscribe</button>
+        </form>
+        <div className="newsletter-footer">
+          <Link href="/contact">Or click here to Post a Job to our board &rarr;</Link>
         </div>
       </div>
 

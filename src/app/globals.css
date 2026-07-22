@@ -795,18 +795,110 @@ main.container {
   margin: 0 auto;
 }
 
-.welcome-section h1 {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 12px;
-  color: var(--text-color);
-  letter-spacing: -0.02em;
-}
+/* .welcome-section h1 is defined further below with Jobfound-style sizing */
+
 
 .welcome-section p {
   color: var(--text-muted);
   font-size: 1.05rem;
   margin-bottom: 14px;
+}
+
+/* Hero live badge */
+.hero-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #16a34a;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+
+[data-theme='dark'] .hero-live-badge {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #4ade80;
+}
+
+.hero-live-dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* Hero social proof row */
+.hero-social-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.hero-avatars {
+  display: flex;
+  align-items: center;
+}
+
+.hero-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--bg-color);
+  margin-left: -10px;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.hero-avatars .hero-avatar:first-child {
+  margin-left: 0;
+}
+
+.hero-proof-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.hero-stars {
+  color: #f59e0b;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+}
+
+.hero-proof-text p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.hero-proof-text p strong {
+  color: var(--text-color);
+}
+
+/* Welcome section h1 bigger for Jobfound-style */
+.welcome-section h1 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--text-color);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
 /* Community Promo Banner */
@@ -1207,4 +1299,52 @@ main.container {
     padding: 1.25rem;
     text-align: center;
   }
+}
+
+/* ─── Footer Founder Profile ──────────────────────────────────────────────────── */
+.footer-founder {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.footer-founder-img {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--border-color);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.footer-founder-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 2px 0;
+}
+
+.footer-founder-title {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0 0 6px 0;
+}
+
+.footer-founder-linkedin {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0a66c2;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.footer-founder-linkedin:hover {
+  opacity: 0.8;
+  text-decoration: underline;
 }
