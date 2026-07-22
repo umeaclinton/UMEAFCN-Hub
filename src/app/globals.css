@@ -785,7 +785,7 @@ main.container {
 .home-showcase {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .welcome-section {
@@ -1204,7 +1204,7 @@ main.container {
 }
 
 .newsletter-capture {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 [data-theme='dark'] .newsletter-capture {
