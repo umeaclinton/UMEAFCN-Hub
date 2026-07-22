@@ -84,6 +84,12 @@ a:hover {
   width: 100%;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
 /* Header & Navigation */
 .site-header {
   background: var(--bg-color);
