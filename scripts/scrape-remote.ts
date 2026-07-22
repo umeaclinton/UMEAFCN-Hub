@@ -59,12 +59,14 @@ async function getPostByHash(guidHash: string) {
 
 async function insertPost(
   title: string, content: string, sourceUrl: string,
-  guidHash: string, slug: string,
-  applyType: string, applyLink: string | null
+  guidHash: string, slug: string, category: string,
+  applyType: string, applyLink: string | null,
+  jobType: string | null, experience: string | null, 
+  salary: string | null, domain: string | null
 ) {
   const result = await sql`
-    INSERT INTO posts (title, content, source_url, guid_hash, slug, category, apply_type, apply_link)
-    VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, 'Remote', ${applyType}, ${applyLink})
+    INSERT INTO posts (title, content, source_url, guid_hash, slug, category, apply_type, apply_link, job_type, experience, salary, domain)
+    VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, 'Remote', ${applyType}, ${applyLink}, ${jobType}, ${experience}, ${salary}, ${domain})
     ON CONFLICT (guid_hash) DO NOTHING
     RETURNING id, title, slug;
   `;
