@@ -65,6 +65,16 @@ export async function initDb() {
     } catch (e) {
       // Columns might already exist, ignore
     }
+
+    // Add filter columns for jobs
+    try {
+      await sql`ALTER TABLE posts ADD COLUMN job_type VARCHAR(50);`;
+      await sql`ALTER TABLE posts ADD COLUMN experience VARCHAR(50);`;
+      await sql`ALTER TABLE posts ADD COLUMN salary VARCHAR(100);`;
+      await sql`ALTER TABLE posts ADD COLUMN domain VARCHAR(100);`;
+    } catch (e) {
+      // Columns might already exist, ignore
+    }
     
     // Seed blog posts for AdSense compliance
     await seedBlogPosts();
@@ -340,11 +350,24 @@ Best regards,
   }
 }
 
-export async function insertPost(title: string, content: string, sourceUrl: string, guidHash: string, slug: string, category: string = 'General', applyType: string = 'none', applyLink: string | null = null) {
+export async function insertPost(
+  title: string, 
+  content: string, 
+  sourceUrl: string, 
+  guidHash: string, 
+  slug: string, 
+  category: string = 'General', 
+  applyType: string = 'none', 
+  applyLink: string | null = null,
+  jobType: string | null = null,
+  experience: string | null = null,
+  salary: string | null = null,
+  domain: string | null = null
+) {
   try {
     const result = await sql`
-      INSERT INTO posts (title, content, source_url, guid_hash, slug, category, apply_type, apply_link)
-      VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, ${category}, ${applyType}, ${applyLink})
+      INSERT INTO posts (title, content, source_url, guid_hash, slug, category, apply_type, apply_link, job_type, experience, salary, domain)
+      VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, ${category}, ${applyType}, ${applyLink}, ${jobType}, ${experience}, ${salary}, ${domain})
       ON CONFLICT (guid_hash) DO NOTHING
       RETURNING id, title, slug, pub_date;
     `;
@@ -367,27 +390,73 @@ export async function getPostByHash(guidHash: string) {
   }
 }
 
-export async function getRecentPosts(limit = 20, offset = 0, searchQuery = '') {
+export interface PostFilters {
+  searchQuery?: string;
+  jobType?: string[];
+  experience?: string[];
+  salary?: string[];
+  domain?: string;
+}
+
+export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilters | string = '') {
   try {
-    let result;
-    if (searchQuery) {
-      const query = `%${searchQuery}%`;
-      result = await sql`
-        SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
-        FROM posts 
-        WHERE (title ILIKE ${query} OR content ILIKE ${query}) AND apply_type != 'none'
-        ORDER BY pub_date DESC 
-        LIMIT ${limit} OFFSET ${offset};
-      `;
+    let q = '';
+    let jobTypeFilter: string[] = [];
+    let experienceFilter: string[] = [];
+    let salaryFilter: string[] = [];
+    let domainFilter = '';
+
+    if (typeof filters === 'string') {
+      q = filters;
     } else {
-      result = await sql`
-        SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
-        FROM posts 
-        WHERE apply_type != 'none'
-        ORDER BY pub_date DESC 
-        LIMIT ${limit} OFFSET ${offset};
-      `;
+      q = filters.searchQuery || '';
+      jobTypeFilter = filters.jobType || [];
+      experienceFilter = filters.experience || [];
+      salaryFilter = filters.salary || [];
+      domainFilter = filters.domain || '';
     }
+
+    // neon serverless SQL tagged templates need some careful handling with dynamic clauses.
+    // To keep it secure and simple, we dynamically build the query using the .query() API.
+    
+    let queryStr = `SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, job_type, experience, salary, domain FROM posts WHERE apply_type != 'none'`;
+    let params: any[] = [];
+    let paramIndex = 1;
+
+    if (q) {
+      queryStr += ` AND (title ILIKE $${paramIndex} OR content ILIKE $${paramIndex})`;
+      params.push(`%${q}%`);
+      paramIndex++;
+    }
+    
+    if (jobTypeFilter.length > 0) {
+      queryStr += ` AND job_type = ANY($${paramIndex}::text[])`;
+      params.push(jobTypeFilter);
+      paramIndex++;
+    }
+
+    if (experienceFilter.length > 0) {
+      queryStr += ` AND experience = ANY($${paramIndex}::text[])`;
+      params.push(experienceFilter);
+      paramIndex++;
+    }
+
+    if (salaryFilter.length > 0) {
+      queryStr += ` AND salary = ANY($${paramIndex}::text[])`;
+      params.push(salaryFilter);
+      paramIndex++;
+    }
+
+    if (domainFilter) {
+      queryStr += ` AND domain = $${paramIndex}`;
+      params.push(domainFilter);
+      paramIndex++;
+    }
+
+    queryStr += ` ORDER BY pub_date DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+    params.push(limit, offset);
+
+    const result = await neonSql.query(queryStr, params);
     return result.rows;
   } catch (error) {
     console.error('Error fetching recent posts:', error);
@@ -438,21 +507,59 @@ export async function getPostsWithShortContent(maxContentLength = 500) {
   }
 }
 
-export async function getTotalPostsCount(searchQuery = '') {
+export async function getTotalPostsCount(filters: PostFilters | string = '') {
   try {
-    let result;
-    if (searchQuery) {
-      const query = `%${searchQuery}%`;
-      result = await sql`
-        SELECT COUNT(*) FROM posts 
-        WHERE (title ILIKE ${query} OR content ILIKE ${query}) AND apply_type != 'none';
-      `;
+    let q = '';
+    let jobTypeFilter: string[] = [];
+    let experienceFilter: string[] = [];
+    let salaryFilter: string[] = [];
+    let domainFilter = '';
+
+    if (typeof filters === 'string') {
+      q = filters;
     } else {
-      result = await sql`
-        SELECT COUNT(*) FROM posts 
-        WHERE apply_type != 'none';
-      `;
+      q = filters.searchQuery || '';
+      jobTypeFilter = filters.jobType || [];
+      experienceFilter = filters.experience || [];
+      salaryFilter = filters.salary || [];
+      domainFilter = filters.domain || '';
     }
+
+    let queryStr = `SELECT COUNT(*) FROM posts WHERE apply_type != 'none'`;
+    let params: any[] = [];
+    let paramIndex = 1;
+
+    if (q) {
+      queryStr += ` AND (title ILIKE $${paramIndex} OR content ILIKE $${paramIndex})`;
+      params.push(`%${q}%`);
+      paramIndex++;
+    }
+    
+    if (jobTypeFilter.length > 0) {
+      queryStr += ` AND job_type = ANY($${paramIndex}::text[])`;
+      params.push(jobTypeFilter);
+      paramIndex++;
+    }
+
+    if (experienceFilter.length > 0) {
+      queryStr += ` AND experience = ANY($${paramIndex}::text[])`;
+      params.push(experienceFilter);
+      paramIndex++;
+    }
+
+    if (salaryFilter.length > 0) {
+      queryStr += ` AND salary = ANY($${paramIndex}::text[])`;
+      params.push(salaryFilter);
+      paramIndex++;
+    }
+
+    if (domainFilter) {
+      queryStr += ` AND domain = $${paramIndex}`;
+      params.push(domainFilter);
+      paramIndex++;
+    }
+
+    const result = await neonSql.query(queryStr, params);
     return parseInt(result.rows[0].count, 10);
   } catch (error) {
     console.error('Error counting posts:', error);

@@ -2,47 +2,71 @@ import { getRecentPosts, getTotalPostsCount, getLatestPostsByCategory, getBlogPo
 import { getCategoryImage } from '@/lib/images';
 import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
+import FilterSidebar from '@/components/FilterSidebar';
 
 export const revalidate = 0; // Don't cache this page statically
 
-export default async function Home({ searchParams }: { searchParams: Promise<{ q?: string, page?: string }> }) {
+export default async function Home({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const resolvedSearchParams = await searchParams;
-  const query = resolvedSearchParams?.q || '';
+  const query = (resolvedSearchParams?.q as string) || '';
   const currentPage = Number(resolvedSearchParams?.page) || 1;
   const limit = 12; // Posts per page
   const offset = (currentPage - 1) * limit;
 
-  // Search mode active
-  if (query) {
+  // Extract filters
+  const jobType = Array.isArray(resolvedSearchParams?.jobType) ? resolvedSearchParams?.jobType : (resolvedSearchParams?.jobType ? [resolvedSearchParams.jobType as string] : []);
+  const experience = Array.isArray(resolvedSearchParams?.experience) ? resolvedSearchParams?.experience : (resolvedSearchParams?.experience ? [resolvedSearchParams.experience as string] : []);
+  const salary = Array.isArray(resolvedSearchParams?.salary) ? resolvedSearchParams?.salary : (resolvedSearchParams?.salary ? [resolvedSearchParams.salary as string] : []);
+  const domain = (resolvedSearchParams?.domain as string) || '';
+
+  const hasFilters = query || jobType.length > 0 || experience.length > 0 || salary.length > 0 || domain;
+
+  // Search mode active or Filters active
+  if (hasFilters) {
     let posts: any[] = [];
     let totalPosts = 0;
+    const filterObj = {
+      searchQuery: query,
+      jobType,
+      experience,
+      salary,
+      domain
+    };
+
     try {
-      posts = await getRecentPosts(limit, offset, query);
-      totalPosts = await getTotalPostsCount(query);
+      posts = await getRecentPosts(limit, offset, filterObj);
+      totalPosts = await getTotalPostsCount(filterObj);
     } catch (err) {
       console.error("Error loading search posts:", err);
     }
     const totalPages = Math.ceil(totalPosts / limit);
 
     return (
-      <div>
-        <div className="search-header-info">
-          <h2>Search Results for "{query}"</h2>
-          <Link href="/" className="clear-search-btn">&larr; Back to Home</Link>
-        </div>
+      <div className="filter-page-layout">
+        <FilterSidebar />
+        
+        <div className="filter-results-container">
+          <div className="search-header-info">
+            <h2>{query ? `Search Results for "${query}"` : "Filtered Job Opportunities"}</h2>
+            <Link href="/" className="clear-search-btn">&larr; Back to Home</Link>
+          </div>
 
-        <form action="/" method="GET" className="search-form">
-          <input 
-            type="text" 
-            name="q" 
-            defaultValue={query} 
-            placeholder="Search jobs..." 
-            className="search-input"
-          />
-          <button type="submit" className="search-button">Search</button>
-        </form>
+          <form action="/" method="GET" className="search-form">
+            <input 
+              type="text" 
+              name="q" 
+              defaultValue={query} 
+              placeholder="Search jobs..." 
+              className="search-input"
+            />
+            {jobType.map(t => <input type="hidden" name="jobType" value={t} key={`jt-${t}`}/>)}
+            {experience.map(e => <input type="hidden" name="experience" value={e} key={`exp-${e}`}/>)}
+            {salary.map(s => <input type="hidden" name="salary" value={s} key={`sal-${s}`}/>)}
+            {domain && <input type="hidden" name="domain" value={domain} />}
+            <button type="submit" className="search-button">Search</button>
+          </form>
 
-        <div className="posts-grid">
+          <div className="posts-grid">
           {posts.length > 0 ? (
             posts.map((post: any) => (
               <article key={post.id} className="post-card">
@@ -92,6 +116,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
             </div>
           </div>
         )}
+        </div>
       </div>
     );
   }

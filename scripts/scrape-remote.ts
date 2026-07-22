@@ -126,7 +126,7 @@ async function fetchJobicy(count = 30): Promise<RawJob[]> {
 // ─── Gemini AI (expand scraped job into a full article) ───────────────────────
 const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-lite-latest'];
 
-async function expandRemoteJob(job: RawJob): Promise<string> {
+async function expandRemoteJob(job: RawJob): Promise<{ content: string; job_type: string | null; experience: string | null; salary: string | null; domain: string | null }> {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   // If API already gave us a description, use it to write a richer article
@@ -148,7 +148,12 @@ Instructions:
 - Format using clean HTML (<h3>, <p>, <ul>, <li>, <strong>). NO <html>/<head>/<body> tags.
 - End with: <h3>How to Apply</h3><p>Click the apply button below to view the full job details and submit your application directly through the employer's official page.</p>
 
-Return ONLY valid JSON with one key: "content" (the full HTML string).`;
+Return ONLY valid JSON with these keys:
+- "content": the full HTML string as described above.
+- "job_type": Categorize strictly as one of: "Full Time", "Part Time", "Contract", "Internship", or null if unknown.
+- "experience": Categorize strictly as one of: "More than 0 year", "More than 1 year", "More than 2 years", "More than 3 years", "More than 4 years", or null if unknown based on years of experience required.
+- "salary": Categorize strictly as one of: "Competitive", "Under $50k", "$50k - $100k", "$100k+", or null if unknown.
+- "domain": Categorize strictly as one of: "Technology", "Marketing", "Finance", "Sales", "Design", "Customer Support", "Operations", or "Other".`;
 
   for (const modelName of FALLBACK_MODELS) {
     try {
@@ -160,7 +165,15 @@ Return ONLY valid JSON with one key: "content" (the full HTML string).`;
 
       let text = (response.text || '{}').replace(/^```json\n?/i, '').replace(/\n?```$/i, '').trim();
       const parsed = JSON.parse(text);
-      if (parsed.content) return parsed.content;
+      if (parsed.content) {
+        return {
+          content: parsed.content,
+          job_type: parsed.job_type || null,
+          experience: parsed.experience || null,
+          salary: parsed.salary || null,
+          domain: parsed.domain || null,
+        };
+      }
     } catch (error: any) {
       if (error.status === 429) {
         console.warn(`[Gemini] Rate limit on ${modelName}, trying next model...`);
@@ -172,7 +185,13 @@ Return ONLY valid JSON with one key: "content" (the full HTML string).`;
   }
 
   // Fallback: build a basic post from what we know
-  return `<h3>About This Role</h3><p>Remote opportunity at <strong>${job.company}</strong>: <strong>${job.title}</strong></p><p>This is a fully remote position open to candidates worldwide.</p><h3>How to Apply</h3><p>Click the apply button below to view the full job details and submit your application directly through the employer's official page.</p>`;
+  return {
+    content: `<h3>About This Role</h3><p>Remote opportunity at <strong>${job.company}</strong>: <strong>${job.title}</strong></p><p>This is a fully remote position open to candidates worldwide.</p><h3>How to Apply</h3><p>Click the apply button below to view the full job details and submit your application directly through the employer's official page.</p>`,
+    job_type: null,
+    experience: null,
+    salary: null,
+    domain: null
+  };
 }
 
 // ─── Social Posting ───────────────────────────────────────────────────────────
@@ -260,18 +279,23 @@ async function main() {
     console.log(`\n[Scraper] NEW job from ${job.source}: ${job.title} @ ${job.company}`);
 
     // Expand into a full article using Gemini
-    const content = await expandRemoteJob(job);
+    const expandedJob = await expandRemoteJob(job);
     const slug = generateSlug(job.title);
     const postUrl = `${SITE_URL}/post/${slug}`;
 
     const saved = await insertPost(
       job.title,
-      content,
+      expandedJob.content,
       job.applyUrl,
       guidHash,
       slug,
-      'url',
-      job.applyUrl
+      'url', // category
+      'url', // applyType
+      job.applyUrl, // applyLink
+      expandedJob.job_type,
+      expandedJob.experience,
+      expandedJob.salary,
+      expandedJob.domain
     );
 
     if (saved) {
