@@ -1352,7 +1352,13 @@ main.container {
 /* =========================================
    Filter System Layout
 ========================================= */
-.filter-page-layout {
+.home-page-with-sidebar {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 2rem;
@@ -1488,7 +1494,8 @@ main.container {
 }
 
 @media (max-width: 900px) {
-  .filter-page-layout {
+  .filter-page-layout,
+  .home-page-with-sidebar {
     grid-template-columns: 1fr;
   }
   .filter-sidebar {
