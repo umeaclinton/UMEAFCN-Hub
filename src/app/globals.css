@@ -1463,7 +1463,7 @@ main.container {
   padding: 0.5rem 1rem;
   border-radius: 20px;
   border: 1px solid var(--border-color);
-  background: white;
+  background: var(--surface-color);
   color: var(--text-color);
   font-size: 0.85rem;
   cursor: pointer;
@@ -1515,7 +1515,8 @@ main.container {
   border: 1px solid var(--border-color);
   border-radius: 6px;
   font-size: 0.9rem;
-  background-color: white;
+  background-color: var(--surface-color);
+  color: var(--text-color);
   cursor: pointer;
 }
 
