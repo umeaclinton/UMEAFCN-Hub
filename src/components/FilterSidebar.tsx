@@ -1,10 +1,18 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function FilterSidebar() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  // Close mobile filter when route changes
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [searchParams]);
+
 
   // Helper to handle filter toggles
   const handleToggle = (key: string, value: string) => {
@@ -36,13 +44,35 @@ export default function FilterSidebar() {
   const hasFilters = searchParams.has('jobType') || searchParams.has('experience') || searchParams.has('salary') || searchParams.has('domain');
 
   return (
-    <aside className="filter-sidebar">
-      <div className="filter-header">
-        <h3><span className="filter-icon"></span> Filters</h3>
-        {hasFilters && (
-          <button onClick={handleClearAll} className="clear-all-btn">Clear All</button>
-        )}
-      </div>
+    <>
+      <button 
+        className="mobile-filter-trigger" 
+        onClick={() => setIsMobileOpen(true)}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+        Apply Filters
+      </button>
+
+      {/* Backdrop for mobile */}
+      {isMobileOpen && (
+        <div 
+          className="mobile-filter-backdrop" 
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
+
+      <aside className={`filter-sidebar ${isMobileOpen ? 'mobile-open' : ''}`}>
+        <div className="filter-header">
+          <h3><span className="filter-icon"></span> Filters</h3>
+          <div className="filter-header-actions">
+            {hasFilters && (
+              <button onClick={handleClearAll} className="clear-all-btn">Clear All</button>
+            )}
+            <button className="close-mobile-filter" onClick={() => setIsMobileOpen(false)}>
+              &times;
+            </button>
+          </div>
+        </div>
 
       <div className="filter-group">
         <h4>Job Type</h4>
@@ -114,5 +144,6 @@ export default function FilterSidebar() {
         </select>
       </div>
     </aside>
+    </>
   );
 }
