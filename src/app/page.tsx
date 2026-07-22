@@ -126,7 +126,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
         </div>
 
         <h1>Find Your Next Career Opportunity</h1>
-        <p>Browse curated remote jobs, internships, scholarships, and graduate programs — all in one place.</p>
+        <p>Browse curated remote jobs, internships, scholarships, and graduate programs all in one place.</p>
 
         {/* Social proof */}
         <div className="hero-social-proof">
