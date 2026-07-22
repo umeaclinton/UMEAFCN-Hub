@@ -22,7 +22,9 @@ export default function ContactPage() {
           We would love to hear from you! Whether you have feedback on the portal, inquiries regarding business advertising opportunities, or want to report a listing, please reach out to us using the details below.
         </p>
 
-        <h2>Meet the Founder</h2>
+        <h2>Leadership Team</h2>
+        
+        {/* Michael - Founder */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
           <img
             src="/ceo&founderimgage.jpg"
@@ -42,6 +44,19 @@ export default function ContactPage() {
                 Connect on LinkedIn
               </a>
             </div>
+          </div>
+        </div>
+
+        {/* Frank - MD */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+          <img
+            src="/FrankNwoyemaChidera.jpg"
+            alt="Frank Nwoyema Chidera"
+            style={{ width: '90px', height: '90px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #1e293b', flexShrink: 0 }}
+          />
+          <div>
+            <strong style={{ fontSize: '1.1rem', display: 'block', marginBottom: '0.25rem' }}>Frank Nwoyema Chidera</strong>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', display: 'block', marginBottom: '0.4rem' }}>Managing Director, UMEAFCN Hub</span>
           </div>
         </div>
 
