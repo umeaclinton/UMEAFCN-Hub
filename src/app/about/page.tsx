@@ -62,6 +62,42 @@ export default function AboutPage() {
           </div>
         </div>
 
+        <h2>Other Team Members</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
+          {/* Miss Paris */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <img src="/MissParis.jpg" alt="Miss Paris" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #cbd5e1' }} />
+            <div>
+              <strong style={{ display: 'block', fontSize: '1.05rem' }}>Miss Paris</strong>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Researcher</span>
+            </div>
+          </div>
+          {/* Lizzy */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <img src="/LizzyObiajulu.jpg" alt="Lizzy Obiajulu" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #cbd5e1' }} />
+            <div>
+              <strong style={{ display: 'block', fontSize: '1.05rem' }}>Lizzy Obiajulu</strong>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Researcher</span>
+            </div>
+          </div>
+          {/* Stephanie */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <img src="/MissStephanie.jpg" alt="Miss Stephanie" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #cbd5e1' }} />
+            <div>
+              <strong style={{ display: 'block', fontSize: '1.05rem' }}>Miss Stephanie</strong>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Researcher</span>
+            </div>
+          </div>
+          {/* Chioma */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <img src="/ChiomaNneka.jpg" alt="Chioma Nneka" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #cbd5e1' }} />
+            <div>
+              <strong style={{ display: 'block', fontSize: '1.05rem' }}>Chioma Nneka</strong>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Researcher</span>
+            </div>
+          </div>
+        </div>
+
         <h2>Our Mission</h2>
         <p>
           Our mission is simple: to make opportunity discoverable. We know that finding career listings can be tedious and stressful, with openings scattered across dozens of individual job boards and corporate websites. We solve this by consolidating and cleaning data, offering job-seekers a single source of truth for their application journey.

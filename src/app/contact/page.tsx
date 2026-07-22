@@ -60,6 +60,42 @@ export default function ContactPage() {
           </div>
         </div>
 
+        <h2>Other Team Members</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
+          {/* Miss Paris */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <img src="/MissParis.jpg" alt="Miss Paris" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #cbd5e1' }} />
+            <div>
+              <strong style={{ display: 'block', fontSize: '1rem' }}>Miss Paris</strong>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Researcher</span>
+            </div>
+          </div>
+          {/* Lizzy */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <img src="/LizzyObiajulu.jpg" alt="Lizzy Obiajulu" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #cbd5e1' }} />
+            <div>
+              <strong style={{ display: 'block', fontSize: '1rem' }}>Lizzy Obiajulu</strong>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Researcher</span>
+            </div>
+          </div>
+          {/* Stephanie */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <img src="/MissStephanie.jpg" alt="Miss Stephanie" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #cbd5e1' }} />
+            <div>
+              <strong style={{ display: 'block', fontSize: '1rem' }}>Miss Stephanie</strong>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Researcher</span>
+            </div>
+          </div>
+          {/* Chioma */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <img src="/ChiomaNneka.jpg" alt="Chioma Nneka" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #cbd5e1' }} />
+            <div>
+              <strong style={{ display: 'block', fontSize: '1rem' }}>Chioma Nneka</strong>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Researcher</span>
+            </div>
+          </div>
+        </div>
+
         <h2>Support &amp; General Inquiries</h2>
         <p>
           For general questions, user support, or suggestions, send an email to:

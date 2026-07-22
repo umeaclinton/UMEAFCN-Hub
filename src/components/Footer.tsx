@@ -66,6 +66,43 @@ export default function Footer() {
               </div>
             </div>
           </div>
+
+          {/* Other Team Members */}
+          <div className="footer-section">
+            <h4>Other Team Members</h4>
+            
+            <div className="footer-founder" style={{ marginBottom: '12px' }}>
+              <img src="/MissParis.jpg" alt="Miss Paris" className="footer-founder-img" style={{ width: '36px', height: '36px' }} />
+              <div>
+                <p className="footer-founder-name" style={{ fontSize: '0.82rem' }}>Miss Paris</p>
+                <p className="footer-founder-title" style={{ fontSize: '0.72rem' }}>Researcher</p>
+              </div>
+            </div>
+            
+            <div className="footer-founder" style={{ marginBottom: '12px' }}>
+              <img src="/LizzyObiajulu.jpg" alt="Lizzy Obiajulu" className="footer-founder-img" style={{ width: '36px', height: '36px' }} />
+              <div>
+                <p className="footer-founder-name" style={{ fontSize: '0.82rem' }}>Lizzy Obiajulu</p>
+                <p className="footer-founder-title" style={{ fontSize: '0.72rem' }}>Researcher</p>
+              </div>
+            </div>
+
+            <div className="footer-founder" style={{ marginBottom: '12px' }}>
+              <img src="/MissStephanie.jpg" alt="Miss Stephanie" className="footer-founder-img" style={{ width: '36px', height: '36px' }} />
+              <div>
+                <p className="footer-founder-name" style={{ fontSize: '0.82rem' }}>Miss Stephanie</p>
+                <p className="footer-founder-title" style={{ fontSize: '0.72rem' }}>Researcher</p>
+              </div>
+            </div>
+
+            <div className="footer-founder">
+              <img src="/ChiomaNneka.jpg" alt="Chioma Nneka" className="footer-founder-img" style={{ width: '36px', height: '36px' }} />
+              <div>
+                <p className="footer-founder-name" style={{ fontSize: '0.82rem' }}>Chioma Nneka</p>
+                <p className="footer-founder-title" style={{ fontSize: '0.72rem' }}>Researcher</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="footer-bottom">
