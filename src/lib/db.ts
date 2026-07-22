@@ -398,6 +398,11 @@ export interface PostFilters {
   domain?: string;
 }
 
+// Safe escape for inline SQL string values
+function escapeSql(val: string): string {
+  return val.replace(/'/g, "''");
+}
+
 export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilters | string = '') {
   try {
     let q = '';
@@ -416,47 +421,30 @@ export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilter
       domainFilter = filters.domain || '';
     }
 
-    // neon serverless SQL tagged templates need some careful handling with dynamic clauses.
-    // To keep it secure and simple, we dynamically build the query using the .query() API.
-    
-    let queryStr = `SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, job_type, experience, salary, domain FROM posts WHERE apply_type != 'none'`;
-    let params: any[] = [];
-    let paramIndex = 1;
+    let conditions = `apply_type != 'none'`;
 
     if (q) {
-      queryStr += ` AND (title ILIKE $${paramIndex} OR content ILIKE $${paramIndex})`;
-      params.push(`%${q}%`);
-      paramIndex++;
+      const escaped = escapeSql(q);
+      conditions += ` AND (title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%')`;
     }
-    
     if (jobTypeFilter.length > 0) {
-      queryStr += ` AND job_type = ANY($${paramIndex}::text[])`;
-      params.push(jobTypeFilter);
-      paramIndex++;
+      const vals = jobTypeFilter.map(v => `'${escapeSql(v)}'`).join(', ');
+      conditions += ` AND job_type IN (${vals})`;
     }
-
     if (experienceFilter.length > 0) {
-      queryStr += ` AND experience = ANY($${paramIndex}::text[])`;
-      params.push(experienceFilter);
-      paramIndex++;
+      const vals = experienceFilter.map(v => `'${escapeSql(v)}'`).join(', ');
+      conditions += ` AND experience IN (${vals})`;
     }
-
     if (salaryFilter.length > 0) {
-      queryStr += ` AND salary = ANY($${paramIndex}::text[])`;
-      params.push(salaryFilter);
-      paramIndex++;
+      const vals = salaryFilter.map(v => `'${escapeSql(v)}'`).join(', ');
+      conditions += ` AND salary IN (${vals})`;
     }
-
     if (domainFilter) {
-      queryStr += ` AND domain = $${paramIndex}`;
-      params.push(domainFilter);
-      paramIndex++;
+      conditions += ` AND domain = '${escapeSql(domainFilter)}'`;
     }
 
-    queryStr += ` ORDER BY pub_date DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
-    params.push(limit, offset);
-
-    const rows = await neonSql.unsafe(queryStr, params) as unknown as any[];
+    const queryStr = `SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, job_type, experience, salary, domain FROM posts WHERE ${conditions} ORDER BY pub_date DESC LIMIT ${limit} OFFSET ${offset}`;
+    const rows = await neonSql.unsafe(queryStr) as unknown as any[];
     return rows;
   } catch (error) {
     console.error('Error fetching recent posts:', error);
@@ -525,41 +513,30 @@ export async function getTotalPostsCount(filters: PostFilters | string = '') {
       domainFilter = filters.domain || '';
     }
 
-    let queryStr = `SELECT COUNT(*) FROM posts WHERE apply_type != 'none'`;
-    let params: any[] = [];
-    let paramIndex = 1;
+    let conditions = `apply_type != 'none'`;
 
     if (q) {
-      queryStr += ` AND (title ILIKE $${paramIndex} OR content ILIKE $${paramIndex})`;
-      params.push(`%${q}%`);
-      paramIndex++;
+      const escaped = escapeSql(q);
+      conditions += ` AND (title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%')`;
     }
-    
     if (jobTypeFilter.length > 0) {
-      queryStr += ` AND job_type = ANY($${paramIndex}::text[])`;
-      params.push(jobTypeFilter);
-      paramIndex++;
+      const vals = jobTypeFilter.map(v => `'${escapeSql(v)}'`).join(', ');
+      conditions += ` AND job_type IN (${vals})`;
     }
-
     if (experienceFilter.length > 0) {
-      queryStr += ` AND experience = ANY($${paramIndex}::text[])`;
-      params.push(experienceFilter);
-      paramIndex++;
+      const vals = experienceFilter.map(v => `'${escapeSql(v)}'`).join(', ');
+      conditions += ` AND experience IN (${vals})`;
     }
-
     if (salaryFilter.length > 0) {
-      queryStr += ` AND salary = ANY($${paramIndex}::text[])`;
-      params.push(salaryFilter);
-      paramIndex++;
+      const vals = salaryFilter.map(v => `'${escapeSql(v)}'`).join(', ');
+      conditions += ` AND salary IN (${vals})`;
     }
-
     if (domainFilter) {
-      queryStr += ` AND domain = $${paramIndex}`;
-      params.push(domainFilter);
-      paramIndex++;
+      conditions += ` AND domain = '${escapeSql(domainFilter)}'`;
     }
 
-    const rows = await neonSql.unsafe(queryStr, params) as unknown as any[];
+    const queryStr = `SELECT COUNT(*) as count FROM posts WHERE ${conditions}`;
+    const rows = await neonSql.unsafe(queryStr) as unknown as any[];
     return parseInt(rows[0].count, 10);
   } catch (error) {
     console.error('Error counting posts:', error);
