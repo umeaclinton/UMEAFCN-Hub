@@ -14,12 +14,13 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
   const offset = (currentPage - 1) * limit;
 
   // Extract filters
+  const category = Array.isArray(resolvedSearchParams?.category) ? resolvedSearchParams?.category : (resolvedSearchParams?.category ? [resolvedSearchParams.category as string] : []);
   const jobType = Array.isArray(resolvedSearchParams?.jobType) ? resolvedSearchParams?.jobType : (resolvedSearchParams?.jobType ? [resolvedSearchParams.jobType as string] : []);
   const experience = Array.isArray(resolvedSearchParams?.experience) ? resolvedSearchParams?.experience : (resolvedSearchParams?.experience ? [resolvedSearchParams.experience as string] : []);
   const salary = Array.isArray(resolvedSearchParams?.salary) ? resolvedSearchParams?.salary : (resolvedSearchParams?.salary ? [resolvedSearchParams.salary as string] : []);
   const domain = (resolvedSearchParams?.domain as string) || '';
 
-  const hasFilters = query || jobType.length > 0 || experience.length > 0 || salary.length > 0 || domain;
+  const hasFilters = query || category.length > 0 || jobType.length > 0 || experience.length > 0 || salary.length > 0 || domain;
 
   // Search mode active or Filters active
   if (hasFilters) {
@@ -27,6 +28,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
     let totalPosts = 0;
     const filterObj = {
       searchQuery: query,
+      category,
       jobType,
       experience,
       salary,
@@ -59,6 +61,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
               placeholder="Search jobs..." 
               className="search-input"
             />
+            {category.map(c => <input type="hidden" name="category" value={c} key={`cat-${c}`}/>)}
             {jobType.map(t => <input type="hidden" name="jobType" value={t} key={`jt-${t}`}/>)}
             {experience.map(e => <input type="hidden" name="experience" value={e} key={`exp-${e}`}/>)}
             {salary.map(s => <input type="hidden" name="salary" value={s} key={`sal-${s}`}/>)}

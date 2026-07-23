@@ -33,6 +33,7 @@ export default function FilterSidebar() {
 
   const handleClearAll = () => {
     const params = new URLSearchParams(searchParams.toString());
+    params.delete('category');
     params.delete('jobType');
     params.delete('experience');
     params.delete('salary');
@@ -41,7 +42,7 @@ export default function FilterSidebar() {
     router.push(`/?${params.toString()}`);
   };
 
-  const hasFilters = searchParams.has('jobType') || searchParams.has('experience') || searchParams.has('salary') || searchParams.has('domain');
+  const hasFilters = searchParams.has('category') || searchParams.has('jobType') || searchParams.has('experience') || searchParams.has('salary') || searchParams.has('domain');
 
   return (
     <>
@@ -73,6 +74,21 @@ export default function FilterSidebar() {
             </button>
           </div>
         </div>
+
+      <div className="filter-group">
+        <h4>Categories</h4>
+        <div className="filter-pills">
+          {['Scholarship', 'Internship', 'Graduate Trainee', 'Remote Jobs'].map(cat => (
+            <button
+              key={cat}
+              onClick={() => handleToggle('category', cat)}
+              className={`filter-pill ${searchParams.getAll('category').includes(cat) ? 'active' : ''}`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="filter-group">
         <h4>Job Type</h4>

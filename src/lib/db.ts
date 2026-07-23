@@ -396,6 +396,7 @@ export interface PostFilters {
   experience?: string[];
   salary?: string[];
   domain?: string;
+  category?: string[];
 }
 
 // Safe escape for inline SQL string values
@@ -410,6 +411,7 @@ export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilter
     let experienceFilter: string[] = [];
     let salaryFilter: string[] = [];
     let domainFilter = '';
+    let categoryFilter: string[] = [];
 
     if (typeof filters === 'string') {
       q = filters;
@@ -419,13 +421,18 @@ export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilter
       experienceFilter = filters.experience || [];
       salaryFilter = filters.salary || [];
       domainFilter = filters.domain || '';
+      categoryFilter = filters.category || [];
     }
 
     let conditions = `apply_type != 'none'`;
 
     if (q) {
       const escaped = escapeSql(q);
-      conditions += ` AND (title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%')`;
+      conditions += ` AND (title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%' OR category ILIKE '%${escaped}%')`;
+    }
+    if (categoryFilter.length > 0) {
+      const vals = categoryFilter.map(v => `'${escapeSql(v)}'`).join(', ');
+      conditions += ` AND category IN (${vals})`;
     }
     if (jobTypeFilter.length > 0) {
       const vals = jobTypeFilter.map(v => `'${escapeSql(v)}'`).join(', ');
@@ -444,7 +451,7 @@ export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilter
     }
 
     const queryStr = `SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, job_type, experience, salary, domain FROM posts WHERE ${conditions} ORDER BY pub_date DESC LIMIT ${limit} OFFSET ${offset}`;
-    const rows = await neonSql.unsafe(queryStr) as unknown as any[];
+    const rows = await (neonSql as any)(queryStr, []);
     return rows;
   } catch (error) {
     console.error('Error fetching recent posts:', error);
@@ -502,6 +509,7 @@ export async function getTotalPostsCount(filters: PostFilters | string = '') {
     let experienceFilter: string[] = [];
     let salaryFilter: string[] = [];
     let domainFilter = '';
+    let categoryFilter: string[] = [];
 
     if (typeof filters === 'string') {
       q = filters;
@@ -511,13 +519,18 @@ export async function getTotalPostsCount(filters: PostFilters | string = '') {
       experienceFilter = filters.experience || [];
       salaryFilter = filters.salary || [];
       domainFilter = filters.domain || '';
+      categoryFilter = filters.category || [];
     }
 
     let conditions = `apply_type != 'none'`;
 
     if (q) {
       const escaped = escapeSql(q);
-      conditions += ` AND (title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%')`;
+      conditions += ` AND (title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%' OR category ILIKE '%${escaped}%')`;
+    }
+    if (categoryFilter.length > 0) {
+      const vals = categoryFilter.map(v => `'${escapeSql(v)}'`).join(', ');
+      conditions += ` AND category IN (${vals})`;
     }
     if (jobTypeFilter.length > 0) {
       const vals = jobTypeFilter.map(v => `'${escapeSql(v)}'`).join(', ');
@@ -536,7 +549,7 @@ export async function getTotalPostsCount(filters: PostFilters | string = '') {
     }
 
     const queryStr = `SELECT COUNT(*) as count FROM posts WHERE ${conditions}`;
-    const rows = await neonSql.unsafe(queryStr) as unknown as any[];
+    const rows = await (neonSql as any)(queryStr, []);
     return parseInt(rows[0].count, 10);
   } catch (error) {
     console.error('Error counting posts:', error);
