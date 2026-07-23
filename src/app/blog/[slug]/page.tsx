@@ -3,6 +3,7 @@ import { getCategoryImage } from '@/lib/images';
 import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import ShareButtons from '@/components/ShareButtons';
 import type { Metadata } from 'next';
 
 export const revalidate = 0;
@@ -56,6 +57,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <time>Published on: {new Date(post.pub_date).toLocaleDateString()}</time>
           <span>By {post.author}</span>
         </div>
+        <ShareButtons title={post.title} />
       </header>
 
       <div 
