@@ -78,7 +78,7 @@ export default function FilterSidebar() {
       <div className="filter-group">
         <h4>Categories</h4>
         <div className="filter-pills">
-          {['Grants', 'Internships', 'Graduate Programs', 'Remote'].map(cat => (
+          {['Scholarships', 'Internships', 'Graduate Trainee', 'Remote'].map(cat => (
             <button
               key={cat}
               onClick={() => handleToggle('category', cat)}

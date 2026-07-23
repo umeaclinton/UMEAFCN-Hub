@@ -432,8 +432,10 @@ export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilter
     }
     if (categoryFilter.length > 0) {
       const catConditions = categoryFilter.map(v => {
-        const escaped = escapeSql(v);
-        return `category ILIKE '%${escaped}%'`;
+        let searchTerm = escapeSql(v);
+        if (v === 'Scholarships') searchTerm = 'Scholarship';
+        if (v === 'Graduate Trainee') searchTerm = 'Graduate';
+        return `(category ILIKE '%${searchTerm}%' OR title ILIKE '%${searchTerm}%' OR content ILIKE '%${searchTerm}%')`;
       }).join(' OR ');
       conditions += ` AND (${catConditions})`;
     }
@@ -533,8 +535,10 @@ export async function getTotalPostsCount(filters: PostFilters | string = '') {
     }
     if (categoryFilter.length > 0) {
       const catConditions = categoryFilter.map(v => {
-        const escaped = escapeSql(v);
-        return `category ILIKE '%${escaped}%'`;
+        let searchTerm = escapeSql(v);
+        if (v === 'Scholarships') searchTerm = 'Scholarship';
+        if (v === 'Graduate Trainee') searchTerm = 'Graduate';
+        return `(category ILIKE '%${searchTerm}%' OR title ILIKE '%${searchTerm}%' OR content ILIKE '%${searchTerm}%')`;
       }).join(' OR ');
       conditions += ` AND (${catConditions})`;
     }
