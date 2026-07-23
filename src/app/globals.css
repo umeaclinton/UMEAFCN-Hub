@@ -1415,7 +1415,7 @@ main.container {
 .clear-all-btn {
   background: none;
   border: none;
-  color: var(--primary-color);
+  color: var(--accent-color);
   font-size: 0.875rem;
   cursor: pointer;
   padding: 0;
@@ -1471,14 +1471,14 @@ main.container {
 }
 
 .filter-pill:hover {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
 }
 
 .filter-pill.active {
-  background: var(--primary-color);
+  background: var(--accent-color);
   color: white;
-  border-color: var(--primary-color);
+  border-color: var(--accent-color);
 }
 
 .checkbox-list {
@@ -1503,7 +1503,7 @@ main.container {
 }
 
 .checkbox-label input[type="checkbox"] {
-  accent-color: var(--primary-color);
+  accent-color: var(--accent-color);
   width: 16px;
   height: 16px;
   cursor: pointer;
