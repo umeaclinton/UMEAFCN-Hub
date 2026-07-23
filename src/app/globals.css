@@ -1358,18 +1358,11 @@ main.container {
 /* =========================================
    Filter System Layout
 ========================================= */
-.home-page-with-sidebar {
-  display: grid;
-  grid-template-columns: 1fr 260px;
-  gap: 2rem;
-  align-items: start;
-}
-
+.home-page-with-sidebar,
 .filter-page-layout {
-  display: grid;
-  grid-template-columns: 1fr 280px;
+  display: flex;
+  flex-direction: column-reverse;
   gap: 2rem;
-  align-items: start;
 }
 
 .filter-results-container {
@@ -1378,14 +1371,31 @@ main.container {
   gap: 1.5rem;
 }
 
+/* Global Modal Filter Sidebar */
 .filter-sidebar {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  width: 90%;
+  max-width: 400px;
+  max-height: 85vh;
+  overflow-y: auto;
   background: var(--surface-color);
-  border-radius: 12px;
-  padding: 1.5rem;
+  z-index: 1000;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
   border: 1px solid var(--border-color);
-  position: sticky;
-  top: 100px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+.filter-sidebar.mobile-open {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .filter-header {
@@ -1422,16 +1432,50 @@ main.container {
 }
 
 .close-mobile-filter {
-  display: none; /* hidden on desktop */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary-bg);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-color);
 }
 
-/* Mobile Trigger Button */
+/* Trigger Button */
 .mobile-filter-trigger {
-  display: none; /* hidden on desktop */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color);
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  width: fit-content;
+}
+
+.mobile-filter-trigger:hover {
+  background-color: var(--surface-hover);
 }
 
 .mobile-filter-backdrop {
-  display: none; /* hidden on desktop */
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
 }
 
 .clear-all-btn:hover {
@@ -1521,81 +1565,20 @@ main.container {
 }
 
 @media (max-width: 900px) {
-  .filter-page-layout,
-  .home-page-with-sidebar {
-    display: flex;
-    flex-direction: column-reverse;
-  }
-  
-  /* Mobile trigger button */
-  .mobile-filter-trigger {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: var(--secondary-bg);
-    border: 1px solid var(--border-color);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text-color);
-    cursor: pointer;
-    margin-bottom: 1.5rem;
-    width: fit-content;
-  }
-
-  /* Filter Sidebar becomes a Bottom Sheet */
+  /* On mobile, override the centered modal to be a bottom sheet */
   .filter-sidebar {
-    position: fixed;
+    top: auto;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
-    max-height: 85vh;
-    overflow-y: auto;
-    background: var(--surface-color);
-    z-index: 1000;
+    max-width: 100%;
     border-radius: 20px 20px 0 0;
-    padding: 2rem 1.5rem;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-    margin-bottom: 0;
-    border: none;
-    
-    /* Animation and default hidden state */
     transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .filter-sidebar.mobile-open {
     transform: translateY(0);
-  }
-
-  /* Backdrop */
-  .mobile-filter-backdrop {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    animation: fadeIn 0.3s ease;
-  }
-
-  /* Close button inside header */
-  .close-mobile-filter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--secondary-bg);
-    border: none;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--text-color);
   }
 }
 
