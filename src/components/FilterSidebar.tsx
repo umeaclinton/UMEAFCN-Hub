@@ -93,7 +93,7 @@ export default function FilterSidebar() {
       <div className="filter-group">
         <h4>Job Type</h4>
         <div className="filter-pills">
-          {['Full Time', 'Internship', 'Contract', 'Part Time'].map(type => (
+          {['Full Time', 'Hybrid', 'Contract', 'Part Time'].map(type => (
             <button
               key={type}
               onClick={() => handleToggle('jobType', type)}
