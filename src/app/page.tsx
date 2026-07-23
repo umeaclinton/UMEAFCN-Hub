@@ -169,7 +169,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
           </div>
           <div className="hero-proof-text">
             <div className="hero-stars">★★★★★</div>
-            <p>Trusted by <strong>10,000+</strong> professionals across Africa</p>
+            <p>Trusted by <strong>10,000+</strong> professionals worldwide</p>
           </div>
         </div>
 
