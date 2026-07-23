@@ -109,7 +109,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   }
 
   const jsonLd = generateJobSchema(post);
-  const similarPosts = await getSimilarPosts(post.category || null, post.id, 3);
+  const similarPosts = await getSimilarPosts(post.category || null, post.id, 10);
 
   return (
     <article className="single-post">

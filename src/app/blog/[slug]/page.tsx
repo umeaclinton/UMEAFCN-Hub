@@ -46,7 +46,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
-  const similarPosts = await getSimilarBlogPosts(post.id, 3);
+  const similarPosts = await getSimilarBlogPosts(post.id, 10);
 
   return (
     <article className="single-post">
