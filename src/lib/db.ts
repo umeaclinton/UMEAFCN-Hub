@@ -451,7 +451,7 @@ export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilter
     }
 
     const queryStr = `SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, job_type, experience, salary, domain FROM posts WHERE ${conditions} ORDER BY pub_date DESC LIMIT ${limit} OFFSET ${offset}`;
-    const rows = await (neonSql as any)(queryStr, []);
+    const rows = await (neonSql as any).query(queryStr, []);
     return rows;
   } catch (error) {
     console.error('Error fetching recent posts:', error);
@@ -549,7 +549,7 @@ export async function getTotalPostsCount(filters: PostFilters | string = '') {
     }
 
     const queryStr = `SELECT COUNT(*) as count FROM posts WHERE ${conditions}`;
-    const rows = await (neonSql as any)(queryStr, []);
+    const rows = await (neonSql as any).query(queryStr, []);
     return parseInt(rows[0].count, 10);
   } catch (error) {
     console.error('Error counting posts:', error);
