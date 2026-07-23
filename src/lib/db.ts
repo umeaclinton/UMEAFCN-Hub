@@ -433,7 +433,7 @@ export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilter
     if (categoryFilter.length > 0) {
       const catConditions = categoryFilter.map(v => {
         const escaped = escapeSql(v);
-        return `(title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%' OR category ILIKE '%${escaped}%')`;
+        return `category ILIKE '%${escaped}%'`;
       }).join(' OR ');
       conditions += ` AND (${catConditions})`;
     }
@@ -534,7 +534,7 @@ export async function getTotalPostsCount(filters: PostFilters | string = '') {
     if (categoryFilter.length > 0) {
       const catConditions = categoryFilter.map(v => {
         const escaped = escapeSql(v);
-        return `(title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%' OR category ILIKE '%${escaped}%')`;
+        return `category ILIKE '%${escaped}%'`;
       }).join(' OR ');
       conditions += ` AND (${catConditions})`;
     }
