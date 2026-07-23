@@ -137,28 +137,6 @@ export default function FilterSidebar() {
         </div>
       </div>
 
-      <div className="filter-group">
-        <h4>Domain</h4>
-        <select 
-          className="domain-select"
-          value={searchParams.get('domain') || ''}
-          onChange={(e) => {
-            const params = new URLSearchParams(searchParams.toString());
-            if (e.target.value) {
-              params.set('domain', e.target.value);
-            } else {
-              params.delete('domain');
-            }
-            params.delete('page');
-            router.push(`/?${params.toString()}`);
-          }}
-        >
-          <option value="">Select domain</option>
-          {['Technology', 'Marketing', 'Finance', 'Sales', 'Design', 'Customer Support', 'Operations', 'Other'].map(domain => (
-            <option key={domain} value={domain}>{domain}</option>
-          ))}
-        </select>
-      </div>
     </aside>
     </>
   );
