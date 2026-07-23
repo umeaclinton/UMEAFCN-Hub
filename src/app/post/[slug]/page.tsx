@@ -3,6 +3,7 @@ import { getCategoryImage } from '@/lib/images';
 import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import ShareButtons from '@/components/ShareButtons';
 
 import type { Metadata } from 'next';
 
@@ -123,6 +124,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <span className="category-badge">{post.category || 'General'}</span>
           <time>Published on: {new Date(post.pub_date).toLocaleString()}</time>
         </div>
+        <ShareButtons title={post.title} />
       </header>
       
       <div 
