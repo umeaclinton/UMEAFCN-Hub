@@ -1,9 +1,10 @@
-import { getBlogPosts, getBlogPostBySlug } from '@/lib/db';
+import { getBlogPosts, getBlogPostBySlug, getSimilarBlogPosts } from '@/lib/db';
 import { getCategoryImage } from '@/lib/images';
 import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ShareButtons from '@/components/ShareButtons';
+import SimilarPosts from '@/components/SimilarPosts';
 import type { Metadata } from 'next';
 
 export const revalidate = 0;
@@ -45,6 +46,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
+  const similarPosts = await getSimilarBlogPosts(post.id, 3);
+
   return (
     <article className="single-post">
       <div className="post-featured-banner">
@@ -83,6 +86,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           Go to Job Board
         </Link>
       </div>
+
+      <SimilarPosts posts={similarPosts} type="blog" />
     </article>
   );
 }

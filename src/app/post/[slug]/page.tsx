@@ -1,9 +1,10 @@
-import { getPostBySlug, getPostById } from '@/lib/db';
+import { getPostBySlug, getPostById, getSimilarPosts } from '@/lib/db';
 import { getCategoryImage } from '@/lib/images';
 import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ShareButtons from '@/components/ShareButtons';
+import SimilarPosts from '@/components/SimilarPosts';
 
 import type { Metadata } from 'next';
 
@@ -108,6 +109,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   }
 
   const jsonLd = generateJobSchema(post);
+  const similarPosts = await getSimilarPosts(post.category || null, post.id, 3);
 
   return (
     <article className="single-post">
@@ -150,6 +152,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           &larr; Back to all posts
         </Link>
       </div>
+
+      <SimilarPosts posts={similarPosts} type="job" />
     </article>
   );
 }

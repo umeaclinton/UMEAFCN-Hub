@@ -677,3 +677,61 @@ export async function setSetting(key: string, value: string) {
     return false;
   }
 }
+
+export async function getSimilarPosts(category: string | null, currentId: number, limit = 3) {
+  try {
+    let result;
+    if (category) {
+      result = await sql`
+        SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
+        FROM posts 
+        WHERE apply_type != 'none' 
+          AND id != ${currentId}
+          AND category ILIKE ${category}
+        ORDER BY pub_date DESC 
+        LIMIT ${limit};
+      `;
+    }
+    
+    // If no category or not enough posts found, fallback to recent posts
+    if (!result || result.rows.length < limit) {
+      const fallbackLimit = limit - (result ? result.rows.length : 0);
+      const excludeIds = result ? [currentId, ...result.rows.map((r: any) => r.id)] : [currentId];
+      // Workaround for Neon serverless query not supporting dynamic IN array easily:
+      // Using a simpler approach: just get recent posts and filter in memory if needed, 
+      // or use a NOT IN string if small. We will just get limit+3 recent posts and filter.
+      const fallbackResult = await sql`
+        SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
+        FROM posts 
+        WHERE apply_type != 'none' 
+          AND id != ${currentId}
+        ORDER BY pub_date DESC 
+        LIMIT ${fallbackLimit + 5};
+      `;
+      
+      const additionalPosts = fallbackResult.rows.filter((r: any) => !excludeIds.includes(r.id)).slice(0, fallbackLimit);
+      return result ? [...result.rows, ...additionalPosts] : additionalPosts;
+    }
+    
+    return result.rows;
+  } catch (error) {
+    console.error(`Error fetching similar posts:`, error);
+    return [];
+  }
+}
+
+export async function getSimilarBlogPosts(currentId: number, limit = 3) {
+  try {
+    const result = await sql`
+      SELECT id, title, excerpt, content, slug, pub_date, author 
+      FROM blog_posts 
+      WHERE id != ${currentId}
+      ORDER BY pub_date DESC 
+      LIMIT ${limit};
+    `;
+    return result.rows;
+  } catch (error) {
+    console.error(`Error fetching similar blog posts:`, error);
+    return [];
+  }
+}
