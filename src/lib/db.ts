@@ -431,8 +431,11 @@ export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilter
       conditions += ` AND (title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%' OR category ILIKE '%${escaped}%')`;
     }
     if (categoryFilter.length > 0) {
-      const vals = categoryFilter.map(v => `'${escapeSql(v)}'`).join(', ');
-      conditions += ` AND category IN (${vals})`;
+      const catConditions = categoryFilter.map(v => {
+        const escaped = escapeSql(v);
+        return `(title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%' OR category ILIKE '%${escaped}%')`;
+      }).join(' OR ');
+      conditions += ` AND (${catConditions})`;
     }
     if (jobTypeFilter.length > 0) {
       const vals = jobTypeFilter.map(v => `'${escapeSql(v)}'`).join(', ');
@@ -529,8 +532,11 @@ export async function getTotalPostsCount(filters: PostFilters | string = '') {
       conditions += ` AND (title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%' OR category ILIKE '%${escaped}%')`;
     }
     if (categoryFilter.length > 0) {
-      const vals = categoryFilter.map(v => `'${escapeSql(v)}'`).join(', ');
-      conditions += ` AND category IN (${vals})`;
+      const catConditions = categoryFilter.map(v => {
+        const escaped = escapeSql(v);
+        return `(title ILIKE '%${escaped}%' OR content ILIKE '%${escaped}%' OR category ILIKE '%${escaped}%')`;
+      }).join(' OR ');
+      conditions += ` AND (${catConditions})`;
     }
     if (jobTypeFilter.length > 0) {
       const vals = jobTypeFilter.map(v => `'${escapeSql(v)}'`).join(', ');
