@@ -1360,14 +1360,14 @@ main.container {
 ========================================= */
 .home-page-with-sidebar {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 1fr 260px;
   gap: 2rem;
   align-items: start;
 }
 
 .filter-page-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 1fr 280px;
   gap: 2rem;
   align-items: start;
 }
@@ -1523,7 +1523,8 @@ main.container {
 @media (max-width: 900px) {
   .filter-page-layout,
   .home-page-with-sidebar {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column-reverse;
   }
   
   /* Mobile trigger button */

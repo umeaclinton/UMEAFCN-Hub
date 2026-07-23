@@ -120,6 +120,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
           </div>
         )}
         </div>
+        
+        <FilterSidebar />
       </div>
     );
   }
@@ -145,7 +147,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
 
   return (
     <div className="home-page-with-sidebar">
-      <FilterSidebar />
       <div className="home-showcase">
       {/* Jobfound-style Hero Section */}
       <div className="welcome-section">
@@ -402,6 +403,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
         </section>
       )}
       </div>
+      <FilterSidebar />
     </div>
   );
 }
