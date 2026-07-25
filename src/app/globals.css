@@ -334,43 +334,47 @@ main.container {
 /* Grid for posts */
 .posts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
 }
 
 @media (min-width: 769px) {
   .posts-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    gap: 28px;
   }
 }
 
 /* Post Cards */
 .post-card {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  padding: 12px 0;
-  transition: var(--transition);
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .post-card:hover {
-  transform: translateY(-2px);
-  background: transparent;
-  border-color: transparent;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+  border-color: var(--accent-color);
 }
 
 .post-card h2 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-bottom: 10px;
-  line-height: 1.4;
+  line-height: 1.45;
   font-weight: 700;
+  padding: 0 16px;
 }
 
 .post-card h2 a {
   color: var(--text-color);
+  text-decoration: none;
 }
 
 .post-card h2 a:hover {
@@ -401,27 +405,33 @@ main.container {
 
 .post-excerpt {
   color: var(--text-muted);
-  font-size: 0.88rem;
-  line-height: 1.6;
+  font-size: 0.87rem;
+  line-height: 1.65;
   margin-bottom: 16px;
   flex-grow: 1;
+  padding: 0 16px;
 }
 
 .read-more {
   color: var(--text-accent);
   text-decoration: none;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.07em;
   align-self: flex-start;
-  transition: color 0.2s;
+  transition: color 0.2s, background 0.2s;
   display: inline-block;
   margin-top: auto;
+  margin: auto 16px 16px 16px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--accent-color);
+  border-radius: 6px;
 }
 
 .read-more:hover {
-  color: var(--accent-hover);
+  background: var(--accent-color);
+  color: #fff;
 }
 
 /* Single Post View */
@@ -430,6 +440,9 @@ main.container {
   border: none;
   border-radius: 0;
   padding: 24px 0;
+  max-width: 840px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .post-header {
@@ -710,13 +723,14 @@ main.container {
 
   /* Typography adjustments for mobile cards to look less bulky */
   .post-card {
-    padding: 12px 0;
-    border-radius: 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   }
 
   .post-card h2 {
-    font-size: 1.1rem; /* Decreased size so it fits mobile proportions */
+    font-size: 0.98rem;
     margin-bottom: 8px;
+    padding: 0 14px;
   }
 
   .post-meta {
@@ -1121,9 +1135,10 @@ main.container {
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 6px;
-  margin-bottom: 12px;
+  border-radius: 14px 14px 0 0;
+  margin-bottom: 14px;
   background: var(--surface-hover);
+  flex-shrink: 0;
 }
 
 .post-card-image img {
@@ -1131,20 +1146,27 @@ main.container {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
+  transition: transform 0.35s ease;
 }
 
 .post-card:hover .post-card-image img {
-  transform: scale(1.04);
+  transform: scale(1.06);
+}
+
+/* inside card: add padding around meta after image */
+.post-card .post-meta {
+  padding: 0 16px;
+  margin-bottom: 8px;
 }
 
 .post-featured-banner {
   width: 100%;
   aspect-ratio: 21 / 9;
   overflow: hidden;
-  border-radius: 8px;
-  margin-bottom: 28px;
+  border-radius: 16px;
+  margin-bottom: 32px;
   background: var(--surface-hover);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
 }
 
 .post-featured-banner img {
@@ -1157,7 +1179,9 @@ main.container {
 @media (max-width: 768px) {
   .post-featured-banner {
     aspect-ratio: 16 / 9;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
   }
 }
 
