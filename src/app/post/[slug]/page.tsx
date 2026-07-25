@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ShareButtons from '@/components/ShareButtons';
 import SimilarPosts from '@/components/SimilarPosts';
-import { cleanText } from '@/lib/utils';
 
 import type { Metadata } from 'next';
 
@@ -34,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const plainTextContent = post.content.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
 
   return {
-    title: `${cleanText(post.title)} | UMEAFCN Hub`,
+    title: `${post.title} | UMEAFCN Hub`,
     description: plainTextContent,
     openGraph: {
       title: post.title,
@@ -119,10 +118,10 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="post-featured-banner">
-        <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={cleanText(post.title)} fallbackSeed={post.id} />
+        <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} fallbackSeed={post.id} />
       </div>
       <header className="post-header">
-        <h1>{cleanText(post.title)}</h1>
+        <h1>{post.title}</h1>
         <div className="post-meta">
           <span className="category-badge">{post.category || 'General'}</span>
           <time>Published on: {new Date(post.pub_date).toLocaleString()}</time>

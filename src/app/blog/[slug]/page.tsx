@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ShareButtons from '@/components/ShareButtons';
 import SimilarPosts from '@/components/SimilarPosts';
-import { cleanText } from '@/lib/utils';
 import type { Metadata } from 'next';
 
 export const revalidate = 0;
@@ -27,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${cleanText(post.title)} | Career Blog`,
+    title: `${post.title} | Career Blog`,
     description: post.excerpt,
   };
 }
@@ -52,10 +51,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <article className="single-post">
       <div className="post-featured-banner">
-        <SafeImage src={getCategoryImage('blog', post.title, post.id)} alt={cleanText(post.title)} fallbackSeed={post.id} />
+        <SafeImage src={getCategoryImage('blog', post.title, post.id)} alt={post.title} fallbackSeed={post.id} />
       </div>
       <header className="post-header">
-        <h1>{cleanText(post.title)}</h1>
+        <h1>{post.title}</h1>
         <div className="post-meta">
           <span className="category-badge">Career Guide</span>
           <time>Published on: {new Date(post.pub_date).toLocaleDateString()}</time>

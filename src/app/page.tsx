@@ -3,7 +3,6 @@ import { getCategoryImage } from '@/lib/images';
 import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 import FilterSidebar from '@/components/FilterSidebar';
-import { cleanText } from '@/lib/utils';
 
 export const revalidate = 0; // Don't cache this page statically
 
@@ -78,7 +77,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
                   <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
-                  <Link href={`/post/${post.slug || post.id}`}>{cleanText(post.title)}</Link>
+                  <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>
                 <div className="post-meta">
                   <span className="category-badge">{post.category || 'General'}</span>
@@ -188,7 +187,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
 
       {/* Newsletter — kept, but no founder note */}
       <div className="newsletter-capture">
-        <p className="newsletter-subtitle">Join 10,000+ professionals getting our weekly opportunity digest.</p>
+        <h4>Join 10,000+ professionals getting our weekly opportunity digest.</h4>
         <form className="newsletter-form" action="/contact">
           <input type="email" placeholder="Enter your email address" required className="newsletter-input" />
           <button type="submit" className="newsletter-btn">Subscribe</button>
@@ -212,7 +211,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
                   <SafeImage src={getCategoryImage('blog', art.title, art.id)} alt={art.title} loading="lazy" fallbackSeed={art.id} />
                 </div>
                 <h2>
-                  <Link href={`/blog/${art.slug}`}>{cleanText(art.title)}</Link>
+                  <Link href={`/blog/${art.slug}`}>{art.title}</Link>
                 </h2>
                 <div className="post-meta">
                   <span className="category-badge">Career Guide</span>
@@ -244,7 +243,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
                   <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
-                  <Link href={`/post/${post.slug || post.id}`}>{cleanText(post.title)}</Link>
+                  <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>
                 <div className="post-meta">
                   <span className="category-badge">{post.category}</span>
@@ -276,7 +275,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
                   <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
-                  <Link href={`/post/${post.slug || post.id}`}>{cleanText(post.title)}</Link>
+                  <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>
                 <div className="post-meta">
                   <span className="category-badge">{post.category}</span>
@@ -322,7 +321,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
                   <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
-                  <Link href={`/post/${post.slug || post.id}`}>{cleanText(post.title)}</Link>
+                  <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>
                 <div className="post-meta">
                   <span className="category-badge">{post.category}</span>
@@ -354,7 +353,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
                   <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
-                  <Link href={`/post/${post.slug || post.id}`}>{cleanText(post.title)}</Link>
+                  <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>
                 <div className="post-meta">
                   <span className="category-badge">{post.category}</span>
@@ -386,7 +385,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
                   <SafeImage src={getCategoryImage(post.category, post.title, post.id)} alt={post.title} loading="lazy" fallbackSeed={post.id} />
                 </div>
                 <h2>
-                  <Link href={`/post/${post.slug || post.id}`}>{cleanText(post.title)}</Link>
+                  <Link href={`/post/${post.slug || post.id}`}>{post.title}</Link>
                 </h2>
                 <div className="post-meta">
                   <span className="category-badge">{post.category}</span>
