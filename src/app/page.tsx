@@ -44,7 +44,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
     const totalPages = Math.ceil(totalPosts / limit);
 
     return (
-      <div className="filter-page-layout">
+      <div className="container">
         <FilterSidebar />
         
         <div className="filter-results-container">
@@ -146,7 +146,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
   }
 
   return (
-    <div className="home-page-with-sidebar">
+    <div className="container">
       <div className="home-showcase">
       {/* Jobfound-style Hero Section */}
       <div className="welcome-section">

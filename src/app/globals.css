@@ -1392,7 +1392,7 @@ main.container {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
 }
 
-.filter-sidebar.mobile-open {
+.filter-sidebar.is-open {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
   pointer-events: auto;
@@ -1431,7 +1431,7 @@ main.container {
   padding: 0;
 }
 
-.close-mobile-filter {
+.close-filter-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1445,28 +1445,33 @@ main.container {
   color: var(--text-color);
 }
 
-/* Trigger Button */
-.mobile-filter-trigger {
+/* Trigger Button (Floating) */
+.filter-trigger {
+  position: fixed;
+  bottom: 84px; /* Right above the theme toggle */
+  right: 24px;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: var(--secondary-bg);
-  border: 1px solid var(--border-color);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-color);
+  background-color: var(--accent-color);
+  color: #000;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-bottom: 0.5rem;
-  width: fit-content;
+  z-index: 998;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.mobile-filter-trigger:hover {
-  background-color: var(--surface-hover);
+.filter-trigger:hover {
+  transform: translateY(-2px);
+  background-color: var(--accent-hover);
 }
 
-.mobile-filter-backdrop {
+.filter-backdrop {
   display: block;
   position: fixed;
   top: 0;
@@ -1577,7 +1582,7 @@ main.container {
     transform: translateY(100%);
   }
 
-  .filter-sidebar.mobile-open {
+  .filter-sidebar.is-open {
     transform: translateY(0);
   }
 }
