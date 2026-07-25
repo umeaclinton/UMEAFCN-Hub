@@ -187,7 +187,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
 
       {/* Newsletter — kept, but no founder note */}
       <div className="newsletter-capture">
-        <h4>Join 10,000+ professionals getting our weekly opportunity digest.</h4>
+        <p className="newsletter-subtitle">Join 10,000+ professionals getting our weekly opportunity digest.</p>
         <form className="newsletter-form" action="/contact">
           <input type="email" placeholder="Enter your email address" required className="newsletter-input" />
           <button type="submit" className="newsletter-btn">Subscribe</button>

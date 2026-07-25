@@ -64,7 +64,7 @@ export default function FilterSidebar() {
 
       <aside className={`filter-sidebar ${isOpen ? 'is-open' : ''}`}>
         <div className="filter-header">
-          <h3><span className="filter-icon"></span> Filters</h3>
+          <h2><span className="filter-icon"></span> Filters</h2>
           <div className="filter-header-actions">
             {hasFilters && (
               <button onClick={handleClearAll} className="clear-all-btn">Clear All</button>
@@ -76,7 +76,7 @@ export default function FilterSidebar() {
         </div>
 
       <div className="filter-group">
-        <h4>Categories</h4>
+        <h3>Categories</h3>
         <div className="filter-pills">
           {['Scholarships', 'Internships', 'Graduate Trainee', 'Remote'].map(cat => (
             <button
@@ -91,7 +91,7 @@ export default function FilterSidebar() {
       </div>
 
       <div className="filter-group">
-        <h4>Job Type</h4>
+        <h3>Job Type</h3>
         <div className="filter-pills">
           {['Full Time', 'Hybrid', 'Contract', 'Part Time'].map(type => (
             <button
@@ -106,7 +106,7 @@ export default function FilterSidebar() {
       </div>
 
       <div className="filter-group">
-        <h4>Experience</h4>
+        <h3>Experience</h3>
         <div className="checkbox-list">
           {['More than 0 year', 'More than 1 year', 'More than 2 years', 'More than 3 years', 'More than 4 years'].map(exp => (
             <label key={exp} className="checkbox-label">
@@ -122,7 +122,7 @@ export default function FilterSidebar() {
       </div>
 
       <div className="filter-group">
-        <h4>Salary</h4>
+        <h3>Salary</h3>
         <div className="checkbox-list two-cols">
           {['Competitive', 'Under $50k', '$50k - $100k', '$100k+'].map(salary => (
             <label key={salary} className="checkbox-label">
