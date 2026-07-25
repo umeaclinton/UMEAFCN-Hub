@@ -44,9 +44,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
     const totalPages = Math.ceil(totalPosts / limit);
 
     return (
+      <>
       <div className="filter-page-layout">
-        <FilterSidebar />
-        
         <div className="filter-results-container">
           <div className="search-header-info">
             <h2>{query ? `Search Results for "${query}"` : "Filtered Job Opportunities"}</h2>
@@ -120,9 +119,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
           </div>
         )}
         </div>
-        
-        <FilterSidebar />
       </div>
+      <FilterSidebar />
+    </>
     );
   }
 
@@ -146,6 +145,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
   }
 
   return (
+    <>
     <div className="home-page-with-sidebar">
       <div className="home-showcase">
       {/* Jobfound-style Hero Section */}
@@ -403,7 +403,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ [
         </section>
       )}
       </div>
-      <FilterSidebar />
     </div>
+    <FilterSidebar />
+    </>
   );
 }
