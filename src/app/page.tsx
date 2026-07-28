@@ -4,7 +4,7 @@ import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 import FilterSidebar from '@/components/FilterSidebar';
 
-export const revalidate = 0; // Don't cache this page statically
+export const revalidate = 3600; // Cache for 1 hour — reduces NeonDB compute usage
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const resolvedSearchParams = await searchParams;

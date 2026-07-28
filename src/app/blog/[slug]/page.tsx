@@ -7,7 +7,7 @@ import ShareButtons from '@/components/ShareButtons';
 import SimilarPosts from '@/components/SimilarPosts';
 import type { Metadata } from 'next';
 
-export const revalidate = 0;
+export const revalidate = 86400; // Cache for 24 hours — blog posts rarely change
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;

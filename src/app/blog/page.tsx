@@ -4,7 +4,7 @@ import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
-export const revalidate = 0;
+export const revalidate = 3600; // Cache for 1 hour — reduces NeonDB compute usage
 
 export const metadata: Metadata = {
   title: 'Career Advice Blog | UMEAFCN Hub',

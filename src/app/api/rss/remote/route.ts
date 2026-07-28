@@ -1,7 +1,7 @@
 import { getLatestPostsByCategory } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
-export const revalidate = 0;
+export const revalidate = 1800; // Cache for 30 minutes — feed data doesn't need to be real-time
 
 const SITE_URL = 'https://umeafcnhub.online';
 const SITE_NAME = 'UMEAFCN Hub - Remote Jobs';
