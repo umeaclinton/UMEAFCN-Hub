@@ -75,6 +75,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <a href="https://t.me/umeafcnhub" target="_blank" rel="noopener noreferrer" className="cta-btn primary">
           Join Telegram Channel
         </a>
+        <br/><br/>
+        <p style={{ marginTop: '12px' }}>Or follow us on <a href="https://www.linkedin.com/company/umeafcnhub" target="_blank" rel="noopener noreferrer" style={{ color: '#0077b5', fontWeight: 'bold', textDecoration: 'underline' }}>LinkedIn</a> for daily career advice.</p>
       </div>
 
       <div className="post-footer">
