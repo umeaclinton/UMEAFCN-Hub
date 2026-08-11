@@ -46,7 +46,7 @@ export default function Footer() {
               <img src="/ceo&founderimgage.jpg" alt="Michael Udochukwu Odoemenam" className="footer-founder-img" />
               <div>
                 <p className="footer-founder-name">Michael Udochukwu Odoemenam</p>
-                <p className="footer-founder-title">Founder &amp; CEO, UMEAFCN Hub</p>
+                <p className="footer-founder-title">Senior Software Engineer Team Lead (since 2023)</p>
                 <a
                   href="https://www.linkedin.com/in/umeaclinton/"
                   target="_blank"

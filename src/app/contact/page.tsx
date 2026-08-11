@@ -33,7 +33,7 @@ export default function ContactPage() {
           />
           <div>
             <strong style={{ fontSize: '1.1rem', display: 'block', marginBottom: '0.25rem' }}>Michael Udochukwu Odoemenam</strong>
-            <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', display: 'block', marginBottom: '0.4rem' }}>Founder & CEO, UMEAFCN Hub</span>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', display: 'block', marginBottom: '0.4rem' }}>Senior Software Engineer Team Lead (since 2023)</span>
             <a href="mailto:info@umeafcnhub.online" style={{ fontSize: '0.9rem', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '4px', textDecoration: 'none', marginBottom: '0.25rem' }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/></svg>
               info@umeafcnhub.online

@@ -33,7 +33,7 @@ export default function AboutPage() {
           />
           <div>
             <strong style={{ fontSize: '1.2rem', display: 'block', marginBottom: '0.25rem' }}>Michael Udochukwu Odoemenam</strong>
-            <span style={{ color: 'var(--text-muted)', fontSize: '0.95rem', display: 'block', marginBottom: '0.5rem' }}>Founder & CEO, UMEAFCN Hub</span>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.95rem', display: 'block', marginBottom: '0.5rem' }}>Senior Software Engineer Team Lead (since 2023)</span>
             <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-muted)' }}>
               Michael built UMEAFCN Hub out of a passion for making career opportunities more accessible to young Africans. His vision is a single, trusted platform where every serious job seeker can find their next big break without the noise.
             </p>
