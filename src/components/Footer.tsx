@@ -63,7 +63,7 @@ export default function Footer() {
               <img src="/FrankNwoyemaChidera.jpg" alt="Frank Nwoyema Chidera" className="footer-founder-img" />
               <div>
                 <p className="footer-founder-name">Frank Nwoyema Chidera</p>
-                <p className="footer-founder-title">Managing Director, UMEAFCN Hub</p>
+                <p className="footer-founder-title">Social & Creative Associate, UMEAFCN Hub</p>
               </div>
             </div>
           </div>

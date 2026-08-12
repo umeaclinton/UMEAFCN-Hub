@@ -56,7 +56,7 @@ export default function ContactPage() {
           />
           <div>
             <strong style={{ fontSize: '1.1rem', display: 'block', marginBottom: '0.25rem' }}>Frank Nwoyema Chidera</strong>
-            <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', display: 'block', marginBottom: '0.4rem' }}>Managing Director, UMEAFCN Hub</span>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem', display: 'block', marginBottom: '0.4rem' }}>Social & Creative Associate, UMEAFCN Hub</span>
           </div>
         </div>
 

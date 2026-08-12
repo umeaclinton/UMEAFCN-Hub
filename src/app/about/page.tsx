@@ -55,9 +55,9 @@ export default function AboutPage() {
           />
           <div>
             <strong style={{ fontSize: '1.2rem', display: 'block', marginBottom: '0.25rem' }}>Frank Nwoyema Chidera</strong>
-            <span style={{ color: 'var(--text-muted)', fontSize: '0.95rem', display: 'block', marginBottom: '0.5rem' }}>Managing Director, UMEAFCN Hub</span>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.95rem', display: 'block', marginBottom: '0.5rem' }}>Social & Creative Associate, UMEAFCN Hub</span>
             <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-muted)' }}>
-              As the Managing Director, Frank oversees the daily operations and strategic partnerships that keep UMEAFCN Hub running smoothly. He ensures that the platform consistently delivers the highest quality opportunities to our community.
+              As the Social & Creative Associate, Frank oversees the daily operations and strategic partnerships that keep UMEAFCN Hub running smoothly. He ensures that the platform consistently delivers the highest quality opportunities to our community.
             </p>
           </div>
         </div>
