@@ -116,7 +116,7 @@ async function handleAutomatedBlogGeneration() {
   const watTime = new Date(utc + (3600000 * 1)); // UTC+1
   const currentHour = watTime.getHours();
   
-  const TRIGGER_HOURS = [8, 10, 14, 16]; // 8am, 10am, 2pm, 4pm
+  const TRIGGER_HOURS = [8]; // 8am WAT - once per day
   if (!TRIGGER_HOURS.includes(currentHour)) {
     console.log(`[Blog Generator] WAT time is ${watTime.toLocaleString()}. Current hour (${currentHour}) is not a trigger hour (8, 10, 14, 16). Skipping.`);
     return;

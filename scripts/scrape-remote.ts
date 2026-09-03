@@ -235,7 +235,7 @@ async function main() {
   console.log(`Time: ${new Date().toISOString()}`);
 
   const SITE_URL = 'https://umeafcnhub.online';
-  const MAX_JOBS = 6; // 3 from each source per run — stays well within Gemini free tier
+  const MAX_JOBS = 4; // 2 from each source per run — stays well within limits
   let jobsAdded = 0;
 
   // ── Fetch from both sources

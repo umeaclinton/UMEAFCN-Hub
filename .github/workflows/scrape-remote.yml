@@ -1,10 +1,11 @@
 name: Run Remote Jobs Scraper
 
 on:
-  # Odd WAT hours every day (WAT = UTC+1)
-  # 1am WAT=0 UTC, 3am=2, 5am=4, 7am=6, 9am=8, 11am=10, 1pm=12, 3pm=14, 5pm=16, 7pm=18, 9pm=20, 11pm=22
+  # Twice a day (WAT = UTC+1):
+  # 12:00 PM WAT (11:00 UTC) - Midday remote batch
+  # 8:00 PM WAT (19:00 UTC) - Night remote batch
   schedule:
-    - cron: '0 0,2,4,6,8,10,12,14,16,18,20,22 * * *'
+    - cron: '0 11,19 * * *'
 
   # Allow manual trigger anytime from the GitHub Actions tab
   workflow_dispatch:

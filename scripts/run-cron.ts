@@ -198,7 +198,7 @@ async function sendToTwitter(title: string, content: string, url: string) {
 async function handleBlogGeneration() {
   const now = new Date();
   const watHour = new Date(now.getTime() + 3600000).getUTCHours(); // UTC+1 = WAT
-  const TRIGGER_HOURS = [7, 9, 13, 15]; // 8am, 10am, 2pm, 4pm WAT
+  const TRIGGER_HOURS = [7]; // 8am WAT (UTC 7) - once per day
 
   if (!TRIGGER_HOURS.includes(watHour)) {
     console.log(`[Blog] WAT hour ${watHour + 1} is not a trigger hour. Skipping.`);
