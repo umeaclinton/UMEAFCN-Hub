@@ -1,7 +1,7 @@
 import { getLatestPostsByCategory } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
-export const revalidate = 1800; // Cache for 30 minutes — feed data doesn't need to be real-time
+export const revalidate = 300; // Cache for 5 minutes — keeps remote feed fresh for automation
 
 const SITE_URL = 'https://umeafcnhub.online';
 const SITE_NAME = 'UMEAFCN Hub - Remote Jobs';
@@ -81,7 +81,7 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'application/rss+xml; charset=utf-8',
-        'Cache-Control': 'public, max-age=1800, stale-while-revalidate=3600',
+        'Cache-Control': 'public, max-age=300, stale-while-revalidate=600',
       },
     });
   } catch (error) {
