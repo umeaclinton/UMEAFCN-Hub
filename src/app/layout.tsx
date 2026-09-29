@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ThemeToggle from "@/components/ThemeToggle";
+import OneSignalInit from "@/components/OneSignalInit";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -62,8 +63,13 @@ export default function RootLayout({
             `,
           }}
         />
+        <Script
+          src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
+          strategy="afterInteractive"
+        />
       </head>
       <body className={inter.className}>
+        <OneSignalInit />
         <Header />
 
         <main className="container">
