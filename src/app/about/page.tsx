@@ -4,6 +4,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'About Us | UMEAFCN Hub',
   description: 'Learn about UMEAFCN Hub, our curated job platform, verification process, and career resources.',
+  alternates: {
+    canonical: 'https://www.umeafcnhub.online/about',
+  },
 };
 
 export default function AboutPage() {

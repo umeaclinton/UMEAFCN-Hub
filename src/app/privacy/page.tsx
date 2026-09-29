@@ -4,6 +4,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Privacy Policy | UMEAFCN Hub',
   description: 'Privacy Policy for UMEAFCN Hub, detailing our cookies usage, third-party advertising partners, data collection, and compliance with Google AdSense.',
+  alternates: {
+    canonical: 'https://www.umeafcnhub.online/privacy',
+  },
 };
 
 export default function PrivacyPage() {
