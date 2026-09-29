@@ -631,7 +631,7 @@ export async function getLatestPostsByCategory(category: string, limit = 4) {
     let result;
     if (category.toLowerCase() === 'jobs' || category.toLowerCase() === 'general') {
       result = await sql`
-        SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
+        SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, company_name 
         FROM posts 
         WHERE apply_type != 'none' 
           AND category NOT IN ('Internships', 'Scholarships', 'Bootcamps', 'Grants', 'Graduate Programs')
@@ -640,7 +640,7 @@ export async function getLatestPostsByCategory(category: string, limit = 4) {
       `;
     } else {
       result = await sql`
-        SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
+        SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, company_name 
         FROM posts 
         WHERE apply_type != 'none' AND category ILIKE ${category}
         ORDER BY pub_date DESC 

@@ -7,10 +7,32 @@ const SITE_URL = 'https://umeafcnhub.online';
 const SITE_NAME = 'UMEAFCN Hub - Remote Jobs';
 const SITE_DESCRIPTION = 'The latest remote jobs hand-picked from top global companies.';
 
+function getCompanyName(post: any): string {
+  if (post.company_name && post.company_name !== 'See Posting' && post.company_name.trim() !== '') {
+    return post.company_name.trim();
+  }
+  if (post.title && post.title.includes('@')) {
+    const parts = post.title.split('@');
+    if (parts[1] && parts[1].trim()) {
+      return parts[1].trim();
+    }
+  }
+  if (post.source_url && post.source_url.includes('himalayas.app/companies/')) {
+    const match = post.source_url.match(/himalayas\.app\/companies\/([^\/]+)/);
+    if (match && match[1]) {
+      return match[1]
+        .split('-')
+        .map((s: string) => s.charAt(0).toUpperCase() + s.slice(1))
+        .join(' ');
+    }
+  }
+  return 'Top Global Company';
+}
+
 function buildOgImageUrl(post: any): string {
   const type = encodeURIComponent(post.apply_type || 'job');
   const category = encodeURIComponent(post.category || 'Remote');
-  const company = encodeURIComponent(post.company_name || 'UMEAFCN Hub');
+  const company = encodeURIComponent(getCompanyName(post));
   const title = encodeURIComponent(post.title?.substring(0, 60) || 'Opportunity');
   return `${SITE_URL}/api/og/tiktok/${type}/${category}/${company}/${title}?.png`;
 }
@@ -32,6 +54,7 @@ export async function GET() {
     const items = posts.map((post: any) => {
       const postUrl = `${SITE_URL}/post/${post.slug || post.id}`;
       const imageUrl = buildOgImageUrl(post);
+      const companyName = getCompanyName(post);
       const excerpt = post.content
         .replace(/<[^>]+>/g, ' ')
         .replace(/\s+/g, ' ')
@@ -46,7 +69,7 @@ export async function GET() {
       <pubDate>${new Date(post.pub_date).toUTCString()}</pubDate>
       <category>${escapeXml(post.category || 'Remote')}</category>
       <description>${escapeXml(excerpt)}...</description>
-      <company>${escapeXml(post.company_name || 'Top Global Company')}</company>
+      <company>${escapeXml(companyName)}</company>
       <salary>$20/hr - $50/hr</salary>
       <imageurl>${imageUrl}</imageurl>
       <enclosure url="${imageUrl}" type="image/png" length="0"/>

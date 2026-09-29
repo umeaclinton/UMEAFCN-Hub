@@ -62,11 +62,12 @@ async function insertPost(
   guidHash: string, slug: string, category: string,
   applyType: string, applyLink: string | null,
   jobType: string | null, experience: string | null, 
-  salary: string | null, domain: string | null
+  salary: string | null, domain: string | null,
+  companyName: string | null
 ) {
   const result = await sql`
-    INSERT INTO posts (title, content, source_url, guid_hash, slug, category, apply_type, apply_link, job_type, experience, salary, domain)
-    VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, 'Remote', ${applyType}, ${applyLink}, ${jobType}, ${experience}, ${salary}, ${domain})
+    INSERT INTO posts (title, content, source_url, guid_hash, slug, category, apply_type, apply_link, job_type, experience, salary, domain, company_name)
+    VALUES (${title}, ${content}, ${sourceUrl}, ${guidHash}, ${slug}, 'Remote', ${applyType}, ${applyLink}, ${jobType}, ${experience}, ${salary}, ${domain}, ${companyName})
     ON CONFLICT (guid_hash) DO NOTHING
     RETURNING id, title, slug;
   `;
@@ -297,7 +298,8 @@ async function main() {
       expandedJob.job_type,
       expandedJob.experience,
       expandedJob.salary,
-      expandedJob.domain
+      expandedJob.domain,
+      job.company
     );
 
     if (saved) {
