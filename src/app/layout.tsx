@@ -33,6 +33,9 @@ export const metadata: Metadata = {
     description: "Job Listings, Internships, Scholarships, Graduate Trainee Programs and career Updates",
     images: ['/logo-light.jpg'],
   },
+  alternates: {
+    canonical: 'https://www.umeafcnhub.online',
+  },
 };
 
 export default function RootLayout({

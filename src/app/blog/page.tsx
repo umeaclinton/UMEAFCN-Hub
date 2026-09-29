@@ -9,6 +9,15 @@ export const revalidate = 3600; // Cache for 1 hour — reduces NeonDB compute u
 export const metadata: Metadata = {
   title: 'Career Advice Blog | UMEAFCN Hub',
   description: 'Read the latest professional career guides, CV optimization tips, graduate trainee hacks, and fully-funded scholarship search strategies.',
+  alternates: {
+    canonical: 'https://www.umeafcnhub.online/blog',
+  },
+  openGraph: {
+    title: 'Career Advice Blog | UMEAFCN Hub',
+    description: 'Read the latest professional career guides, CV optimization tips, graduate trainee hacks, and fully-funded scholarship search strategies.',
+    url: 'https://www.umeafcnhub.online/blog',
+    type: 'website',
+  },
 };
 
 export default async function BlogIndex() {

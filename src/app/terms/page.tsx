@@ -4,6 +4,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Terms & Conditions | UMEAFCN Hub',
   description: 'Terms and Conditions of service for UMEAFCN Hub.',
+  alternates: {
+    canonical: 'https://www.umeafcnhub.online/terms',
+  },
 };
 
 export default function TermsPage() {

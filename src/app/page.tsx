@@ -3,6 +3,21 @@ import { getCategoryImage } from '@/lib/images';
 import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 import FilterSidebar from '@/components/FilterSidebar';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'UMEAFCN Hub | Verified Remote Jobs, Internships & Scholarships',
+  description: 'Discover verified remote opportunities, scholarships, graduate trainee programs, and expert career guides curated by professional researchers.',
+  alternates: {
+    canonical: 'https://www.umeafcnhub.online',
+  },
+  openGraph: {
+    title: 'UMEAFCN Hub | Verified Remote Jobs, Internships & Scholarships',
+    description: 'Discover verified remote opportunities, scholarships, graduate trainee programs, and expert career guides curated by professional researchers.',
+    url: 'https://www.umeafcnhub.online',
+    type: 'website',
+  },
+};
 
 export const revalidate = 3600; // Cache for 1 hour — reduces NeonDB compute usage
 

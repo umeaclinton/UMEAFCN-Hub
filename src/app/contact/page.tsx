@@ -4,6 +4,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Contact Us | UMEAFCN Hub',
   description: 'Reach out to UMEAFCN Hub for advertising inquiries, feedback, or support regarding job opportunities.',
+  alternates: {
+    canonical: 'https://www.umeafcnhub.online/contact',
+  },
 };
 
 export default function ContactPage() {
