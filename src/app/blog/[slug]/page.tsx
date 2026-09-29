@@ -25,9 +25,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
+  const blogUrl = `https://www.umeafcnhub.online/blog/${slug}`;
+
   return {
-    title: `${post.title} | Career Blog`,
+    title: `${post.title} | Career Blog | UMEAFCN Hub`,
     description: post.excerpt,
+    alternates: {
+      canonical: blogUrl,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: blogUrl,
+      type: 'article',
+      publishedTime: new Date(post.pub_date).toISOString(),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+    },
   };
 }
 
