@@ -32,13 +32,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   // Generate a short description from the HTML content for SEO
   const plainTextContent = post.content.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
+  const postUrl = `https://www.umeafcnhub.online/post/${post.slug || identifier}`;
 
   return {
     title: `${post.title} | UMEAFCN Hub`,
     description: plainTextContent,
+    alternates: {
+      canonical: postUrl,
+    },
     openGraph: {
       title: post.title,
       description: plainTextContent,
+      url: postUrl,
       type: 'article',
       publishedTime: new Date(post.pub_date).toISOString(),
     },
@@ -51,11 +56,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 function generateJobSchema(post: any) {
-  // Try to extract company from "Title at Company"
-  let companyName = "Partner Company";
-  const atMatch = post.title.match(/(?:\s+at\s+|\s+@\s+)(.+)$/i);
-  if (atMatch && atMatch[1]) {
-    companyName = atMatch[1].trim();
+  let companyName = post.company_name || "Partner Company";
+  if (!post.company_name || post.company_name === 'See Posting') {
+    const atMatch = post.title.match(/(?:\s+at\s+|\s+@\s+)(.+)$/i);
+    if (atMatch && atMatch[1]) {
+      companyName = atMatch[1].trim();
+    }
   }
 
   // Map Category to EmploymentType
@@ -65,7 +71,9 @@ function generateJobSchema(post: any) {
   else if (cat.includes("contract")) employmentType = "CONTRACTOR";
   else if (cat.includes("part time") || cat.includes("part-time")) employmentType = "PART_TIME";
 
-  return {
+  const isRemote = cat.includes("remote") || (post.title || "").toLowerCase().includes("remote");
+
+  const schema: any = {
     "@context": "https://schema.org/",
     "@type": "JobPosting",
     "title": post.title,
@@ -75,16 +83,26 @@ function generateJobSchema(post: any) {
     "hiringOrganization": {
       "@type": "Organization",
       "name": companyName,
-      "sameAs": "https://umeafcnhub.com"
+      "sameAs": "https://www.umeafcnhub.online"
     },
     "jobLocation": {
       "@type": "Place",
       "address": {
         "@type": "PostalAddress",
-        "addressCountry": "NG"
+        "addressCountry": isRemote ? "US" : "NG"
       }
     }
   };
+
+  if (isRemote) {
+    schema.jobLocationType = "TELECOMMUTE";
+    schema.applicantLocationRequirements = {
+      "@type": "Country",
+      "name": "Worldwide"
+    };
+  }
+
+  return schema;
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {

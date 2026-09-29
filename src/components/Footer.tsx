@@ -106,6 +106,12 @@ export default function Footer() {
           </div>
         </div>
 
+        <div className="footer-disclaimer" style={{ borderTop: '1px solid var(--border-color, #334155)', paddingTop: '1.25rem', marginTop: '1.5rem', fontSize: '0.8rem', color: '#94a3b8', lineHeight: '1.6', textAlign: 'center' }}>
+          <p>
+            <strong>Editorial &amp; Research Disclaimer:</strong> All career opportunities, scholarships, and job openings published on UMEAFCN Hub are independently sourced, verified, and curated by our active team of dedicated career researchers directly from official company portals and validated hiring channels. UMEAFCN Hub is an independent career platform and not a recruitment agency. We do not charge application fees. All applications are submitted directly to the respective hiring organizations.
+          </p>
+        </div>
+
         <div className="footer-bottom">
           <p>&copy; {new Date().getFullYear()} UMEAFCN Hub. All rights reserved.</p>
         </div>
