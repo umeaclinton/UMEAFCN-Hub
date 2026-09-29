@@ -235,13 +235,13 @@ async function main() {
   console.log(`Time: ${new Date().toISOString()}`);
 
   const SITE_URL = 'https://umeafcnhub.online';
-  const MAX_JOBS = 4; // 2 from each source per run — stays well within limits
+  const MAX_JOBS = 12; // Strictly 12 new jobs per run (4 runs/day * 12 = 48 jobs/day)
   let jobsAdded = 0;
 
   // ── Fetch from both sources
   const [himalayas, jobicy] = await Promise.all([
-    fetchHimalayas(25),
-    fetchJobicy(40)
+    fetchHimalayas(35),
+    fetchJobicy(50)
   ]);
 
   // ── Merge & deduplicate by title (case-insensitive)
