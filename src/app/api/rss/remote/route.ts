@@ -30,11 +30,11 @@ function getCompanyName(post: any): string {
 }
 
 function buildOgImageUrl(post: any): string {
-  const type = encodeURIComponent(post.apply_type || 'job');
   const category = encodeURIComponent(post.category || 'Remote');
   const company = encodeURIComponent(getCompanyName(post));
-  const title = encodeURIComponent(post.title?.substring(0, 60) || 'Opportunity');
-  return `${SITE_URL}/api/og/tiktok/${type}/${category}/${company}/${title}?.png`;
+  const title = encodeURIComponent(post.title?.substring(0, 70) || 'Opportunity');
+  const salary = encodeURIComponent('$20/hr - $50/hr');
+  return `${SITE_URL}/api/og/linkedin?title=${title}&company=${company}&category=${category}&salary=${salary}`;
 }
 
 function escapeXml(str: string): string {

@@ -34,6 +34,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const plainTextContent = post.content.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
   const postUrl = `https://www.umeafcnhub.online/post/${post.slug || identifier}`;
 
+  const company = encodeURIComponent(post.company_name || 'Hiring Company');
+  const encodedTitle = encodeURIComponent(post.title?.substring(0, 70) || 'Opportunity');
+  const ogImageUrl = `https://www.umeafcnhub.online/api/og/linkedin?title=${encodedTitle}&company=${company}&category=Remote&salary=%2420%2Fhr%20-%20%2450%2Fhr`;
+
   return {
     title: `${post.title} | UMEAFCN Hub`,
     description: plainTextContent,
@@ -46,11 +50,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: postUrl,
       type: 'article',
       publishedTime: new Date(post.pub_date).toISOString(),
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 627,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: plainTextContent,
+      images: [ogImageUrl],
     },
   };
 }
