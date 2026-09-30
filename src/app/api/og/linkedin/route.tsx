@@ -7,268 +7,207 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
 
-    const title = searchParams.get('title') || 'Remote Job Opportunity';
-    const company = searchParams.get('company') || 'Top Global Company';
-    const category = searchParams.get('category') || 'Remote';
-    const salary = searchParams.get('salary') || '$20/hr - $50/hr';
+    const title    = searchParams.get('title')   || 'Remote Job Opportunity';
+    const company  = searchParams.get('company') || 'Top Global Company';
+    const salary   = searchParams.get('salary')  || '$20/hr – $50/hr';
+
+    // Strip any emoji from salary if passed in
+    const cleanSalary = salary.replace(/[💰💵]/g, '').trim();
+
+    // logo-dark.jpg has a pure black background (0,0,0) that blends seamlessly with the card
+    const logoUrl = new URL('/logo-dark.jpg', request.url).toString();
+
+    // Brand gold colour — pulled from the UMEAFCN Hub logo
+    const GOLD      = '#C9A84C';
+    const BLACK     = '#000000';
+    const WHITE     = '#FFFFFF';
+
+    // Clamp title length so it never overflows
+    const displayTitle = title.length > 72 ? title.substring(0, 70) + '…' : title;
+    const titleSize    = displayTitle.length > 50 ? '50px' : '60px';
 
     return new ImageResponse(
       (
         <div
           style={{
-            height: '100%',
             width: '100%',
+            height: '100%',
+            backgroundColor: BLACK,
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
-            backgroundColor: '#0b1120',
-            backgroundImage: 'radial-gradient(circle at 25px 25px, #1e293b 2%, transparent 0%), radial-gradient(circle at 75px 75px, #1e293b 2%, transparent 0%)',
-            backgroundSize: '100px 100px',
-            padding: '60px 70px',
-            fontFamily: 'sans-serif',
+            justifyContent: 'flex-start',
+            padding: '0',
+            fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
             position: 'relative',
           }}
         >
-          {/* Subtle Accent Glows */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '-150px',
-              right: '-150px',
-              width: '450px',
-              height: '450px',
-              borderRadius: '50%',
-              backgroundColor: '#0284c7',
-              opacity: 0.25,
-              filter: 'blur(120px)',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '-120px',
-              left: '-120px',
-              width: '400px',
-              height: '400px',
-              borderRadius: '50%',
-              backgroundColor: '#b8962e',
-              opacity: 0.2,
-              filter: 'blur(120px)',
-            }}
-          />
+          {/* ── Top gold accent bar ── */}
+          <div style={{ width: '100%', height: '5px', backgroundColor: GOLD, display: 'flex' }} />
 
-          {/* Top Header Row */}
+          {/* ── Header row ── */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              width: '100%',
+              padding: '35px 60px 0 60px',
             }}
           >
-            {/* Brand Logo Pill */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                backgroundColor: '#1e293b',
-                border: '1px solid #334155',
-                padding: '10px 22px',
-                borderRadius: '9999px',
-              }}
-            >
-              <div
-                style={{
-                  width: '14px',
-                  height: '14px',
-                  borderRadius: '50%',
-                  backgroundColor: '#b8962e',
-                }}
+            {/* Logo (blends seamlessly into black) + Brand name + Website */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <img
+                src={logoUrl}
+                width={64}
+                height={64}
+                style={{ objectFit: 'contain' }}
               />
-              <span
-                style={{
-                  fontSize: '22px',
-                  fontWeight: 800,
-                  letterSpacing: '1px',
-                  color: '#f8fafc',
-                }}
-              >
-                UMEAFCN HUB
-              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <span style={{ fontSize: '24px', fontWeight: 900, color: WHITE, letterSpacing: '1px' }}>
+                  UMEAFCN HUB
+                </span>
+                <span style={{ fontSize: '15px', color: WHITE, fontWeight: 500, letterSpacing: '0.5px', opacity: 0.9 }}>
+                  www.umeafcnhub.online
+                </span>
+              </div>
             </div>
 
-            {/* Category / Badge */}
+            {/* Verified Remote pill (Gold border, Gold dot, WHITE text, Black background) */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                border: '1px solid rgba(16, 185, 129, 0.4)',
-                padding: '10px 22px',
+                border: `1.5px solid ${GOLD}`,
                 borderRadius: '9999px',
-                color: '#34d399',
-                fontSize: '20px',
-                fontWeight: 700,
-                letterSpacing: '0.5px',
+                padding: '9px 22px',
+                backgroundColor: BLACK,
               }}
             >
-              <span>🌍 VERIFIED REMOTE OPENING</span>
+              <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: GOLD, display: 'flex' }} />
+              <span style={{ color: WHITE, fontSize: '15px', fontWeight: 700, letterSpacing: '1px' }}>
+                VERIFIED REMOTE OPENING
+              </span>
             </div>
           </div>
 
-          {/* Center Main Content */}
+          {/* ── Main content ── */}
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
+              padding: '45px 60px 0 60px',
               gap: '18px',
-              marginTop: '10px',
             }}
           >
-            {/* Company Tag */}
+            {/* Company name row */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '10px',
+                gap: '12px',
               }}
             >
+              <div style={{ width: '4px', height: '26px', backgroundColor: GOLD, borderRadius: '2px', display: 'flex' }} />
               <span
                 style={{
-                  fontSize: '26px',
+                  fontSize: '20px',
                   fontWeight: 700,
-                  color: '#38bdf8',
+                  color: GOLD,
                   textTransform: 'uppercase',
-                  letterSpacing: '1.5px',
+                  letterSpacing: '2px',
                 }}
               >
-                🏢 {company} IS HIRING
+                {company} IS HIRING
               </span>
             </div>
 
-            {/* Job Title */}
+            {/* Job title */}
             <div
               style={{
-                fontSize: title.length > 40 ? '48px' : '56px',
+                fontSize: titleSize,
                 fontWeight: 900,
-                color: '#ffffff',
-                lineHeight: 1.15,
+                color: WHITE,
+                lineHeight: 1.12,
                 letterSpacing: '-0.5px',
-                maxWidth: '1020px',
+                maxWidth: '1060px',
                 display: 'flex',
                 flexWrap: 'wrap',
               }}
             >
-              {title}
+              {displayTitle}
             </div>
 
-            {/* Badges / Perks Row */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                marginTop: '10px',
-              }}
-            >
-              {/* Salary Badge */}
+            {/* Badge row */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginTop: '6px' }}>
+              {/* Salary badge (NO emoji) */}
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  backgroundColor: 'rgba(56, 189, 248, 0.12)',
-                  border: '1px solid rgba(56, 189, 248, 0.3)',
-                  padding: '8px 20px',
-                  borderRadius: '12px',
-                  color: '#7dd3fc',
-                  fontSize: '22px',
-                  fontWeight: 700,
+                  backgroundColor: GOLD,
+                  padding: '8px 22px',
+                  borderRadius: '9999px',
+                  gap: '6px',
                 }}
               >
-                💵 {salary}
+                <span style={{ fontSize: '18px', fontWeight: 800, color: BLACK }}>
+                  {cleanSalary}
+                </span>
               </div>
 
-              {/* Location Badge */}
+              {/* Work Mode badge: Remote - On-site - Hybrid (Gold circle, black background, white text, location pin) */}
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  backgroundColor: '#1e293b',
-                  border: '1px solid #334155',
-                  padding: '8px 20px',
-                  borderRadius: '12px',
-                  color: '#cbd5e1',
-                  fontSize: '22px',
-                  fontWeight: 600,
+                  border: `1.5px solid ${GOLD}`,
+                  backgroundColor: BLACK,
+                  padding: '8px 22px',
+                  borderRadius: '9999px',
+                  gap: '6px',
                 }}
               >
-                📍 100% Work from Anywhere
+                <span style={{ fontSize: '18px', fontWeight: 600, color: WHITE }}>
+                  📍 Remote - On-site - Hybrid
+                </span>
               </div>
 
-              {/* Global Talent */}
+              {/* Applicants are welcome (Gold border, pure white text, black background) */}
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  backgroundColor: '#1e293b',
-                  border: '1px solid #334155',
-                  padding: '8px 20px',
-                  borderRadius: '12px',
-                  color: '#cbd5e1',
-                  fontSize: '22px',
-                  fontWeight: 600,
+                  border: `1.5px solid ${GOLD}`,
+                  backgroundColor: BLACK,
+                  padding: '8px 22px',
+                  borderRadius: '9999px',
+                  gap: '6px',
                 }}
               >
-                ⚡ Immediate Consideration
+                <span style={{ fontSize: '18px', fontWeight: 600, color: WHITE }}>
+                  Applicants are welcome
+                </span>
               </div>
             </div>
-          </div>
 
-          {/* Bottom Footer Bar */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              borderTop: '1px solid #1e293b',
-              paddingTop: '25px',
-              width: '100%',
-            }}
-          >
+            {/* ── Check Your Eligibility (Gold outline, gold dot, white text, black background) ── */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '10px',
-                color: '#94a3b8',
-                fontSize: '22px',
-                fontWeight: 500,
+                border: `1.5px solid ${GOLD}`,
+                borderRadius: '9999px',
+                padding: '10px 26px',
+                backgroundColor: BLACK,
+                width: 'fit-content',
+                marginTop: '25px',
               }}
             >
-              <span>🔗 Verified Application Portal:</span>
-              <span style={{ color: '#f8fafc', fontWeight: 700 }}>umeafcnhub.online</span>
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                backgroundColor: '#2563eb',
-                color: '#ffffff',
-                padding: '12px 28px',
-                borderRadius: '12px',
-                fontSize: '22px',
-                fontWeight: 800,
-                letterSpacing: '0.5px',
-              }}
-            >
-              Apply Online Now →
+              <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: GOLD, display: 'flex' }} />
+              <span style={{ color: WHITE, fontSize: '18px', fontWeight: 700, letterSpacing: '0.5px' }}>
+                Check Your Eligibility →
+              </span>
             </div>
           </div>
         </div>
@@ -280,6 +219,6 @@ export async function GET(request: NextRequest) {
     );
   } catch (e: any) {
     console.error('LinkedIn OG Error:', e);
-    return new Response('Failed to generate LinkedIn card', { status: 500 });
+    return new Response('Failed to generate card', { status: 500 });
   }
 }
