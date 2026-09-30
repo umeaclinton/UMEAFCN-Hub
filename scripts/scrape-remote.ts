@@ -127,7 +127,7 @@ async function fetchJobicy(count = 30): Promise<RawJob[]> {
 }
 
 // ─── Gemini AI (expand scraped job into a full article) ───────────────────────
-const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-lite-latest'];
+const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-3.8-flash', 'gemini-flash-lite-latest'];
 
 async function expandRemoteJob(job: RawJob): Promise<{ content: string; job_type: string | null; experience: string | null; salary: string | null; domain: string | null }> {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
