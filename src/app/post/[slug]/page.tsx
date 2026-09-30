@@ -11,6 +11,26 @@ import type { Metadata } from 'next';
 export const revalidate = 86400; // Cache for 24 hours — job posts rarely change
 
 
+function getCompanyName(post: any): string {
+  if (post.company_name && post.company_name !== 'See Posting' && post.company_name !== 'Hiring Company') {
+    return post.company_name;
+  }
+  const atMatch = post.title?.match(/(?:\s+at\s+|\s+@\s+)(.+)$/i);
+  if (atMatch && atMatch[1]) {
+    return atMatch[1].trim();
+  }
+  if (post.source_url && post.source_url.includes('himalayas.app/companies/')) {
+    const match = post.source_url.match(/himalayas\.app\/companies\/([^\/]+)/);
+    if (match && match[1]) {
+      return match[1]
+        .split('-')
+        .map((s: string) => s.charAt(0).toUpperCase() + s.slice(1))
+        .join(' ');
+    }
+  }
+  return 'Top Global Company';
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const identifier = resolvedParams.slug;
@@ -34,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const plainTextContent = post.content.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
   const postUrl = `https://www.umeafcnhub.online/post/${post.slug || identifier}`;
 
-  const company = encodeURIComponent(post.company_name || 'Hiring Company');
+  const company = encodeURIComponent(getCompanyName(post));
   const encodedTitle = encodeURIComponent(post.title?.substring(0, 70) || 'Opportunity');
   const ogImageUrl = `https://www.umeafcnhub.online/api/og/linkedin?title=${encodedTitle}&company=${company}&category=Remote&salary=%2420%2Fhr%20-%20%2450%2Fhr`;
 
@@ -69,13 +89,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 function generateJobSchema(post: any) {
-  let companyName = post.company_name || "Partner Company";
-  if (!post.company_name || post.company_name === 'See Posting') {
-    const atMatch = post.title.match(/(?:\s+at\s+|\s+@\s+)(.+)$/i);
-    if (atMatch && atMatch[1]) {
-      companyName = atMatch[1].trim();
-    }
-  }
+  const companyName = getCompanyName(post);
 
   // Map Category to EmploymentType
   let employmentType = "FULL_TIME";
