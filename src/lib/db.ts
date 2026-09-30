@@ -455,7 +455,7 @@ export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilter
       conditions += ` AND domain = '${escapeSql(domainFilter)}'`;
     }
 
-    const queryStr = `SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, job_type, experience, salary, domain FROM posts WHERE ${conditions} ORDER BY pub_date DESC LIMIT ${limit} OFFSET ${offset}`;
+    const queryStr = `SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, job_type, experience, salary, domain, company_name FROM posts WHERE ${conditions} ORDER BY pub_date DESC LIMIT ${limit} OFFSET ${offset}`;
     const rows = await (neonSql as any).query(queryStr, []);
     return rows;
   } catch (error) {
@@ -467,7 +467,7 @@ export async function getRecentPosts(limit = 20, offset = 0, filters: PostFilter
 export async function getPostBySlug(slug: string) {
   try {
     const result = await sql`
-      SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
+      SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, company_name 
       FROM posts 
       WHERE slug = ${slug} AND apply_type != 'none';
     `;
@@ -481,7 +481,7 @@ export async function getPostBySlug(slug: string) {
 export async function getPostById(id: number) {
   try {
     const result = await sql`
-      SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link 
+      SELECT id, title, content, source_url, slug, pub_date, category, apply_type, apply_link, company_name 
       FROM posts 
       WHERE id = ${id} AND apply_type != 'none';
     `;
